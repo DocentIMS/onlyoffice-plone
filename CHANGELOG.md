@@ -2,7 +2,7 @@
 
 ##
 ## Added
-- ar-SA, si-LK and sr-Latn-RS empty file templates
+- ar-SA, si-LK, sr-Cyrl-RS and sr-Latn-RS empty file templates
 
 ## 4.0.0
 ## Added
