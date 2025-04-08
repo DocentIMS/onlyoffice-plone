@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-from plone.app.widgets.utils import get_relateditems_options
+from plone.app.z3cform.widgets.relateditems import get_relateditems_options
 from plone.app.dexterity.interfaces import IDXFileFactory
 from AccessControl import getSecurityManager
 from zope.event import notify
