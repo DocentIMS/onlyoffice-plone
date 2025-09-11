@@ -59,6 +59,15 @@
       />
 
   <browser:page
+      name="onlyoffice-view"
+      for="plone.app.contenttypes.interfaces.IFile"
+      class=".actions.View"
+      permission="zope2.View"
+      template="templates/view.pt"
+      allowed_attributes="isAvailable canView"
+      />
+
+  <browser:page
       name="onlyoffice-fill-form"
       for="plone.app.contenttypes.interfaces.IFile"
       class=".actions.FillForm"

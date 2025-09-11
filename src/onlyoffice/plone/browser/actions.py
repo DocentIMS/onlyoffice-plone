@@ -14,6 +14,7 @@
 # limitations under the License.
 #
 
+from plone import api
 from AccessControl import getSecurityManager
 from Acquisition import aq_inner
 from Acquisition import aq_parent
@@ -52,6 +53,17 @@ class FillForm(form.EditForm):
 class View(BrowserView):
     def isAvailable(self):
         return fileUtils.canView(self.context)
+    
+    def canView(self):
+        try:
+            context = self.context
+            can_view = api.user.has_permission('View', obj=context)
+            can_edit = api.user.has_permission('Modify portal content', obj=context)
+            return can_view and not can_edit and self.isAvailable()
+            
+        except Exception as e:
+            logger.error(f"Error checking permissions: {e}")
+            return False
 
     def __call__(self):
         return render_editor(self, False)

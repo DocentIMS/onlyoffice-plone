@@ -20,6 +20,19 @@
   </action>
 
   <action
+      action_id="onlyoffice-view"
+      category="object"
+      condition_expr="object/@@onlyoffice-view/canView"
+      i18n:domain="onlyoffice.plone"
+      i18n:attributes="title"
+      title="ONLYOFFICE View"
+      url_expr="string:${object_url}/onlyoffice-view"
+      visible="True"
+      icon_expr="string:onlyoffice-logo">
+    <permission value="View"/>
+  </action>
+
+  <action
       action_id="onlyoffice-fill-form"
       category="object"
       condition_expr="object/@@onlyoffice-fill-form/isAvailable"
