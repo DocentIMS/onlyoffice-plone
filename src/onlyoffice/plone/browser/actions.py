@@ -166,7 +166,7 @@ def get_config(self, forEdit):
             'lang': state.language(),
             'user': {
                 'id': user.getId(),
-                'name': user.getUserName()
+                'name': user.getProperty('fullname') or user.getUserName()
             },
             'customization': {
                 'feedback': True
