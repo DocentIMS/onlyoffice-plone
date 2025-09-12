@@ -59,14 +59,34 @@ class View(BrowserView):
             context = self.context
             can_view = api.user.has_permission('View', obj=context)
             can_edit = api.user.has_permission('Modify portal content', obj=context)
-            return can_view and not can_edit and self.isAvailable()
-            
+            can_review = api.user.has_permission('Review portal content', obj=context)
+            return self.isAvailable() and can_view and not can_edit and not can_review
+
         except Exception as e:
             logger.error(f"Error checking permissions: {e}")
             return False
 
     def __call__(self):
         return render_editor(self, False)
+
+
+class Review(BrowserView):
+    def isAvailable(self):
+        return fileUtils.canEdit(self.context)
+
+    def canReview(self):
+        try:
+            context = self.context
+            can_review = api.user.has_permission('Review portal content', obj=context)
+            can_edit = api.user.has_permission('Modify portal content', obj=context)
+            return self.isAvailable() and can_review and not can_edit
+
+        except Exception as e:
+            logger.error(f"Error checking permissions: {e}")
+            return False
+
+    def __call__(self):
+        return render_editor(self, False, "review")
 
 class ConversionForm(form.Form):
     def isAvailable(self):
@@ -115,13 +135,13 @@ class DownloadAsForm(form.Form):
         ext = fileUtils.getFileExt(self.context)
         return bool(conversionUtils.getConvertToExtArray(ext)) 
 
-def render_editor(self, forEdit):
+def render_editor(self, forEdit, role=None):
     self.docUrl = utils.getPublicDocUrl()
     self.saveAs = featureUtils.getSaveAsObject(self)
     self.demo = featureUtils.getDemoAsObject(self)
     self.relatedItemsOptions = json.dumps(fileUtils.getRelatedRtemsOptions(self.context))
     self.token = get_token(self)
-    self.editorCfg = get_config(self, forEdit)
+    self.editorCfg = get_config(self, forEdit, role)
     if not self.editorCfg:
         index = ViewPageTemplateFile("templates/error.pt")
         return index(self)
@@ -137,7 +157,7 @@ def portal_state(self):
     portal_state = getMultiAdapter((context, self.request), name=u'plone_portal_state')
     return portal_state
 
-def get_config(self, forEdit):
+def get_config(self, forEdit, role=None):
     # def viewURLFor(self, item):
         # cstate = getMultiAdapter((item, item.REQUEST), name='plone_context_state')
         # return cstate.view_url()
@@ -187,6 +207,12 @@ def get_config(self, forEdit):
     }
     if canEdit:
         config['editorConfig']['callbackUrl'] = utils.getPloneContextUrl(self.context) + '/onlyoffice-callback?token=' + securityToken
+
+    if role:
+        if role == "review":
+            config["editorConfig"]["mode"] = "edit"
+            config["document"]["permissions"]["edit"] = False
+            config["document"]["permissions"]["review"] = True
 
     if utils.isJwtEnabled():
         config['token'] = utils.createSecurityToken(config)

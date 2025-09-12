@@ -33,6 +33,19 @@
   </action>
 
   <action
+      action_id="onlyoffice-review"
+      category="object"
+      condition_expr="object/@@onlyoffice-review/canReview"
+      i18n:domain="onlyoffice.plone"
+      i18n:attributes="title"
+      title="ONLYOFFICE Review"
+      url_expr="string:${object_url}/onlyoffice-review"
+      visible="True"
+      icon_expr="string:onlyoffice-logo">
+    <permission value="View"/>
+  </action>
+
+  <action
       action_id="onlyoffice-fill-form"
       category="object"
       condition_expr="object/@@onlyoffice-fill-form/isAvailable"

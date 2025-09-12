@@ -67,6 +67,15 @@
       allowed_attributes="isAvailable canView"
       />
 
+    <browser:page
+        name="onlyoffice-review"
+        for="plone.app.contenttypes.interfaces.IFile"
+        class=".actions.Review"
+        permission="zope2.View"
+        template="templates/view.pt"
+        allowed_attributes="canReview hasReviewerRole getRolesInfo"
+        />
+
   <browser:page
       name="onlyoffice-fill-form"
       for="plone.app.contenttypes.interfaces.IFile"
