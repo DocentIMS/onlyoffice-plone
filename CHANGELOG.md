@@ -1,5 +1,7 @@
 # Change Log
 
+- jwt lifetime
+
 ## 4.0.0
 ## Added
 - support for plone 6
