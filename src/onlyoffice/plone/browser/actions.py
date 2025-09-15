@@ -145,14 +145,15 @@ def get_config(self, forEdit):
     state = portal_state(self)
     user = state.member()
     securityToken = utils.createSecurityTokenFromContext(self.context)
+    key = utils.getDocumentKey(self.context)
     config = {
         'type': 'desktop',
         'documentType': fileUtils.getFileType(self.context),
         'document': {
             'title': fileTitle,
-            'url': utils.getPloneContextUrl(self.context) + '/onlyoffice-dl/file?token=' + securityToken,
+            'url': utils.getPloneContextUrl(self.context) + '/onlyoffice-dl/file?token=' + securityToken + '&shardkey=' + key,
             'fileType': fileUtils.getFileExt(self.context),
-            'key': utils.getDocumentKey(self.context),
+            'key': key,
             'info': {
                 'author': self.context.creators[0],
                 'created': str(self.context.creation_date)
