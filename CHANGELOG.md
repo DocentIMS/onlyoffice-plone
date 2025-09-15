@@ -1,5 +1,7 @@
 # Change Log
 
+- support for plone 6.1
+
 ## 4.0.0
 ## Added
 - support for plone 6

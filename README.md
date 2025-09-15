@@ -36,7 +36,7 @@ Community Edition vs Enterprise Edition comparison can be found [here](#onlyoffi
 
 You can also install the addon via Docker:
 ```
-docker run -p 8080:8080 -e ADDONS="onlyoffice.plone" plone/plone-backend:6.0 start
+docker run -p 8080:8080 -e ADDONS="onlyoffice.plone" plone/plone-backend:6.1 start
 ```
 
 **Please note:** If you have the previous addon version installed (earlier addon versions with the previous name *onlyoffice.connector*), please remove it before installing the new version. 
@@ -53,7 +53,7 @@ In the ONLYOFFICE Docs [config file](https://api.onlyoffice.com/editors/signatur
 
 Run this command to install the addon from the local repository:
 ```
-docker run -p 8080:8080 -e DEVELOP="/app/src/onlyoffice.plone" -v /path/to/onlyoffice.plone:/app/src/onlyoffice.plone plone/plone-backend:6.0 start
+docker run -p 8080:8080 -e DEVELOP="/app/src/onlyoffice.plone" -v /path/to/onlyoffice.plone:/app/src/onlyoffice.plone plone/plone-backend:6.1 start
 ```
 
 For more information, check [Developing packages variable](https://6.dev-docs.plone.org/install/containers/images/backend.html#developing-packages-variable).
