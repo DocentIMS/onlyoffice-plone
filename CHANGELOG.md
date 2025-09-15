@@ -1,5 +1,7 @@
 # Change Log
 
+- update demo document server url
+
 ## 4.0.0
 ## Added
 - support for plone 6
