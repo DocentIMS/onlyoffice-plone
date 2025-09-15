@@ -1,5 +1,7 @@
 # Change Log
 
+- shardkey in querystring
+
 ## 4.0.0
 ## Added
 - support for plone 6
