@@ -79,30 +79,34 @@ def getFileExt(context):
     return None
 
 def getFileType(context):
+    ext = getFileExt(context)
     for format in formatUtils.getSupportedFormats():
-        if format.name == getFileExt(context):
+        if format.name == ext:
             return format.type
 
     return None
 
 def canView(context):
+    ext = getFileExt(context)
     for format in formatUtils.getSupportedFormats():
-        if format.name == getFileExt(context):
+        if format.name == ext and "view" in format.actions:
             return True
 
     return False
 
 def canEdit(context):
+    ext = getFileExt(context)
     for format in formatUtils.getSupportedFormats():
-        if format.name == getFileExt(context):
-            return format.edit
+        if format.name == ext and "edit" in format.actions:
+            return True
 
     return False
 
 def canFillForm(context):
+    ext = getFileExt(context)
     for format in formatUtils.getSupportedFormats():
-        if format.name == getFileExt(context):
-            return format.fillForm
+        if format.name == ext and "fill" in format.actions:
+            return True
 
     return False
 

@@ -122,17 +122,17 @@ def getTargetExt(ext):
     for format in formatUtils.getSupportedFormats():
         if format.name == ext:
             if format.type == "word":
-                if "docx" in format.convertTo: return "docx"
+                if "docx" in format.convert: return "docx"
             if format.type == "cell":
-                if "xlsx" in format.convertTo: return "xlsx"
+                if "xlsx" in format.convert: return "xlsx"
             if format.type == "slide":
-                if "pptx" in format.convertTo: return "pptx"
+                if "pptx" in format.convert: return "pptx"
 
     return None
 
 def getConvertToExtArray(ext):
     for format in formatUtils.getSupportedFormats():
         if format.name == ext:
-            return format.convertTo
+            return format.convert
 
     return None
