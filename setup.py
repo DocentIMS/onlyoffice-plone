@@ -15,7 +15,7 @@ long_description = '\n\n'.join([
 setup(
     name='onlyoffice.plone',
     version='4.0.0',
-    description="Plone ONLYOFFICE integration plugin",
+    description="ONLYOFFICE addon for Plone",
     long_description=long_description,
     long_description_content_type="text/markdown",
     # Get more from https://pypi.org/classifiers/
@@ -23,7 +23,7 @@ setup(
         "Environment :: Web Environment",
         "Framework :: Plone",
         "Framework :: Plone :: Addon",
-        "Framework :: Plone :: 6.0",
+        "Framework :: Plone :: 6.1",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
@@ -51,7 +51,7 @@ setup(
     install_requires=[
         'setuptools',
         # -*- Extra requirements: -*-
-        'z3c.jbot',
+        'z3c.jbot==2.0',
         'plone.api',
         'plone.restapi',
         'plone.app.dexterity',

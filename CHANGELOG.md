@@ -3,6 +3,11 @@
 ##
 ## Added
 - ar-SA, si-LK, sr-Cyrl-RS and sr-Latn-RS empty file templates
+- support for plone 6.1
+- document formats submodule
+- jwt lifetime
+- update demo document server url
+- shardkey in querystring
 
 ## 4.0.0
 ## Added

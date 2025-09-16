@@ -27,6 +27,7 @@ from onlyoffice.plone.core.config import Config
 from onlyoffice.plone.interfaces import logger
 
 import base64
+import datetime
 import jwt
 import os
 
@@ -42,6 +43,10 @@ def isJwtEnabled():
 def createSecurityToken(payload, jwtSecret = None):
     if (jwtSecret is None):
         jwtSecret = getJwtSecret()
+    iat = datetime.datetime.utcnow()
+    exp = iat + datetime.timedelta(hours=24)
+    payload["iat"] = int(iat.timestamp())
+    payload["exp"] = int(exp.timestamp())
     return jwt.encode(payload, jwtSecret, algorithm="HS256")
 
 def createSecurityTokenFromContext(obj):

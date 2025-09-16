@@ -1,10 +1,10 @@
-﻿# Plone ONLYOFFICE integration plugin
+﻿# ONLYOFFICE addon for Plone
 
-This plugin allows users to edit office documents within [Plone](https://plone.org/) using ONLYOFFICE Docs packaged as Document Server - [Community or Enterprise Edition](#onlyoffice-docs-editions).
+This addon allows users to edit office documents within [Plone](https://plone.org/) using ONLYOFFICE Docs packaged as Document Server - [Community or Enterprise Edition](#onlyoffice-docs-editions).
 
 ## Features
 
-The plugin allows to:
+The addon allows to:
 
 * Create and edit text documents, spreadsheets, and presentations.
 * Share documents with other users.
@@ -29,42 +29,42 @@ To install Enterprise Edition, follow instructions [here](https://helpcenter.onl
 
 Community Edition vs Enterprise Edition comparison can be found [here](#onlyoffice-docs-editions).
 
-## Installing Plone ONLYOFFICE integration plugin
+## Installing ONLYOFFICE addon for Plone
 
 1. Installation instructions can be found under [Manage add-ons and packages](https://6.docs.plone.org/install/manage-add-ons-packages.html).
-2. To activate, go to `Site Setup` -> `Add-ons` and press the `Install` button to enable the plugin.
+2. To activate, go to `Site Setup` -> `Add-ons` and press the `Install` button to enable the addon.
 
-You can also install the plugin via Docker:
+You can also install the addon via Docker:
 ```
-docker run -p 8080:8080 -e ADDONS="onlyoffice.plone" plone/plone-backend:6.0 start
+docker run -p 8080:8080 -e ADDONS="onlyoffice.plone" plone/plone-backend:6.1 start
 ```
 
-**Please note:** If you have the previous plugin version installed (earlier plugin versions with the previous name *onlyoffice.connector*), please remove it before installing the new version. 
+**Please note:** If you have the previous addon version installed (earlier addon versions with the previous name *onlyoffice.connector*), please remove it before installing the new version. 
 
-## Configuring Plone ONLYOFFICE integration plugin
+## Configuring ONLYOFFICE addon for Plone
 
-To configure the plugin, go to `Site Setup`. Scroll down to the `Add-ons Configuration` section and press the `ONLYOFFICE Configuration` button.
+To configure the addon, go to `Site Setup`. Scroll down to the `Add-ons Configuration` section and press the `ONLYOFFICE Configuration` button.
 
 Starting from version 7.2, JWT is enabled by default and the secret key is generated automatically to restrict the access to ONLYOFFICE Docs and for security reasons and data integrity. 
 Specify your own **Secret key** on the Plone configuration page. 
-In the ONLYOFFICE Docs [config file](https://api.onlyoffice.com/editors/signature/), specify the same secret key and enable the validation.
+In the ONLYOFFICE Docs [config file](https://api.onlyoffice.com/docs/docs-api/additional-api/signature/), specify the same secret key and enable the validation.
 
-## Developing Plone ONLYOFFICE plugin
+## Developing ONLYOFFICE addon for Plone
 
 Run this command to install the addon from the local repository:
 ```
-docker run -p 8080:8080 -e DEVELOP="/app/src/onlyoffice.plone" -v /path/to/onlyoffice.plone:/app/src/onlyoffice.plone plone/plone-backend:6.0 start
+docker run -p 8080:8080 -e DEVELOP="/app/src/onlyoffice.plone" -v /path/to/onlyoffice.plone:/app/src/onlyoffice.plone plone/plone-backend:6.1 start
 ```
 
 For more information, check [Developing packages variable](https://6.dev-docs.plone.org/install/containers/images/backend.html#developing-packages-variable).
 
-## Upgrade Plone ONLYOFFICE integration plugin
+## Upgrade ONLYOFFICE addon for Plone
 1. Update instructions can be found under [Manage add-ons and packages](https://6.docs.plone.org/install/manage-add-ons-packages.html).
 2. Navigate to the Add-on screen (add `/prefs_install_products_form` to your site URL) and in the Upgrades list select **onlyoffice.plone** and click *Upgrade onlyoffice.plone*.
 
 ## How it works
 
-The ONLYOFFICE integration follows the API documented [here](https://api.onlyoffice.com/editors/basic):
+The ONLYOFFICE addon follows the API documented [here](https://api.onlyoffice.com/docs/docs-api/get-started/basic-concepts/):
 
 * User navigates to a document within Plone and selects the `ONLYOFFICE Edit` action.
 * Plone prepares a JSON object for the Document Server with the following properties:
@@ -144,12 +144,18 @@ The table below will help you make the right choice.
 | Font and paragraph formatting   | + | + |
 | Object insertion                | + | + |
 | Transitions                     | + | + |
+| Animations                      | + | + |
 | Presenter mode                  | + | + |
 | Notes                           | + | + |
 | **Form creator features** | **Community Edition** | **Enterprise Edition** |
 | Adding form fields           | + | + |
 | Form preview                    | + | + |
 | Saving as PDF                   | + | + |
+| **Working with PDF**      | **Community Edition** | **Enterprise Edition** |
+| Text annotations (highlight, underline, cross out) | + | + |
+| Comments                        | + | + |
+| Freehand drawings               | + | + |
+| Form filling                    | + | + |
 | | [Get it now](https://www.onlyoffice.com/download-docs.aspx?utm_source=github&utm_medium=cpc&utm_campaign=GitHubPlone#docs-community)  | [Start Free Trial](https://www.onlyoffice.com/download-docs.aspx?utm_source=github&utm_medium=cpc&utm_campaign=GitHubPlone#docs-enterprise) |
 
 \* If supported by DMS.
