@@ -1,6 +1,9 @@
 # Change Log
 
 - document formats submodule
+- jwt lifetime
+- update demo document server url
+- shardkey in querystring
 
 ## 4.0.0
 ## Added
