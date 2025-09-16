@@ -1,12 +1,14 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:metal="http://xml.zope.org/namespaces/metal"
+<html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
       lang="en"
       metal:use-macro="here/main_template/macros/master"
-      i18n:domain="onlyoffice.plone">
+      xml:lang="en"
+      i18n:domain="onlyoffice.plone"
+>
 
-<!--
+  <!--
  *
  * (c) Copyright Ascensio System SIA 2023
  *
@@ -24,8 +26,8 @@
  *
  -->
 
-<metal:block fill-slot="content-core">
+  <metal:block fill-slot="content-core">
     <div i18n:translate="">ONLYOFFICE can't open this file.</div>
-</metal:block>
+  </metal:block>
 
 </html>

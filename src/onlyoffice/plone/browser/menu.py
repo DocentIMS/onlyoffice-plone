@@ -14,35 +14,33 @@
 # limitations under the License.
 #
 
+from onlyoffice.plone.core import fileUtils
+from onlyoffice.plone.interfaces import _
 from plone import api
-from plone.app.contentmenu.interfaces import IActionsMenu, IActionsSubMenuItem
-from plone.app.contentmenu.menu import BrowserMenu, BrowserSubMenuItem
+from plone.app.contentmenu.interfaces import IActionsMenu
+from plone.app.contentmenu.interfaces import IActionsSubMenuItem
+from plone.app.contentmenu.menu import BrowserMenu
+from plone.app.contentmenu.menu import BrowserSubMenuItem
+from plone.protect.utils import addTokenToUrl
 from Products.CMFPlone.utils import get_installer
+from zope.component import getMultiAdapter
 from zope.interface import implementer
 from zope.security import checkPermission
-from zope.component import getMultiAdapter
-from plone.protect.utils import addTokenToUrl
-from onlyoffice.plone.interfaces import logger
-from onlyoffice.plone.interfaces import _
-from onlyoffice.plone.core import fileUtils
+
 
 @implementer(IActionsSubMenuItem)
 class OnlyofficeCreateSubMenuItem(BrowserSubMenuItem):
-
-    title = _(u'Create in ONLYOFFICE')
+    title = _("Create in ONLYOFFICE")
     icon = "onlyoffice-logo"
-    submenuId = 'plone_contentmenu_onlyoffice_create'
+    submenuId = "plone_contentmenu_onlyoffice_create"
 
     def __init__(self, context, request):
-        super(OnlyofficeCreateSubMenuItem, self).__init__(context, request)
+        super().__init__(context, request)
         self.context_state = getMultiAdapter(
-            (context, request),
-            name='plone_context_state'
+            (context, request), name="plone_context_state"
         )
 
-    extra = {
-        'id': 'onlyoffice-create'
-    }
+    extra = {"id": "onlyoffice-create"}
 
     order = 10
 
@@ -80,26 +78,26 @@ class OnlyofficeCreateSubMenuItem(BrowserSubMenuItem):
 
 @implementer(IActionsMenu)
 class OnlyofficeCreateMenu(BrowserMenu):
-
     def getMenuItems(self, context, request):
-
-        documentTypes = ['word', 'cell', 'slide', 'form']
+        documentTypes = ["word", "cell", "slide", "form"]
 
         currentUrl = context.absolute_url()
         menuItems = []
 
         for documentType in documentTypes:
-            menuItems.append({
-                'title':  fileUtils.getDefaultNameByType(documentType),
-                'description': '',
-                'action': addTokenToUrl('{0}/onlyoffice-create?documentType={1}'.format(currentUrl, documentType), request),
-                'selected': False,
-                'icon': 'onlyoffice-file-' + documentType,
-                'extra': {
-                    'id': 'document',
-                    'separator': None
-                },
-                'submenu': None
-            })
+            menuItems.append(
+                {
+                    "title": fileUtils.getDefaultNameByType(documentType),
+                    "description": "",
+                    "action": addTokenToUrl(
+                        f"{currentUrl}/onlyoffice-create?documentType={documentType}",
+                        request,
+                    ),
+                    "selected": False,
+                    "icon": "onlyoffice-file-" + documentType,
+                    "extra": {"id": "document", "separator": None},
+                    "submenu": None,
+                }
+            )
 
         return menuItems

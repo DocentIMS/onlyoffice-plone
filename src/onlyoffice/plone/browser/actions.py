@@ -14,27 +14,29 @@
 # limitations under the License.
 #
 
-from plone import api
 from AccessControl import getSecurityManager
 from Acquisition import aq_inner
 from Acquisition import aq_parent
-from Products.CMFPlone.permissions import AddPortalContent
-from Products.CMFPlone import PloneMessageFactory as _plone_message
-from Products.Five.browser import BrowserView
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from zope.component import getMultiAdapter
-from z3c.form import button, field, form
-
 from onlyoffice.plone.browser.interfaces import IConversionForm
 from onlyoffice.plone.browser.interfaces import IDownloadAsForm
+from onlyoffice.plone.core import conversionUtils
+from onlyoffice.plone.core import featureUtils
 from onlyoffice.plone.core import fileUtils
 from onlyoffice.plone.core import utils
-from onlyoffice.plone.core import featureUtils
-from onlyoffice.plone.core import conversionUtils
 from onlyoffice.plone.interfaces import _
 from onlyoffice.plone.interfaces import logger
+from plone import api
+from Products.CMFPlone import PloneMessageFactory as _plone_message
+from Products.CMFPlone.permissions import AddPortalContent
+from Products.Five.browser import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+from z3c.form import button
+from z3c.form import field
+from z3c.form import form
+from zope.component import getMultiAdapter
 
 import json
+
 
 class Edit(form.EditForm):
     def isAvailable(self):
@@ -43,6 +45,7 @@ class Edit(form.EditForm):
     def __call__(self):
         return render_editor(self, True)
 
+
 class FillForm(form.EditForm):
     def isAvailable(self):
         return fileUtils.canFillForm(self.context)
@@ -50,16 +53,17 @@ class FillForm(form.EditForm):
     def __call__(self):
         return render_editor(self, True)
 
+
 class View(BrowserView):
     def isAvailable(self):
         return fileUtils.canView(self.context)
-    
+
     def canView(self):
         try:
             context = self.context
-            can_view = api.user.has_permission('View', obj=context)
-            can_edit = api.user.has_permission('Modify portal content', obj=context)
-            can_review = api.user.has_permission('Review portal content', obj=context)
+            can_view = api.user.has_permission("View", obj=context)
+            can_edit = api.user.has_permission("Modify portal content", obj=context)
+            can_review = api.user.has_permission("Review portal content", obj=context)
             return self.isAvailable() and can_view and not can_edit and not can_review
 
         except Exception as e:
@@ -77,8 +81,8 @@ class Review(BrowserView):
     def canReview(self):
         try:
             context = self.context
-            can_review = api.user.has_permission('Review portal content', obj=context)
-            can_edit = api.user.has_permission('Modify portal content', obj=context)
+            can_review = api.user.has_permission("Review portal content", obj=context)
+            can_edit = api.user.has_permission("Modify portal content", obj=context)
             return self.isAvailable() and can_review and not can_edit
 
         except Exception as e:
@@ -87,6 +91,7 @@ class Review(BrowserView):
 
     def __call__(self):
         return render_editor(self, False, "review")
+
 
 class ConversionForm(form.Form):
     def isAvailable(self):
@@ -100,8 +105,8 @@ class ConversionForm(form.Form):
     enableCSRFProtection = True
     ignoreContext = True
 
-    label = _(u'Conversion in ONLYOFFICE')
-    description = _(u'You can conversion you document in format OOXML')
+    label = _("Conversion in ONLYOFFICE")
+    description = _("You can conversion you document in format OOXML")
 
     def view_url(self):
         context_state = getMultiAdapter(
@@ -113,7 +118,9 @@ class ConversionForm(form.Form):
     def handle_convert(self, action):
         self.request.response.redirect(self.view_url())
 
-    @button.buttonAndHandler(_plone_message("label_cancel", default="Cancel"), name="Cancel")
+    @button.buttonAndHandler(
+        _plone_message("label_cancel", default="Cancel"), name="Cancel"
+    )
     def handle_cancel(self, action):
         self.request.response.redirect(self.view_url())
 
@@ -121,6 +128,7 @@ class ConversionForm(form.Form):
         super().updateActions()
         if self.actions and "Convert" in self.actions:
             self.actions["Convert"].addClass("btn-primary")
+
 
 class DownloadAsForm(form.Form):
     fields = field.Fields(IDownloadAsForm)
@@ -133,13 +141,16 @@ class DownloadAsForm(form.Form):
 
     def isAvailable(self):
         ext = fileUtils.getFileExt(self.context)
-        return bool(conversionUtils.getConvertToExtArray(ext)) 
+        return bool(conversionUtils.getConvertToExtArray(ext))
+
 
 def render_editor(self, forEdit, role=None):
     self.docUrl = utils.getPublicDocUrl()
     self.saveAs = featureUtils.getSaveAsObject(self)
     self.demo = featureUtils.getDemoAsObject(self)
-    self.relatedItemsOptions = json.dumps(fileUtils.getRelatedRtemsOptions(self.context))
+    self.relatedItemsOptions = json.dumps(
+        fileUtils.getRelatedRtemsOptions(self.context)
+    )
     self.token = get_token(self)
     self.editorCfg = get_config(self, forEdit, role)
     if not self.editorCfg:
@@ -147,29 +158,37 @@ def render_editor(self, forEdit, role=None):
         return index(self)
     return self.index()
 
-def get_token(self):
-        authenticator = getMultiAdapter((self.context, self.request), name="authenticator")
 
-        return authenticator.token()
+def get_token(self):
+    authenticator = getMultiAdapter((self.context, self.request), name="authenticator")
+
+    return authenticator.token()
+
 
 def portal_state(self):
     context = aq_inner(self.context)
-    portal_state = getMultiAdapter((context, self.request), name=u'plone_portal_state')
+    portal_state = getMultiAdapter((context, self.request), name="plone_portal_state")
     return portal_state
+
 
 def get_config(self, forEdit, role=None):
     # def viewURLFor(self, item):
-        # cstate = getMultiAdapter((item, item.REQUEST), name='plone_context_state')
-        # return cstate.view_url()
+    # cstate = getMultiAdapter((item, item.REQUEST), name='plone_context_state')
+    # return cstate.view_url()
 
-    canEdit = forEdit and bool(getSecurityManager().checkPermission('Modify portal content', self.context))
+    canEdit = forEdit and bool(
+        getSecurityManager().checkPermission("Modify portal content", self.context)
+    )
 
     fileTitle = self.context.Title()
-    filename = self.context.file.filename
 
     logger.info("getting config for " + utils.getPloneContextUrl(self.context))
 
-    if not fileUtils.canView(self.context) or (forEdit and not fileUtils.canEdit(self.context) and not fileUtils.canFillForm(self.context)):
+    if not fileUtils.canView(self.context) or (
+        forEdit
+        and not fileUtils.canEdit(self.context)
+        and not fileUtils.canFillForm(self.context)
+    ):
         # self.request.response.status = 500
         # self.request.response.setHeader('Location', self.viewURLFor(self.context))
         return None
@@ -179,35 +198,37 @@ def get_config(self, forEdit, role=None):
     securityToken = utils.createSecurityTokenFromContext(self.context)
     key = utils.getDocumentKey(self.context)
     config = {
-        'type': 'desktop',
-        'documentType': fileUtils.getFileType(self.context),
-        'document': {
-            'title': fileTitle,
-            'url': utils.getPloneContextUrl(self.context) + '/onlyoffice-dl/file?token=' + securityToken + '&shardkey=' + key,
-            'fileType': fileUtils.getFileExt(self.context),
-            'key': key,
-            'info': {
-                'author': self.context.creators[0],
-                'created': str(self.context.creation_date)
+        "type": "desktop",
+        "documentType": fileUtils.getFileType(self.context),
+        "document": {
+            "title": fileTitle,
+            "url": utils.getPloneContextUrl(self.context)
+            + "/onlyoffice-dl/file?token="
+            + securityToken,
+            "fileType": fileUtils.getFileExt(self.context),
+            "key": key,
+            "info": {
+                "author": self.context.creators[0],
+                "created": str(self.context.creation_date),
             },
-            'permissions': {
-                'edit': canEdit
-            }
+            "permissions": {"edit": canEdit},
         },
-        'editorConfig': {
-            'mode': 'edit' if canEdit else 'view',
-            'lang': state.language(),
-            'user': {
-                'id': user.getId(),
-                'name': user.getProperty('fullname') or user.getUserName()
+        "editorConfig": {
+            "mode": "edit" if canEdit else "view",
+            "lang": state.language(),
+            "user": {
+                "id": user.getId(),
+                "name": user.getProperty("fullname") or user.getUserName(),
             },
-            'customization': {
-                'feedback': True
-            }
-        }
+            "customization": {"feedback": True},
+        },
     }
     if canEdit:
-        config['editorConfig']['callbackUrl'] = utils.getPloneContextUrl(self.context) + '/onlyoffice-callback?token=' + securityToken
+        config["editorConfig"]["callbackUrl"] = (
+            utils.getPloneContextUrl(self.context)
+            + "/onlyoffice-callback?token="
+            + securityToken
+        )
 
     if role:
         if role == "review":
@@ -216,6 +237,6 @@ def get_config(self, forEdit, role=None):
             config["document"]["permissions"]["review"] = True
 
     if utils.isJwtEnabled():
-        config['token'] = utils.createSecurityToken(config)
+        config["token"] = utils.createSecurityToken(config)
 
     return json.dumps(config)

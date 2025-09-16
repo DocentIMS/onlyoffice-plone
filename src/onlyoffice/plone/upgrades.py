@@ -14,10 +14,11 @@
 # limitations under the License.
 #
 
-PROFILE_ID = 'onlyoffice.plone:default'
+PROFILE_ID = "onlyoffice.plone:default"
+
 
 def upgrade_to_2(context):
     context.runImportStepFromProfile(
-        PROFILE_ID.replace('default', 'to_2'),
-        'plone.app.registry',
+        PROFILE_ID.replace("default", "to_2"),
+        "plone.app.registry",
     )

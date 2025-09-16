@@ -35,7 +35,7 @@ target-version = ["py38"]
 ##
 
 [tool.codespell]
-ignore-words-list = "discreet,assertin,thet,"
+ignore-words-list = "discreet,assertin,thet,explicite,"
 skip = "*.po,"
 ##
 # Add extra configuration options in .meta.toml:
@@ -97,14 +97,37 @@ pytest-plone = ['pytest', 'zope.pytestlayer', 'plone.testing', 'plone.app.testin
 
 [tool.check-manifest]
 ignore = [
+    ".git*",
+    ".github/workflows/*",
     ".editorconfig",
     ".flake8",
-    ".meta.toml",
     ".pre-commit-config.yaml",
-    "dependabot.yml",
-    "mx.ini",
-    "tox.ini",
-
+    ".meta.toml",
+    "venv",
+    ".venv",
+    "env",
+    ".env",
+    "node_modules",
+    ".tox",
+    ".eggs",
+    "*.egg-info",
+    "__pycache__",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".coverage",
+    "htmlcov",
+    "dist",
+    "build",
+    "3rd-Party.license",
+    "licenses/3rd-Party.license",
+    "project_structure.txt",
+    "src/onlyoffice/plone/browser/app_data/.git",
+    "src/onlyoffice/plone/browser/document-formats/.git",
+    "src/onlyoffice/plone/browser/__pycache__/*",
+    "src/onlyoffice/plone/core/__pycache__/*",
+    "src/onlyoffice/plone/__pycache__/*",
+    "src/onlyoffice/plone/browser/overrides/.gitkeep",
+    "src/onlyoffice/plone/locales/update.py",
 ]
 
 ##
