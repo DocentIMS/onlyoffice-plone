@@ -14,8 +14,10 @@
 # limitations under the License.
 #
 
+from plone import api
 from plone.app.contentmenu.interfaces import IActionsMenu, IActionsSubMenuItem
 from plone.app.contentmenu.menu import BrowserMenu, BrowserSubMenuItem
+from Products.CMFPlone.utils import get_installer
 from zope.interface import implementer
 from zope.security import checkPermission
 from zope.component import getMultiAdapter
@@ -49,12 +51,32 @@ class OnlyofficeCreateSubMenuItem(BrowserSubMenuItem):
         return self.context.absolute_url()
 
     def available(self):
-        if checkPermission('cmf.AddPortalContent', self.context) and self.context_state.is_structural_folder():
+        if not self._is_addon_available():
+            return False
+        if (
+            checkPermission("cmf.AddPortalContent", self.context)
+            and self.context_state.is_structural_folder()
+        ):
             return True
         return False
 
     def selected(self):
         return False
+
+    def _is_addon_available(self):
+        try:
+            portal = api.portal.get()
+            try:
+                installer = get_installer(portal, self.request)
+                return installer.is_product_installed("onlyoffice.plone")
+            except ImportError:
+                qi = getattr(portal, "portal_quickinstaller", None)
+                if qi:
+                    return qi.isProductInstalled("onlyoffice.plone")
+                return False
+        except Exception:
+            return False
+
 
 @implementer(IActionsMenu)
 class OnlyofficeCreateMenu(BrowserMenu):
