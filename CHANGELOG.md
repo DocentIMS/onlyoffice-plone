@@ -1,6 +1,7 @@
 # Change Log
 
 - update demo document server url
+- shardkey in querystring
 
 ## 4.0.0
 ## Added
