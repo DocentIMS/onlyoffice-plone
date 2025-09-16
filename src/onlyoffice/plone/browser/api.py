@@ -160,7 +160,7 @@ class Create(BrowserView):
             language = language.split('-')[0]
             localePath = fileUtils.localePath.get(language)
             if localePath is None:
-                localePath = fileUtils.localePath.get('en')
+                localePath = fileUtils.localePath.get('default')
 
         file = open(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'app_data', localePath, template), 'rb')
 

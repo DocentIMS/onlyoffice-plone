@@ -2,7 +2,7 @@
 
 ##
 ## Added
-- ar-SA, si-LK, sr-Cyrl-RS and sr-Latn-RS empty file templates
+- ar-SA, ca-ES, da-DK, eu-ES, fi-FI, gl-ES, he-IL, hu-HU, hy-AM, id-ID, ms-MY, nb-NO, ro-RO, si-LK, sl-SI, sq-AL, sr-Cyrl-RS, sr-Latn-RS, tr-TR, ur-PK and zh-TW empty file templates
 - support for plone 6.1
 - document formats submodule
 - jwt lifetime
