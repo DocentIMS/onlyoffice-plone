@@ -265,7 +265,7 @@ class Conversion(BrowserView):
             return "You are not authorized to add content to this folder."
 
         key = utils.getDocumentKey(self.context)
-        url = utils.getPloneContextUrl(self.context) + '/onlyoffice-dl/file?token=' + utils.createSecurityTokenFromContext(self.context)
+        url = utils.getPloneContextUrl(self.context) + '/onlyoffice-dl/file?token=' + utils.createSecurityTokenFromContext(self.context) + '&shardkey=' + key
         fileType = fileUtils.getFileExt(self.context)
         outputType = conversionUtils.getTargetExt(fileType)
         region = portal_state(self).language()
@@ -322,7 +322,7 @@ class DownloadAs(BrowserView):
 
         outputType = self.request.form.get("targetType")
         key = utils.getDocumentKey(self.context)
-        url = utils.getPloneContextUrl(self.context) + '/onlyoffice-dl/file?token=' + utils.createSecurityTokenFromContext(self.context)
+        url = utils.getPloneContextUrl(self.context) + '/onlyoffice-dl/file?token=' + utils.createSecurityTokenFromContext(self.context) + '&shardkey=' + key
         fileType = fileUtils.getFileExt(self.context)
         region = portal_state(self).language()
 

@@ -1,5 +1,11 @@
 # Change Log
 
+- support for plone 6.1
+- document formats submodule
+- jwt lifetime
+- update demo document server url
+- shardkey in querystring
+
 ## 4.0.0
 ## Added
 - support for plone 6
