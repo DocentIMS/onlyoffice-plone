@@ -20,7 +20,7 @@ class Config():
     docInnerUrl = None
     jwtSecret = None
 
-    demoDocUrl = "https://onlinedocs.onlyoffice.com/"
+    demoDocUrl = "https://onlinedocs.docs.onlyoffice.com/"
     demoHeader = "AuthorizationJWT"
     demoJwtSecret = "sn2puSUF7muF5Jas"
     demoTrial = 30
