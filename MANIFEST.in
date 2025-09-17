@@ -1,61 +1,22 @@
+include *.in
+include *.license
 include *.md
-include *.rst
-include *.txt
-include LICENSE
-include AUTHORS.md
-include CHANGELOG.md
-include CONTRIBUTING.md
-include pyproject.toml
-include setup.py
-include setup.cfg
-include MANIFEST.in
-include buildout.cfg
-include base.cfg
-include test_plone52.cfg
-include constraints_plone52.txt
-include requirements.txt
 include tox.ini
-include .editorconfig
-include .flake8
-include .gitignore
-include .pre-commit-config.yaml
-
-recursive-include src *.py
-recursive-include src *.pt
-recursive-include src *.xml
-recursive-include src *.zcml
-recursive-include src *.json
-recursive-include src *.svg
-recursive-include src *.js
-recursive-include src *.mo
-recursive-include src *.po
+recursive-include licenses *.license
+recursive-include src/onlyoffice/plone/browser/app_data LICENSE
+recursive-include src/onlyoffice/plone/browser/document-formats LICENSE
 recursive-include src *.docx
-recursive-include src *.docxf
-recursive-include src *.pptx
-recursive-include src *.xlsx
+recursive-include src *.js
+recursive-include src *.json
 recursive-include src *.md
+recursive-include src *.pdf
+recursive-include src *.po
+recursive-include src *.pptx
+recursive-include src *.pt
+recursive-include src *.robot
 recursive-include src *.rst
 recursive-include src *.sh
-recursive-include src *.robot
-recursive-include src LICENSE
-
-recursive-include licenses *
-recursive-include .github *
-
-prune .git
-prune .gitmodules
-prune venv
-prune .venv
-prune env
-prune .env
-prune node_modules
-prune .tox
-prune .eggs
-prune *.egg-info
-prune __pycache__
-prune .pytest_cache
-prune .mypy_cache
-prune .coverage
-prune htmlcov
-prune dist
-prune build
+recursive-include src *.svg
+recursive-include src *.xlsx
+recursive-include src *.xml
+recursive-include src *.zcml
