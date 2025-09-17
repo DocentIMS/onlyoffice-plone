@@ -25,55 +25,6 @@ from onlyoffice.plone.core import conversionUtils
 import re
 from onlyoffice.plone.interfaces import logger
 
-localePath = {
-        'ar': 'ar-SA',
-        'az': 'az-Latn-AZ',
-        'bg': 'bg-BG',
-        'ca': 'ca-ES',
-        'cs': 'cs-CZ',
-        'da': 'da-DK',
-        'de': 'de-DE',
-        'el': 'el-GR',
-        'en-gb': 'en-GB',
-        'en': 'en-US',
-        'es': 'es-ES',
-        'eu': 'eu-ES',
-        'fi': 'fi-FI',
-        'fr': 'fr-FR',
-        'gl': 'gl-ES',
-        'he': 'he-IL',
-        'hu': 'hu-HU',
-        'hy': 'hy-AM',
-        'id': 'id-ID',
-        'it': 'it-IT',
-        'ja': 'ja-JP',
-        'ko': 'ko-KR',
-        'lv': 'lv-LV',
-        'ms': 'ms-MY',
-        'nb': 'nb-NO',
-        'nl': 'nl-NL',
-        'pl': 'pl-PL',
-        'pt-br': 'pt-BR',
-        'pt': 'pt-PT',
-        'ro': 'ro-RO',
-        'ru': 'ru-RU',
-        'si': 'si-LK',
-        'sk': 'sk-SK',
-        'sl': 'sl-SI',
-        'sq': 'sq-AL',
-        'sr-cyrl': 'sr-Cyrl-RS',
-        'sr-latn': 'sr-Latn-RS',
-        'sr': 'sr-Cyrl-RS',
-        'sv': 'sv-SE',
-        'tr': 'tr-TR',
-        'uk': 'uk-UA',
-        'ur': 'ur-PK',
-        'vi': 'vi-VN',
-        'zh-cn': 'zh-CN',
-        'zh-tw': 'zh-TW',
-        'zh': 'zh-CN'
-    }
-
 def getCorrectFileName(str):
     return re.sub(r'[*?:\"<>/|\\\\]', '_', str)
 
