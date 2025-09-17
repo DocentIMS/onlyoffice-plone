@@ -154,15 +154,15 @@ class Create(BrowserView):
 
         state = portal_state(self)
         language = state.language()
-
-        localePath = fileUtils.localePath.get(language)
-        if localePath is None:
+        file_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'app_data', language, template)
+        if not os.path.exists(file_path):
             language = language.split('-')[0]
-            localePath = fileUtils.localePath.get(language)
-            if localePath is None:
-                localePath = fileUtils.localePath.get('en')
+            file_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'app_data', language, template)
+            if not os.path.exists(file_path):
+                language = 'default'
+                file_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'app_data', language, template)
 
-        file = open(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'app_data', localePath, template), 'rb')
+        file = open(file_path, 'rb')
 
         try:
             fileData = file.read()
