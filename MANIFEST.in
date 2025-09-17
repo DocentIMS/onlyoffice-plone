@@ -1,10 +1,9 @@
 include *.in
-include *.license
 include *.md
+include 3rd-Party.license
+include LICENSE
 include tox.ini
 recursive-include licenses *.license
-recursive-include src/onlyoffice/plone/browser/app_data LICENSE
-recursive-include src/onlyoffice/plone/browser/document-formats LICENSE
 recursive-include src *.docx
 recursive-include src *.js
 recursive-include src *.json
