@@ -62,7 +62,16 @@ def decodeSecurityToken(token):
 
 
 def checkSecurityToken(obj, token):
-    if token != createSecurityTokenFromContext(obj):
+    de = jwt.decode(
+        createSecurityTokenFromContext(obj), options={"verify_signature": False}
+    )
+    dt = jwt.decode(token, options={"verify_signature": False})
+    for field in ["iat", "exp"]:
+        if field in de:
+            del de[field]
+        if field in dt:
+            del dt[field]
+    if de != dt:
         raise Unauthorized
 
 
