@@ -14,7 +14,7 @@ long_description = "\n\n".join(
 
 
 setup(
-    name="onlyoffice-plone",
+    name="onlyoffice.plone",
     version="4.0.0",
     description="ONLYOFFICE addon for Plone",
     long_description=long_description,
