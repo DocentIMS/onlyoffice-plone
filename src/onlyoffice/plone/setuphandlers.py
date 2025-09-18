@@ -14,26 +14,26 @@
 # limitations under the License.
 #
 
-# -*- coding: utf-8 -*-
-import logging
-
+from onlyoffice.plone.browser.menu import OnlyofficeCreateSubMenuItem
 from plone.app.contentmenu.interfaces import IContentMenuItem
 from Products.CMFPlone.interfaces import INonInstallable
 from zope.component import getSiteManager
-from zope.interface import Interface, implementer
+from zope.interface import implementer
+from zope.interface import Interface
 
-from onlyoffice.plone.browser.menu import OnlyofficeCreateSubMenuItem
+# -*- coding: utf-8 -*-
+import logging
+
 
 logger = logging.getLogger("onlyoffice")
 
 
 @implementer(INonInstallable)
-class HiddenProfiles(object):
-
+class HiddenProfiles:
     def getNonInstallableProfiles(self):
         """Hide uninstall profile from site-creation and quickinstaller."""
         return [
-            'onlyoffice.plone:uninstall',
+            "onlyoffice.plone:uninstall",
         ]
 
 

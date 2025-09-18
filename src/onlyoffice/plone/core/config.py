@@ -14,7 +14,8 @@
 # limitations under the License.
 #
 
-class Config():
+
+class Config:
     docUrl = None
     ploneUrl = None
     docInnerUrl = None
@@ -26,8 +27,8 @@ class Config():
     demoTrial = 30
 
     def __init__(self, registry):
-        self.docUrl = registry.get('onlyoffice.plone.docUrl')
-        self.ploneUrl = registry.get('onlyoffice.plone.ploneUrl')
-        self.docInnerUrl = registry.get('onlyoffice.plone.docInnerUrl')
-        self.jwtSecret = registry.get('onlyoffice.plone.jwtSecret')
-        self.demoEnabled = registry.get('onlyoffice.plone.demoEnabled')
+        self.docUrl = registry.get("onlyoffice.plone.docUrl")
+        self.ploneUrl = registry.get("onlyoffice.plone.ploneUrl")
+        self.docInnerUrl = registry.get("onlyoffice.plone.docInnerUrl")
+        self.jwtSecret = registry.get("onlyoffice.plone.jwtSecret")
+        self.demoEnabled = registry.get("onlyoffice.plone.demoEnabled")

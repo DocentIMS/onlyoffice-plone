@@ -14,43 +14,48 @@
 # limitations under the License.
 #
 
-from plone.app.z3cform.widgets.relateditems import get_relateditems_options
-from plone.app.dexterity.interfaces import IDXFileFactory
 from AccessControl import getSecurityManager
+from onlyoffice.plone.core import conversionUtils
+from onlyoffice.plone.core import formatUtils
+from onlyoffice.plone.interfaces import _
+from plone.app.dexterity.interfaces import IDXFileFactory
+from plone.app.z3cform.widgets.relateditems import get_relateditems_options
 from zope.event import notify
 from zope.lifecycleevent import ObjectModifiedEvent
-from onlyoffice.plone.interfaces import _
-from onlyoffice.plone.core import formatUtils
-from onlyoffice.plone.core import conversionUtils
+
 import re
-from onlyoffice.plone.interfaces import logger
+
 
 def getCorrectFileName(str):
-    return re.sub(r'[*?:\"<>/|\\\\]', '_', str)
+    return re.sub(r"[*?:\"<>/|\\\\]", "_", str)
+
 
 def getFileTitleWithoutExt(context):
     title = context.Title()
-    ind = context.Title().rfind('.')
+    ind = context.Title().rfind(".")
     return title[:ind]
+
 
 def getFileNameWithoutExt(context):
     filename = context.file.filename
-    ind = context.file.filename.rfind('.')
+    ind = context.file.filename.rfind(".")
     return filename[:ind]
+
 
 def getFileExt(context):
     portal_type = context.portal_type
 
-    if portal_type == "Image" : 
+    if portal_type == "Image":
         filename = context.image.filename if hasattr(context, "image") else None
 
-    if portal_type == "File" or portal_type == "Document" :
+    if portal_type == "File" or portal_type == "Document":
         filename = context.file.filename if hasattr(context, "file") else None
 
-    if filename :
-        return filename[filename.rfind('.') + 1:].lower()
+    if filename:
+        return filename[filename.rfind(".") + 1 :].lower()  # noqa: E203
 
     return None
+
 
 def getFileType(context):
     ext = getFileExt(context)
@@ -60,6 +65,7 @@ def getFileType(context):
 
     return None
 
+
 def canView(context):
     ext = getFileExt(context)
     for format in formatUtils.getSupportedFormats():
@@ -67,6 +73,7 @@ def canView(context):
             return True
 
     return False
+
 
 def canEdit(context):
     ext = getFileExt(context)
@@ -76,6 +83,7 @@ def canEdit(context):
 
     return False
 
+
 def canFillForm(context):
     ext = getFileExt(context)
     for format in formatUtils.getSupportedFormats():
@@ -84,50 +92,55 @@ def canFillForm(context):
 
     return False
 
+
 def canConvert(context):
-    return conversionUtils.getTargetExt(getFileExt(context)) != None
+    return conversionUtils.getTargetExt(getFileExt(context)) is not None
+
 
 def getDefaultExtByType(str):
-    if (str == 'word'):
-        return 'docx'
-    if (str == 'cell'):
-        return 'xlsx'
-    if (str == 'slide'):
-        return 'pptx'
-    if (str == 'form'):
-        return 'docxf'
+    if str == "word":
+        return "docx"
+    if str == "cell":
+        return "xlsx"
+    if str == "slide":
+        return "pptx"
+    if str == "form":
+        return "docxf"
 
     return None
+
 
 def getDefaultNameByType(str):
-    if (str == 'word'):
-        return _(u'Document')
-    if (str == 'cell'):
-        return _(u'Spreadsheet')
-    if (str == 'slide'):
-        return _(u'Presentation')
-    if (str == 'form'):
-        return _(u'PDF form')
+    if str == "word":
+        return _("Document")
+    if str == "cell":
+        return _("Spreadsheet")
+    if str == "slide":
+        return _("Presentation")
+    if str == "form":
+        return _("PDF form")
 
     return None
 
-def addNewFile(fileName, contentType, fileData, folder, title = None):
+
+def addNewFile(fileName, contentType, fileData, folder, title=None):
     factory = IDXFileFactory(folder)
     file = factory(fileName, contentType, fileData)
 
-    if title != None and title != "":
+    if title is not None and title != "":
         getSecurityManager().validate(file, file, "setTitle", file.setTitle)
         file.setTitle(title)
         notify(ObjectModifiedEvent(file))
 
     return file
 
+
 def getRelatedRtemsOptions(context):
     return get_relateditems_options(
-            context=context,
-            value=None,
-            separator=";",
-            vocabulary_name="plone.app.vocabularies.Catalog",
-            vocabulary_view="@@getVocabulary",
-            field_name="relatedItems",
-        )
+        context=context,
+        value=None,
+        separator=";",
+        vocabulary_name="plone.app.vocabularies.Catalog",
+        vocabulary_view="@@getVocabulary",
+        field_name="relatedItems",
+    )
