@@ -51,7 +51,7 @@ class FillForm(form.EditForm):
         return fileUtils.canFillForm(self.context)
 
     def __call__(self):
-        return render_editor(self, True)
+        return render_editor(self, True, "form_filling")
 
 
 class View(BrowserView):
@@ -235,6 +235,10 @@ def get_config(self, forEdit, role=None):
             config["editorConfig"]["mode"] = "edit"
             config["document"]["permissions"]["edit"] = False
             config["document"]["permissions"]["review"] = True
+        elif role == "form_filling":
+            config["editorConfig"]["mode"] = "edit"
+            config["document"]["permissions"]["edit"] = False
+            config["document"]["permissions"]["fillForms"] = True
 
     if utils.isJwtEnabled():
         config["token"] = utils.createSecurityToken(config)

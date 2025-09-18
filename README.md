@@ -12,7 +12,7 @@ The addon allows to:
 
 Supported formats:
 
-* For editing: DOCX, XLSX, PPTX, DOCXF, OFORM.
+* For editing: DOCX, XLSX, PPTX, OFORM.
 * For viewing: DJVU, DOC, DOCM, DOCX, DOCXF, DOT, DOTM, DOTX, EPUB, FB2, FODT, HTML, MHT, ODT, OTT, OXPS, PDF, RTF, TXT, XPS, XML, OFORM, CSV, FODS, ODS, OTS, XLS, XLSB, XLSM, XLSX, XLT, XLTM, XLTX, FODP, ODP, OTP, POT, POTM, POTX, PPS, PPSM, PPSX, PPT, PPTM, PPTX.
 * For converting (download as): DOC, DOCM, DOCX, DOCXF, DOT, DOTM, DOTX, EPUB, FB2, FODT, HTML, MHT, ODT, OTT, OXPS, PDF, RTF, XPS, XML, OFORM, FODS, ODS, OTS, XLS, XLSB, XLSM, XLSX, XLT, XLTM, XLTX, FODP, ODP, OTP, POT, POTM, POTX, PPS, PPSM, PPSX, PPT, PPTM, PPTX.
 * For converting to Office Open XML: DOC, DOCM, DOCXF, DOT, DOTM, DOTX, EPUB, FB2, FODT, HTML, MHT, ODT, OTT, OXPS, PDF, RTF, XPS, XML, FODS, ODS, OTS, XLS, XLSB, XLSM, XLT, XLTM, XLTX, FODP, ODP, OTP, POT, POTM, POTX, PPS, PPSM, PPSX, PPT, PPTM.
@@ -23,7 +23,7 @@ You will need an instance of ONLYOFFICE Docs (Document Server) that is resolvabl
 
 You can install free Community version of ONLYOFFICE Docs or scalable Enterprise Edition with pro features.
 
-To install free Community version, use [Docker](https://github.com/onlyoffice/Docker-DocumentServer) (recommended) or follow [these instructions](https://helpcenter.onlyoffice.com/installation/docs-community-install-ubuntu.aspx) for Debian, Ubuntu, or derivatives.  
+To install free Community version, use [Docker](https://github.com/onlyoffice/Docker-DocumentServer) (recommended) or follow [these instructions](https://helpcenter.onlyoffice.com/installation/docs-community-install-ubuntu.aspx) for Debian, Ubuntu, or derivatives.
 
 To install Enterprise Edition, follow instructions [here](https://helpcenter.onlyoffice.com/installation/docs-enterprise-index.aspx).
 
@@ -39,14 +39,14 @@ You can also install the addon via Docker:
 docker run -p 8080:8080 -e ADDONS="onlyoffice.plone" plone/plone-backend:6.1 start
 ```
 
-**Please note:** If you have the previous addon version installed (earlier addon versions with the previous name *onlyoffice.connector*), please remove it before installing the new version. 
+**Please note:** If you have the previous addon version installed (earlier addon versions with the previous name *onlyoffice.connector*), please remove it before installing the new version.
 
 ## Configuring ONLYOFFICE addon for Plone
 
 To configure the addon, go to `Site Setup`. Scroll down to the `Add-ons Configuration` section and press the `ONLYOFFICE Configuration` button.
 
-Starting from version 7.2, JWT is enabled by default and the secret key is generated automatically to restrict the access to ONLYOFFICE Docs and for security reasons and data integrity. 
-Specify your own **Secret key** on the Plone configuration page. 
+Starting from version 7.2, JWT is enabled by default and the secret key is generated automatically to restrict the access to ONLYOFFICE Docs and for security reasons and data integrity.
+Specify your own **Secret key** on the Plone configuration page.
 In the ONLYOFFICE Docs [config file](https://api.onlyoffice.com/docs/docs-api/additional-api/signature/), specify the same secret key and enable the validation.
 
 ## Developing ONLYOFFICE addon for Plone
@@ -123,8 +123,8 @@ The table below will help you make the right choice.
 | **Document Editor features** | **Community Edition** | **Enterprise Edition** |
 | Font and paragraph formatting   | + | + |
 | Object insertion                | + | + |
-| Adding Content control          | + | + | 
-| Editing Content control         | + | + | 
+| Adding Content control          | + | + |
+| Editing Content control         | + | + |
 | Layout tools                    | + | + |
 | Table of contents               | + | + |
 | Navigation panel                | + | + |
