@@ -105,7 +105,7 @@ def getDefaultExtByType(str):
     if str == "slide":
         return "pptx"
     if str == "form":
-        return "docxf"
+        return "pdf"
 
     return None
 
