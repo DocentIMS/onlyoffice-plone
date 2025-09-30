@@ -1,4 +1,7 @@
 [submodule "src/onlyoffice/plone/browser/app_data"]
 	path = src/onlyoffice/plone/browser/app_data
 	url = https://github.com/ONLYOFFICE/document-templates
-	branch = main/new
+	branch = main/new-2letter-code
+[submodule "src/onlyoffice/plone/browser/document-formats"]
+	path = src/onlyoffice/plone/browser/document-formats
+	url = https://github.com/ONLYOFFICE/document-formats.git

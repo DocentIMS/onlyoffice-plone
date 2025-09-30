@@ -1,20 +1,22 @@
-import json
-
+from onlyoffice.plone.browser.actions import get_config
+from onlyoffice.plone.browser.actions import get_token
+from onlyoffice.plone.core import featureUtils
+from onlyoffice.plone.core import fileUtils
+from onlyoffice.plone.core import utils
+from onlyoffice.plone.interfaces import logger
 from plone import api
 from plone.restapi.services import Service
 from zExceptions import BadRequest
 from zope.interface import implementer
 from zope.publisher.interfaces import IPublishTraverse
 
-from onlyoffice.plone.browser.actions import get_config, get_token
-from onlyoffice.plone.core import featureUtils, fileUtils, utils
-from onlyoffice.plone.interfaces import logger
+import json
 
 
 @implementer(IPublishTraverse)
 class Config(Service):
     def __init__(self, context, request):
-        super(Config, self).__init__(context, request)
+        super().__init__(context, request)
         self.params = []
 
     def publishTraverse(self, request, name):

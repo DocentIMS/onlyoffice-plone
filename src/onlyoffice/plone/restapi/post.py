@@ -1,6 +1,9 @@
-import json
-
-import plone.protect.interfaces
+from onlyoffice.plone.browser.api import Create as ApiCreate
+from onlyoffice.plone.browser.api import DownloadAs as ApiDownloadAs
+from onlyoffice.plone.browser.controlpanel import settings_validation
+from onlyoffice.plone.browser.controlpanel import settings_validation_demo
+from onlyoffice.plone.core.config import Config
+from onlyoffice.plone.interfaces import logger
 from plone import api
 from plone.registry.interfaces import IRegistry
 from plone.restapi.services import Service
@@ -8,14 +11,8 @@ from zExceptions import BadRequest
 from zope.component import getUtility
 from zope.interface import alsoProvides
 
-from onlyoffice.plone.browser.api import Create as ApiCreate
-from onlyoffice.plone.browser.api import DownloadAs as ApiDownloadAs
-from onlyoffice.plone.browser.controlpanel import (
-    settings_validation,
-    settings_validation_demo,
-)
-from onlyoffice.plone.core.config import Config
-from onlyoffice.plone.interfaces import logger
+import json
+import plone.protect.interfaces
 
 
 class SettingsSave(Service):
