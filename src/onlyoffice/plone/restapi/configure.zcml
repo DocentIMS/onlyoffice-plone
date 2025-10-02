@@ -33,7 +33,7 @@
       method="GET"
       factory=".get.Config"
       for="*"
-      permission="cmf.ModifyPortalContent"
+      permission="zope2.View"
       name="@onlyoffice-volto-get-config"
       />
 

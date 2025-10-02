@@ -33,6 +33,14 @@ class Config(Service):
                 raise BadRequest("File not found")
             self.context = context
 
+            can_edit = api.user.has_permission(
+                "Modify portal content", obj=self.context
+            )
+            can_review = api.user.has_permission(
+                "Review portal content", obj=self.context
+            )
+            can_view = api.user.has_permission("View", obj=self.context)
+
             docUrl = utils.getPublicDocUrl()
             saveAs = featureUtils.getSaveAsObject(self)
             demo = featureUtils.getDemoAsObject(self)
@@ -42,10 +50,19 @@ class Config(Service):
             token = get_token(self)
 
             editorCfg = None
-            if fileUtils.canEdit(self.context) or fileUtils.canFillForm(self.context):
-                editorCfg = get_config(self, True)
-            else:
-                editorCfg = get_config(self, False)
+            if (
+                fileUtils.canEdit(self.context)
+                or fileUtils.canFillForm(self.context)
+                or fileUtils.canView(self.context)
+            ):
+                if can_edit:
+                    editorCfg = get_config(self, True)
+                elif can_review:
+                    editorCfg = get_config(self, True, role="review")
+                elif can_view:
+                    editorCfg = get_config(self, False)
+                else:
+                    raise BadRequest("Access denied")
 
             return {
                 "docUrl": docUrl,
