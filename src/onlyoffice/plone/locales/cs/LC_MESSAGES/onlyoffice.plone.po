@@ -17,7 +17,7 @@ msgstr ""
 "X-Generator: Poedit 3.1.1\n"
 
 #: ../browser/controlpanel.py:12
-msgid "Document Editing service"
+msgid "ONLYOFFICE Docs address"
 msgstr "Služba Úpravy dokumentů"
 
 #: ../configure.zcml:28
@@ -61,20 +61,20 @@ msgid "onlyoffice.plone (uninstall)"
 msgstr "onlyoffice.plone (odinstalovat)"
 
 #: ../browser/controlpanel.py:34
-msgid "Secret key (leave blank to disable)"
+msgid "ONLYOFFICE Docs secret key"
 msgstr "Tajný klíč (pro deaktivaci ponechte prázdné)"
 
 #: ../browser/controlpanel.py:34
-msgid "Server address for internal requests from the Document Editing Service"
+msgid "Server address for internal requests from ONLYOFFICE Docs"
 msgstr ""
 
 #: ../browser/controlpanel.py:34
-msgid "Document Editing Service address for internal requests from the server"
+msgid "ONLYOFFICE Docs address for internal requests from the server"
 msgstr ""
 
 #: ../browser/menu.py
-msgid "Create in ONLYOFFICE"
-msgstr "Vytvořit v ONLYOFFICE"
+msgid "Create with ONLYOFFICE"
+msgstr "Vytvářejte s ONLYOFFICE"
 
 #: ../core/fileUtils.py
 msgid "Document"
@@ -145,7 +145,7 @@ msgid "Mixed Active Content is not allowed. HTTPS address for Document Server is
 msgstr "Smíšený aktivní obsah není povolen. Je vyžadována adresa HTTPS pro Document Server."
 
 #: ../browser/controlpanel.py
-msgid "Connect to demo ONLYOFFICE Document Server"
+msgid "Connect to demo ONLYOFFICE Docs server"
 msgstr "Připojení k ukázkovému serveru dokumentů ONLYOFFICE"
 
 #: ../browser/controlpanel.py
