@@ -17,8 +17,8 @@ msgstr ""
 "X-Generator: Poedit 3.5\n"
 
 #: ../browser/controlpanel.py:12
-msgid "Document Editing service"
-msgstr "Servicio de edición de documentos"
+msgid "ONLYOFFICE Docs address"
+msgstr "Dirección de ONLYOFFICE Docs"
 
 #: ../configure.zcml:28
 msgid "Installs the ONLYOFFICE connector add-on."
@@ -61,20 +61,20 @@ msgid "onlyoffice.plone (uninstall)"
 msgstr "onlyoffice.plone (desinstalar)"
 
 #: ../browser/controlpanel.py:34
-msgid "Secret key (leave blank to disable)"
-msgstr "Clave secreta (deje en blanco o desactive)"
+msgid "ONLYOFFICE Docs secret key"
+msgstr "Clave secreta de ONLYOFFICE Docs"
 
 #: ../browser/controlpanel.py:34
-msgid "Server address for internal requests from the Document Editing Service"
-msgstr "Dirección de servidor para solicitudes internas del Servicio de Edición de Documentos"
+msgid "Server address for internal requests from ONLYOFFICE Docs"
+msgstr "Dirección del servidor para solicitudes internas de ONLYOFFICE Docs"
 
 #: ../browser/controlpanel.py:34
-msgid "Document Editing Service address for internal requests from the server"
-msgstr "Dirección del Servicio de Edición de Documentos para solicitudes internas del servidor"
+msgid "ONLYOFFICE Docs address for internal requests from the server"
+msgstr "Dirección de ONLYOFFICE Docs para solicitudes internas desde el servidor"
 
 #: ../browser/menu.py
-msgid "Create in ONLYOFFICE"
-msgstr "Crear en ONLYOFFICE"
+msgid "Create with ONLYOFFICE"
+msgstr "Crear con ONLYOFFICE"
 
 #: ../core/fileUtils.py
 msgid "Document"
@@ -145,8 +145,8 @@ msgid "Mixed Active Content is not allowed. HTTPS address for Document Server is
 msgstr "Contenido Mixto Activo no está permitido. Se requiere la dirección HTTPS para el Servidor de documentos."
 
 #: ../browser/controlpanel.py
-msgid "Connect to demo ONLYOFFICE Document Server"
-msgstr "Conectarse al Servidor de documentos de ONLYOFFICE de demostración"
+msgid "Connect to demo ONLYOFFICE Docs server"
+msgstr "Conectarse al servidor demo de ONLYOFFICE Docs"
 
 #: ../browser/controlpanel.py
 msgid "This is a public test server, please do not use it for private sensitive data. The server will be available during a 30-day period."

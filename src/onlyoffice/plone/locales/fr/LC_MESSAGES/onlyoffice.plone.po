@@ -17,8 +17,8 @@ msgstr ""
 "X-Generator: Poedit 3.1.1\n"
 
 #: ../browser/controlpanel.py:12
-msgid "Document Editing service"
-msgstr "Service d'édition de documents"
+msgid "ONLYOFFICE Docs address"
+msgstr "Adresse ONLYOFFICE Docs"
 
 #: ../configure.zcml:28
 msgid "Installs the ONLYOFFICE connector add-on."
@@ -61,20 +61,20 @@ msgid "onlyoffice.plone (uninstall)"
 msgstr "onlyoffice.plone (désinstaller)"
 
 #: ../browser/controlpanel.py:34
-msgid "Secret key (leave blank to disable)"
-msgstr "Clé secrète (laisser vide pour désactiver)"
+msgid "ONLYOFFICE Docs secret key"
+msgstr "Clé secrète ONLYOFFICE Docs"
 
 #: ../browser/controlpanel.py:34
-msgid "Server address for internal requests from the Document Editing Service"
-msgstr "Adresse du serveur pour les demandes internes du service d'édition de document"
+msgid "Server address for internal requests from ONLYOFFICE Docs"
+msgstr "Adresse du serveur pour les requêtes internes depuis ONLYOFFICE Docs"
 
 #: ../browser/controlpanel.py:34
-msgid "Document Editing Service address for internal requests from the server"
-msgstr "Adresse du service d'édition de document pour les demandes internes du serveur"
+msgid "ONLYOFFICE Docs address for internal requests from the server"
+msgstr "Adresse ONLYOFFICE Docs pour les requêtes internes depuis le serveur"
 
 #: ../browser/menu.py
-msgid "Create in ONLYOFFICE"
-msgstr "Créer dans ONLYOFFICE"
+msgid "Create with ONLYOFFICE"
+msgstr "Créer avec ONLYOFFICE"
 
 #: ../core/fileUtils.py
 msgid "Document"
@@ -145,8 +145,8 @@ msgid "Mixed Active Content is not allowed. HTTPS address for Document Server is
 msgstr "Le contenu mixte actif n'est pas autorisé. Une adresse HTTPS pour le Document Server est requise."
 
 #: ../browser/controlpanel.py
-msgid "Connect to demo ONLYOFFICE Document Server"
-msgstr "Se connecter à la version démo de ONLYOFFICE Document Server"
+msgid "Connect to demo ONLYOFFICE Docs server"
+msgstr "Connexion au serveur de démonstration ONLYOFFICE Docs"
 
 #: ../browser/controlpanel.py
 msgid "This is a public test server, please do not use it for private sensitive data. The server will be available during a 30-day period."
