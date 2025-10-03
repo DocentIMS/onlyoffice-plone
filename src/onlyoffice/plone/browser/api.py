@@ -146,7 +146,7 @@ class OTestConvert(BrowserView):
 
 
 class Create(BrowserView):
-    def __call__(self, documentType):
+    def __call__(self, documentType, folderUID=None, redirect=True):
         fileExt = fileUtils.getDefaultExtByType(documentType)
         fileName = (
             translate(
@@ -190,7 +190,10 @@ class Create(BrowserView):
         finally:
             file.close()
 
-        file = fileUtils.addNewFile(fileName, contentType, fileData, self.context)
+        folder = uuidToObject(folderUID) if folderUID else self.context
+        file = fileUtils.addNewFile(fileName, contentType, fileData, folder)
+        if not redirect:
+            return file
 
         self.request.response.redirect(
             addTokenToUrl(f"{file.absolute_url()}/onlyoffice-edit")

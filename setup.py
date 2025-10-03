@@ -53,6 +53,7 @@ setup(
     install_requires=[
         "setuptools",
         # -*- Extra requirements: -*-
+        "plone.browserlayer",
         "z3c.jbot==2.0",
         "plone.api",
         "plone.restapi",

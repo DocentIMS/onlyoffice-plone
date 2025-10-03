@@ -6,6 +6,7 @@
     >
 
   <!-- Set overrides folder for Just-a-Bunch-Of-Templates product -->
+  <include package="plone.browserlayer" />
   <include
       package="z3c.jbot"
       file="meta.zcml"
@@ -61,6 +62,7 @@
       allowed_attributes="isAvailable"
       template="templates/view.pt"
       permission="cmf.ModifyPortalContent"
+      layer="..interfaces.IOnlyofficePloneLayer"
       />
 
   <browser:page
