@@ -141,7 +141,7 @@
 
   <browser:menu
       id="plone_contentmenu_onlyoffice_create"
-      title="The 'Create in ONLYOFFICE' menu - allows the user to add new document, spreadsheet or presentation"
+      title="The 'Create with ONLYOFFICE' menu - allows the user to add new document, spreadsheet or presentation"
       class=".menu.OnlyofficeCreateMenu"
       />
 

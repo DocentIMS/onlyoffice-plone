@@ -30,7 +30,7 @@ from zope.security import checkPermission
 
 @implementer(IActionsSubMenuItem)
 class OnlyofficeCreateSubMenuItem(BrowserSubMenuItem):
-    title = _("Create in ONLYOFFICE")
+    title = _("Create with ONLYOFFICE")
     icon = "onlyoffice-logo"
     submenuId = "plone_contentmenu_onlyoffice_create"
 

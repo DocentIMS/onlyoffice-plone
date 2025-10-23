@@ -46,7 +46,7 @@ _Plone = MessageFactory("plone")
 
 class IOnlyofficeControlPanel(Interface):
     docUrl = schema.TextLine(
-        title=_("Document Editing service"),
+        title=_("ONLYOFFICE Docs address"),
         required=False,
         default="https://documentserver/",
     )
@@ -54,7 +54,7 @@ class IOnlyofficeControlPanel(Interface):
     docUrlPublicValidation = schema.Bool(required=False, default=True)
 
     demoEnabled = schema.Bool(
-        title=_("Connect to demo ONLYOFFICE Document Server"),
+        title=_("Connect to demo ONLYOFFICE Docs server"),
         description=_(
             "This is a public test server, please do not use it for private sensitive data. The server will be available during a 30-day period."  # noqa: E501
         ),
@@ -63,21 +63,17 @@ class IOnlyofficeControlPanel(Interface):
     )
 
     jwtSecret = schema.TextLine(
-        title=_("Secret key (leave blank to disable)"),
+        title=_("ONLYOFFICE Docs secret key"),
         required=False,
     )
 
     ploneUrl = schema.TextLine(
-        title=_(
-            "Server address for internal requests from the Document Editing Service"
-        ),
+        title=_("Server address for internal requests from ONLYOFFICE Docs"),
         required=False,
     )
 
     docInnerUrl = schema.TextLine(
-        title=_(
-            "Document Editing Service address for internal requests from the server"
-        ),
+        title=_("ONLYOFFICE Docs address for internal requests from the server"),
         required=False,
     )
 
