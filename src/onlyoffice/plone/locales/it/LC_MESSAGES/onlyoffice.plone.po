@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2020-02-14 10:33+0000\n"
-"PO-Revision-Date: 2022-10-07 18:55+0300\n"
+"PO-Revision-Date: 2025-10-23 13:50+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: it\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.4.1\n"
 
 #: ../browser/controlpanel.py:12
 msgid "ONLYOFFICE Docs address"
@@ -66,11 +66,11 @@ msgstr "Chiave segreta di ONLYOFFICE Docs"
 
 #: ../browser/controlpanel.py:34
 msgid "Server address for internal requests from ONLYOFFICE Docs"
-msgstr "Indirizzo del server per richieste interne da ONLYOFFICE Docs"
+msgstr "Indirizzo del server per le richieste interne da ONLYOFFICE Docs"
 
 #: ../browser/controlpanel.py:34
 msgid "ONLYOFFICE Docs address for internal requests from the server"
-msgstr "Indirizzo di ONLYOFFICE Docs per richieste interne dal server"
+msgstr "Indirizzo di ONLYOFFICE Docs per le richieste interne dal server"
 
 #: ../browser/menu.py
 msgid "Create with ONLYOFFICE"
@@ -90,7 +90,7 @@ msgstr "Presentazione"
 
 #: ../core/fileUtils.py
 msgid "PDF form"
-msgstr ""
+msgstr "Modulo PDF"
 
 #: ../browser/api.py
 msgid "Save file copy as"

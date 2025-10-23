@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2020-02-14 10:33+0000\n"
-"PO-Revision-Date: 2022-10-07 18:55+0300\n"
+"PO-Revision-Date: 2025-10-23 13:49+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.4.1\n"
 
 #: ../browser/controlpanel.py:12
 msgid "ONLYOFFICE Docs address"
@@ -66,11 +66,11 @@ msgstr "Clé secrète ONLYOFFICE Docs"
 
 #: ../browser/controlpanel.py:34
 msgid "Server address for internal requests from ONLYOFFICE Docs"
-msgstr "Adresse du serveur pour les requêtes internes depuis ONLYOFFICE Docs"
+msgstr "Adresse du serveur pour les requêtes internes provenant d'ONLYOFFICE Docs"
 
 #: ../browser/controlpanel.py:34
 msgid "ONLYOFFICE Docs address for internal requests from the server"
-msgstr "Adresse ONLYOFFICE Docs pour les requêtes internes depuis le serveur"
+msgstr "Adresse d'ONLYOFFICE Docs pour les demandes internes provenant du serveur"
 
 #: ../browser/menu.py
 msgid "Create with ONLYOFFICE"
@@ -90,7 +90,7 @@ msgstr "Présentation"
 
 #: ../core/fileUtils.py
 msgid "PDF form"
-msgstr ""
+msgstr "Formulaire PDF"
 
 #: ../browser/api.py
 msgid "Save file copy as"
@@ -146,7 +146,7 @@ msgstr "Le contenu mixte actif n'est pas autorisé. Une adresse HTTPS pour le Do
 
 #: ../browser/controlpanel.py
 msgid "Connect to demo ONLYOFFICE Docs server"
-msgstr "Connexion au serveur de démonstration ONLYOFFICE Docs"
+msgstr "Connecter le serveur de démo d'ONLYOFFICE Docs"
 
 #: ../browser/controlpanel.py
 msgid "This is a public test server, please do not use it for private sensitive data. The server will be available during a 30-day period."

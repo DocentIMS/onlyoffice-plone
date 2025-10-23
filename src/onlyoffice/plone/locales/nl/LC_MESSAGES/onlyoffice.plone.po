@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2020-02-14 10:33+0000\n"
-"PO-Revision-Date: 2022-09-30 17:58+0300\n"
+"PO-Revision-Date: 2025-10-23 13:53+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -14,11 +14,11 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.4.1\n"
 
 #: ../browser/controlpanel.py:12
 msgid "ONLYOFFICE Docs address"
-msgstr "Documentbewerkingsservice"
+msgstr "Adres van ONLYOFFICE Docs"
 
 #: ../configure.zcml:28
 msgid "Installs the ONLYOFFICE connector add-on."
@@ -62,19 +62,19 @@ msgstr "onlyoffice.plone (verwijdering)"
 
 #: ../browser/controlpanel.py:34
 msgid "ONLYOFFICE Docs secret key"
-msgstr "Geheime sleutel (leeg laten om uit te schakelen)"
+msgstr "ONLYOFFICE Docs geheime sleutel"
 
 #: ../browser/controlpanel.py:34
 msgid "Server address for internal requests from ONLYOFFICE Docs"
-msgstr ""
+msgstr "Serveradres voor interne verzoeken van ONLYOFFICE Docs"
 
 #: ../browser/controlpanel.py:34
 msgid "ONLYOFFICE Docs address for internal requests from the server"
-msgstr ""
+msgstr "ONLYOFFICE Docs-adres voor interne verzoeken van de server"
 
 #: ../browser/menu.py
 msgid "Create with ONLYOFFICE"
-msgstr "Aanmaken in ONLYOFFICE"
+msgstr "Aanmaken met ONLYOFFICE"
 
 #: ../core/fileUtils.py
 msgid "Document"
@@ -90,7 +90,7 @@ msgstr "Presentatie"
 
 #: ../core/fileUtils.py
 msgid "PDF form"
-msgstr ""
+msgstr "PDF-formulier"
 
 #: ../browser/api.py
 msgid "Save file copy as"
@@ -146,7 +146,7 @@ msgstr "Gemende Actieve Inhoud is niet toegestaan. HTTPS-adres voor ONLYOFFICE D
 
 #: ../browser/controlpanel.py
 msgid "Connect to demo ONLYOFFICE Docs server"
-msgstr "Verbinding maken met demo ONLYOFFICE documentserver"
+msgstr "Maak verbinding met de demo ONLYOFFICE Docs-server"
 
 #: ../browser/controlpanel.py
 msgid "This is a public test server, please do not use it for private sensitive data. The server will be available during a 30-day period."

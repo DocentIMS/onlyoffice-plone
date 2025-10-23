@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Plone\n"
 "POT-Creation-Date: 2020-02-14 10:33+0000\n"
-"PO-Revision-Date: 2024-11-07 07:02-0400\n"
+"PO-Revision-Date: 2025-10-23 13:48+0300\n"
 "Last-Translator: Leonardo J. Caballero G. <leonardocaballero@gmail.com>\n"
 "Language-Team: \n"
 "Language: es\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Language-Name: Spanish\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: onlyoffice.plone\n"
-"X-Generator: Poedit 3.5\n"
+"X-Generator: Poedit 3.4.1\n"
 
 #: ../browser/controlpanel.py:12
 msgid "ONLYOFFICE Docs address"
@@ -70,7 +70,7 @@ msgstr "Dirección del servidor para solicitudes internas de ONLYOFFICE Docs"
 
 #: ../browser/controlpanel.py:34
 msgid "ONLYOFFICE Docs address for internal requests from the server"
-msgstr "Dirección de ONLYOFFICE Docs para solicitudes internas desde el servidor"
+msgstr "Dirección de ONLYOFFICE Docs para solicitudes internas del servidor"
 
 #: ../browser/menu.py
 msgid "Create with ONLYOFFICE"
@@ -90,7 +90,7 @@ msgstr "Presentación"
 
 #: ../core/fileUtils.py
 msgid "PDF form"
-msgstr ""
+msgstr "Formulario PDF"
 
 #: ../browser/api.py
 msgid "Save file copy as"
@@ -146,7 +146,7 @@ msgstr "Contenido Mixto Activo no está permitido. Se requiere la dirección HTT
 
 #: ../browser/controlpanel.py
 msgid "Connect to demo ONLYOFFICE Docs server"
-msgstr "Conectarse al servidor demo de ONLYOFFICE Docs"
+msgstr "Conectarse al servidor de demostración de ONLYOFFICE Docs"
 
 #: ../browser/controlpanel.py
 msgid "This is a public test server, please do not use it for private sensitive data. The server will be available during a 30-day period."

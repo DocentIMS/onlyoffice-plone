@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "POT-Creation-Date: 2020-02-14 10:33+0000\n"
-"PO-Revision-Date: 2022-10-07 18:53+0300\n"
+"PO-Revision-Date: 2025-10-23 13:38+0300\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: de\n"
@@ -14,11 +14,11 @@ msgstr ""
 "Language-Name: English\n"
 "Preferred-Encodings: utf-8 latin1\n"
 "Domain: DOMAIN\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.4.1\n"
 
 #: ../browser/controlpanel.py:12
 msgid "ONLYOFFICE Docs address"
-msgstr "ONLYOFFICE Docs-Adresse"
+msgstr "Adresse von ONLYOFFICE Docs"
 
 #: ../configure.zcml:28
 msgid "Installs the ONLYOFFICE connector add-on."
@@ -62,15 +62,15 @@ msgstr "onlyoffice.plone (deinstallieren)"
 
 #: ../browser/controlpanel.py:34
 msgid "ONLYOFFICE Docs secret key"
-msgstr "ONLYOFFICE Docs Geheimschlüssel"
+msgstr "Geheimschlüssel von ONLYOFFICE Docs"
 
 #: ../browser/controlpanel.py:34
 msgid "Server address for internal requests from ONLYOFFICE Docs"
-msgstr "Serveradresse für interne Anfragen von ONLYOFFICE Docs"
+msgstr "Serveradresse für interne Anfragen von ONLYOFFICE Docs\\"
 
 #: ../browser/controlpanel.py:34
 msgid "ONLYOFFICE Docs address for internal requests from the server"
-msgstr "ONLYOFFICE Docs-Adresse für interne Anfragen vom Server"
+msgstr "ONLYOFFICE Docs-Adresse für interne Anfragen vom Server\\"
 
 #: ../browser/menu.py
 msgid "Create with ONLYOFFICE"
@@ -90,7 +90,7 @@ msgstr "Präsentation"
 
 #: ../core/fileUtils.py
 msgid "PDF form"
-msgstr ""
+msgstr "PDF-Formular"
 
 #: ../browser/api.py
 msgid "Save file copy as"
@@ -146,7 +146,7 @@ msgstr "Mixed Active Content ist nicht möglich. HTTPS-Adresse für Document Ser
 
 #: ../browser/controlpanel.py
 msgid "Connect to demo ONLYOFFICE Docs server"
-msgstr "Zum Demoserver von ONLYOFFICE Docs verbinden"
+msgstr "Conectarse al servidor de demostración de ONLYOFFICE Docs"
 
 #: ../browser/controlpanel.py
 msgid "This is a public test server, please do not use it for private sensitive data. The server will be available during a 30-day period."
