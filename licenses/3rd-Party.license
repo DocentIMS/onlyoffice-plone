@@ -1,6 +1,0 @@
-ONLYOFFICE addon for Plone uses code from the following 3rd party projects:
-
-
-PyJWT          - A Python implementation of JWT (https://opensource.org/licenses/MIT)
-License:         MIT
-License File:    PyJWT.license
