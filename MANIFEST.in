@@ -1,5 +1,6 @@
 include *.in
 include *.md
+include *.txt
 include 3rd-Party.license
 include LICENSE
 include tox.ini
