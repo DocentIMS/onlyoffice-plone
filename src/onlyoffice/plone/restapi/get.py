@@ -28,6 +28,14 @@ class Config(Service):
             if not self.params:
                 raise BadRequest("Params not found")
             path = "/" + "/".join(self.params)
+
+            mode = None
+            for m in ("-onlyoffice-edit", "-onlyoffice-view", "-onlyoffice-review"):
+                if path.endswith(m):
+                    mode = m.split("-")[-1]
+                    path = path[: -len(m)]
+                    break
+
             context = api.content.get(path=path)
             if not context:
                 raise BadRequest("File not found")
@@ -55,14 +63,17 @@ class Config(Service):
                 or fileUtils.canFillForm(self.context)
                 or fileUtils.canView(self.context)
             ):
-                if can_edit:
+                if can_edit and mode == "edit":
                     editorCfg = get_config(self, True)
-                elif can_review:
+                elif can_review and mode == "review":
                     editorCfg = get_config(self, True, role="review")
-                elif can_view:
+                elif can_view and mode == "view":
                     editorCfg = get_config(self, False)
                 else:
-                    raise BadRequest("Access denied")
+                    if can_view:
+                        editorCfg = get_config(self, False)
+                    else:
+                        raise BadRequest("Access denied")
 
             return {
                 "docUrl": docUrl,
