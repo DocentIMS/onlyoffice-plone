@@ -204,7 +204,9 @@ def get_config(self, forEdit, role=None):
             "title": fileTitle,
             "url": utils.getPloneContextUrl(self.context)
             + "/onlyoffice-dl/file?token="
-            + securityToken,
+            + securityToken
+            + "&shardkey="
+            + key,
             "fileType": fileUtils.getFileExt(self.context),
             "key": key,
             "info": {
