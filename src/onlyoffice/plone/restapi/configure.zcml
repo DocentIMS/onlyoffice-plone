@@ -31,6 +31,14 @@
 
   <plone:service
       method="GET"
+      factory=".get.Permissions"
+      for="*"
+      permission="zope2.View"
+      name="@onlyoffice-volto-get-permissions"
+      />
+
+  <plone:service
+      method="GET"
       factory=".get.Config"
       for="*"
       permission="zope2.View"

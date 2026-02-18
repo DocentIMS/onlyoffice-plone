@@ -86,3 +86,41 @@ class Config(Service):
         except Exception as e:
             logger.error(e)
             raise BadRequest(e)
+
+
+@implementer(IPublishTraverse)
+class Permissions(Service):
+    def __init__(self, context, request):
+        super().__init__(context, request)
+        self.params = []
+
+    def publishTraverse(self, request, name):
+        self.params.append(name)
+        return self
+
+    def reply(self):
+        try:
+            if not self.params:
+                raise BadRequest("Params not found")
+            path = "/" + "/".join(self.params)
+            context = api.content.get(path=path)
+            if not context:
+                raise BadRequest("File not found")
+            self.context = context
+            can_edit = api.user.has_permission(
+                "Modify portal content", obj=self.context
+            )
+            can_review = api.user.has_permission(
+                "Review portal content", obj=self.context
+            )
+            can_view = api.user.has_permission("View", obj=self.context)
+
+            return {
+                "can_edit": can_edit,
+                "can_review": can_review,
+                "can_view": can_view,
+                "can_fill": fileUtils.canFillForm(self.context),
+            }
+        except Exception as e:
+            logger.error(e)
+            raise BadRequest(e)
