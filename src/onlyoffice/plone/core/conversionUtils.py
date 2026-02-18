@@ -75,7 +75,7 @@ def convert(
 
     try:
         response = requests.post(
-            os.path.join(docUrl, "ConvertService.ashx"),
+            os.path.join(docUrl, "ConvertService.ashx?shardKey=" + key),
             data=json.dumps(bodyJson),
             headers=headers,
         )

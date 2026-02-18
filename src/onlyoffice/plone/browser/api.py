@@ -301,8 +301,6 @@ class Conversion(BrowserView):
             utils.getPloneContextUrl(self.context)
             + "/onlyoffice-dl/file?token="
             + utils.createSecurityTokenFromContext(self.context)
-            + "&shardkey="
-            + key
         )
         fileType = fileUtils.getFileExt(self.context)
         outputType = conversionUtils.getTargetExt(fileType)
@@ -366,8 +364,6 @@ class DownloadAs(BrowserView):
             utils.getPloneContextUrl(self.context)
             + "/onlyoffice-dl/file?token="
             + utils.createSecurityTokenFromContext(self.context)
-            + "&shardkey="
-            + key
         )
         fileType = fileUtils.getFileExt(self.context)
         region = portal_state(self).language()

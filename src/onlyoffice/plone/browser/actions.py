@@ -156,6 +156,7 @@ def render_editor(self, forEdit, role=None):
     if not self.editorCfg:
         index = ViewPageTemplateFile("templates/error.pt")
         return index(self)
+    self.documentKey = utils.getDocumentKey(self.context)
     return self.index()
 
 
