@@ -156,6 +156,7 @@ def render_editor(self, forEdit, role=None):
     if not self.editorCfg:
         index = ViewPageTemplateFile("templates/error.pt")
         return index(self)
+    self.documentKey = utils.getDocumentKey(self.context)
     return self.index()
 
 
@@ -204,9 +205,7 @@ def get_config(self, forEdit, role=None):
             "title": fileTitle,
             "url": utils.getPloneContextUrl(self.context)
             + "/onlyoffice-dl/file?token="
-            + securityToken
-            + "&shardkey="
-            + key,
+            + securityToken,
             "fileType": fileUtils.getFileExt(self.context),
             "key": key,
             "info": {
