@@ -75,7 +75,7 @@ def convert(
 
     try:
         response = requests.post(
-            os.path.join(docUrl, "converter?shardKey=" + key),
+            os.path.join(docUrl, "converter?shardkey=" + str(key)),
             data=json.dumps(bodyJson),
             headers=headers,
         )
