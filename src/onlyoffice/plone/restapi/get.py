@@ -30,7 +30,12 @@ class Config(Service):
             path = "/" + "/".join(self.params)
 
             mode = None
-            for m in ("-onlyoffice-edit", "-onlyoffice-view", "-onlyoffice-review"):
+            for m in (
+                "-onlyoffice-edit",
+                "-onlyoffice-view",
+                "-onlyoffice-review",
+                "-onlyoffice-fill",
+            ):
                 if path.endswith(m):
                     mode = m.split("-")[-1]
                     path = path[: -len(m)]
@@ -67,6 +72,8 @@ class Config(Service):
                     editorCfg = get_config(self, True)
                 elif can_review and mode == "review":
                     editorCfg = get_config(self, True, role="review")
+                elif mode == "fill" and fileUtils.canFillForm(self.context):
+                    editorCfg = get_config(self, True, role="form_filling")
                 elif can_view and mode == "view":
                     editorCfg = get_config(self, False)
                 else:
