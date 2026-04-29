@@ -101,7 +101,7 @@
       </div>
     </div>
 
-    <script src="${view/docUrl}web-apps/apps/api/documents/api.js?shardKey=${view/documentKey}"
+    <script src="${view/docUrl}web-apps/apps/api/documents/api.js?shardkey=${view/documentKey}"
             type="text/javascript"
     ></script>
     <script language="javascript"
