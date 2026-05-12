@@ -1,6 +1,6 @@
-﻿# ONLYOFFICE integration plugin for Plone
+﻿# ONLYOFFICE addon for Plone
 
-This plugin allows users to edit office documents within [Plone](https://plone.org/) using [ONLYOFFICE Docs](https://www.onlyoffice.com/docs).
+This addon allows users to edit office documents within [Plone](https://plone.org/) using [ONLYOFFICE Docs](https://www.onlyoffice.com/docs).
 
 <p align="center">
   <a href="https://www.onlyoffice.com/office-for-plone">
@@ -10,7 +10,7 @@ This plugin allows users to edit office documents within [Plone](https://plone.o
 
 ## Features ✨
 
-The plugin allows to:
+The addon allows to:
 
 * Create and edit text documents, spreadsheets, and presentations.
 * Share documents with other users.
@@ -20,14 +20,14 @@ The plugin allows to:
 
 | Action                         | Formats                                                                                                                                                                                                                                     |
 | ------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Editing**                    | DOCX, XLSX, PPTX                                                                                                                                                                                                                            |
+| **Editing**                    | DOCX, XLSX, PPTX, PDF                                                                                                                                                                                                                       |
 | **Viewing**                    | DJVU, DOC, DOCM, DOCX, DOT, DOTM, DOTX, EPUB, FB2, FODT, HTML, MHT, ODT, OTT, OXPS, PDF, RTF, TXT, XPS, XML, CSV, FODS, ODS, OTS, XLS, XLSB, XLSM, XLSX, XLT, XLTM, XLTX, FODP, ODP, OTP, POT, POTM, POTX, PPS, PPSM, PPSX, PPT, PPTM, PPTX |
 | **Convert (Download as)**      | DOC, DOCM, DOCX, DOT, DOTM, DOTX, EPUB, FB2, FODT, HTML, MHT, ODT, OTT, OXPS, PDF, RTF, XPS, XML, FODS, ODS, OTS, XLS, XLSB, XLSM, XLSX, XLT, XLTM, XLTX, FODP, ODP, OTP, POT, POTM, POTX, PPS, PPSM, PPSX, PPT, PPTM, PPTX                 |
 | **Convert to Office Open XML** | DOC, DOCM, DOT, DOTM, DOTX, EPUB, FB2, FODT, HTML, MHT, ODT, OTT, OXPS, PDF, RTF, XPS, XML, FODS, ODS, OTS, XLS, XLSB, XLSM, XLT, XLTM, XLTX, FODP, ODP, OTP, POT, POTM, POTX, PPS, PPSM, PPSX, PPT, PPTM                                   |
 
 ## Installing ONLYOFFICE Docs
 
-To use the integration, you need a running instance of ONLYOFFICE Docs (Document Server) accessible to both your Plone server and client browsers.
+To use the addon, you need a running instance of ONLYOFFICE Docs (Document Server) accessible to both your Plone server and client browsers.
 
 ONLYOFFICE Docs must be able to send POST callbacks to Plone for document status updates.
 
@@ -46,19 +46,19 @@ If you prefer not to maintain your own server, use **ONLYOFFICE Docs Cloud** whi
 
 👉 [Get started here](https://www.onlyoffice.com/docs-registration)
 
-## Installing the plugin
+## Installing the addon
 
 1. Installation instructions can be found under [Manage add-ons and packages](https://6.docs.plone.org/plone.api/addon.html).
-2. To activate, go to `Site Setup` -> `Add-ons` and press the `Install` button to enable the plugin.
+2. To activate, go to `Site Setup` -> `Add-ons` and press the `Install` button to enable the addon.
 
-You can also install the plugin via Docker:
+You can also install the addon via Docker:
 ```
-docker run -p 8080:8080 -e ADDONS="onlyoffice.plone" plone/plone-backend:6.0 start
+docker run -p 8080:8080 -e ADDONS="onlyoffice.plone" plone/plone-backend:6.1 start
 ```
 
 > **📝 Note:** If you have a previous version (e.g., *onlyoffice.connector*), remove it before installing the new one.
 
-## Configuring the plugin ⚙️
+## Configuring the addon ⚙️
 
 Navigate to **Site Setup** → **Add-ons Configuration** → **ONLYOFFICE Configuration** and configure:
 
@@ -68,23 +68,23 @@ Navigate to **Site Setup** → **Add-ons Configuration** → **ONLYOFFICE Config
 
 > JWT is enabled by default to protect the editors from unauthorized access. If setting a custom **Secret key**, ensure it matches the one in the ONLYOFFICE Docs [config file](https://api.onlyoffice.com/docs/docs-api/additional-api/signature/) for proper validation.
 
-## Developing the plugin
+## Developing the addon
 
 Run this command to install the addon from the local repository:
 ```
-docker run -p 8080:8080 -e DEVELOP="/app/src/onlyoffice.plone" -v /path/to/onlyoffice.plone:/app/src/onlyoffice.plone plone/plone-backend:6.0 start
+docker run -p 8080:8080 -e DEVELOP="/app/src/onlyoffice.plone" -v /path/to/onlyoffice.plone:/app/src/onlyoffice.plone plone/plone-backend:6.1 start
 ```
 
 For more information, check [Developing packages variable](https://6.docs.plone.org/#developing-packages-variable).
 
-## Upgrade the plugin
+## Upgrade the addon
 
 1. Update instructions can be found under [Manage add-ons and packages](https://6.docs.plone.org/plone.api/addon.html).
 2. Navigate to the Add-on screen (add `/prefs_install_products_form` to your site URL) and in the Upgrades list select **onlyoffice.plone** and click *Upgrade onlyoffice.plone*.
 
 ## How it works
 
-The ONLYOFFICE integration follows the API documented [here](https://api.onlyoffice.com/docs/docs-api/get-started/basic-concepts/):
+The ONLYOFFICE addon follows the API documented [here](https://api.onlyoffice.com/docs/docs-api/get-started/basic-concepts/):
 
 * User navigates to a document within Plone and selects the `ONLYOFFICE Edit` action.
 * Plone prepares a JSON object for the Document Server with the following properties:
