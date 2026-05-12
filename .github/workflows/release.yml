@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  id-token: write
 
 jobs:
   release:
@@ -39,6 +40,8 @@ jobs:
           rm .gitignore
           rm .gitmodules
           python3 -m build
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
       - name: Create Release
         uses: ncipollo/release-action@v1
         id: create_release
