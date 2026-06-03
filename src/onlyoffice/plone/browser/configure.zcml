@@ -120,6 +120,7 @@
       for="plone.app.contenttypes.interfaces.IFile"
       action="onlyoffice-view-file"
       permission="zope2.View"
+      layer="onlyoffice.plone.interfaces.IOnlyofficePloneLayer"
       />
 
   <browser:menuItem
@@ -129,13 +130,17 @@
       for="plone.app.contenttypes.interfaces.IDocument"
       action="onlyoffice-view-document"
       permission="zope2.View"
+      layer="onlyoffice.plone.interfaces.IOnlyofficePloneLayer"
       />
 
+  <!-- Scoped to the add-on browser layer (only present once the add-on is
+       installed) so the "Create with ONLYOFFICE" menu does not appear in
+       sites where ONLYOFFICE is not installed. -->
   <adapter
       factory=".menu.OnlyofficeCreateSubMenuItem"
       provides="plone.app.contentmenu.interfaces.IContentMenuItem"
       for="*
-           *"
+           onlyoffice.plone.interfaces.IOnlyofficePloneLayer"
       name="plone.contentmenu.onlyoffice.create"
       />
 
