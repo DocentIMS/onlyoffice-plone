@@ -227,7 +227,13 @@ def get_config(self, forEdit, role=None):
                 "id": user.getId(),
                 "name": user.getProperty("fullname") or user.getUserName(),
             },
-            "customization": {"feedback": False},
+            "customization": {
+                "feedback": False,
+                "leftMenu": False,
+                "rightMenu": False,
+                "statusBar": False,
+                "rulers": False,
+            },
         },
     }
     if canEdit:
