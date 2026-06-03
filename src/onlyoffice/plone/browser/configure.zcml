@@ -30,6 +30,20 @@
       type="plone"
       />
 
+  <!-- Reset the ONLYOFFICE document key when the file is replaced outside the
+       editor, so the next session treats it as a new version. -->
+  <subscriber
+      for="plone.app.contenttypes.interfaces.IFile
+           zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+      handler=".subscribers.reset_document_key_on_content_change"
+      />
+
+  <subscriber
+      for="plone.app.contenttypes.interfaces.IDocument
+           zope.lifecycleevent.interfaces.IObjectModifiedEvent"
+      handler=".subscribers.reset_document_key_on_content_change"
+      />
+
   <browser:page
       name="onlyoffice-controlpanel"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"

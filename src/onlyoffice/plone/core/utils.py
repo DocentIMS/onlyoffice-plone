@@ -28,12 +28,43 @@ import base64
 import datetime
 import jwt
 import os
+import uuid
+
+
+DOCUMENT_KEY_ANNOTATION = "onlyoffice.plone.documentKey"
+
+
+def _generateDocumentKey(obj):
+    # ONLYOFFICE requires the key to be no longer than 128 characters and to
+    # contain only characters from [0-9a-zA-Z.=_-]. url-safe base64 only adds
+    # "-" and "_", both of which are allowed.
+    uid = IUUID(obj, None) or obj.id
+    raw = f"{uid}_{uuid.uuid4().hex}"
+    key = base64.urlsafe_b64encode(raw.encode("utf8")).decode("ascii").rstrip("=")
+    return key[:128]
 
 
 def getDocumentKey(obj):
-    return base64.b64encode(
-        (obj.id + "_" + str(obj.modification_date)).encode("utf8")
-    ).decode("ascii")
+    # The key identifies a specific version of the document to ONLYOFFICE. It
+    # must stay stable while a version is being edited (so co-authors share one
+    # session and reopening does not trigger a "version changed" reload) and
+    # only change when the content becomes a new version. We therefore store it
+    # on the object and regenerate it on content change (see resetDocumentKey),
+    # rather than deriving it from the modification date (which also changes on
+    # unrelated metadata edits).
+    annotations = IAnnotations(obj)
+    key = annotations.get(DOCUMENT_KEY_ANNOTATION)
+    if not key:
+        key = _generateDocumentKey(obj)
+        annotations[DOCUMENT_KEY_ANNOTATION] = key
+    return key
+
+
+def resetDocumentKey(obj):
+    """Issue a fresh document key, marking the document as a new version."""
+    key = _generateDocumentKey(obj)
+    IAnnotations(obj)[DOCUMENT_KEY_ANNOTATION] = key
+    return key
 
 
 def isJwtEnabled():

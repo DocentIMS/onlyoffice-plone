@@ -77,14 +77,7 @@ class Callback(BrowserView):
                     body = body["payload"]
 
             status = body["status"]
-            if (status == 2) | (status == 3):  # mustsave, corrupted
-                download = utils.replaceDocUrlToInternal(body.get("url"))
-                logger.info("saving file " + self.context.absolute_url())
-                self.context.file = NamedBlobFile(
-                    urlopen(download).read(), filename=self.context.file.filename
-                )
-                self.context.reindexObject()
-                logger.info("saved " + self.context.absolute_url())
+            self._handleStatus(status, body.get("url"))
 
         except Exception as e:
             error = str(e)
@@ -101,6 +94,36 @@ class Callback(BrowserView):
             self.request.response.status = 200
 
         return json.dumps(response)
+
+    def _handleStatus(self, status, url):
+        # ONLYOFFICE callback statuses:
+        #   1 = document is being edited
+        #   2 = document is ready for saving (the last editor closed it)
+        #   3 = document saving error / corrupted
+        #   4 = document closed with no changes
+        #   6 = force save while still being edited (e.g. Strict-mode Save)
+        #   7 = force save error
+        if status in (2, 3):
+            # The editing session has ended; persist and start a new version so
+            # the next open gets a fresh key.
+            self._save(url)
+            utils.resetDocumentKey(self.context)
+        elif status == 6:
+            # Intermediate force save: persist the current content but keep the
+            # same key, since the editing session is still open.
+            self._save(url)
+
+    def _save(self, url):
+        download = utils.replaceDocUrlToInternal(url)
+        logger.info("saving file " + self.context.absolute_url())
+        # Overwrite the stored file in place. Force saves can be frequent, so we
+        # intentionally do not create a new Plone version on each one.
+        # TODO: consider keeping full versions of documents when force saving.
+        self.context.file = NamedBlobFile(
+            urlopen(download).read(), filename=self.context.file.filename
+        )
+        self.context.reindexObject()
+        logger.info("saved " + self.context.absolute_url())
 
 
 class ODownload(Download):
