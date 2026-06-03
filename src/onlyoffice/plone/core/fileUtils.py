@@ -44,12 +44,18 @@ def getFileNameWithoutExt(context):
 
 def getFileExt(context):
     portal_type = context.portal_type
+    filename = None
 
     if portal_type == "Image":
-        filename = context.image.filename if hasattr(context, "image") else None
-
-    if portal_type == "File" or portal_type == "Document":
-        filename = context.file.filename if hasattr(context, "file") else None
+        image = getattr(context, "image", None)
+        if image is not None:
+            filename = image.filename
+    else:
+        # Works with File, Document, and any content that has a 'file' field.
+        # The field may be None when its 'required' setting is disabled.
+        file = getattr(context, "file", None)
+        if file is not None and file.getSize():
+            filename = file.filename
 
     if filename:
         return filename[filename.rfind(".") + 1 :].lower()  # noqa: E203
