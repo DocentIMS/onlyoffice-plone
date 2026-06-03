@@ -19,6 +19,7 @@ from Acquisition import aq_inner
 from Acquisition import aq_parent
 from onlyoffice.plone.browser.interfaces import IConversionForm
 from onlyoffice.plone.browser.interfaces import IDownloadAsForm
+from onlyoffice.plone.browser.interfaces import IOnlyofficeEditorView
 from onlyoffice.plone.core import conversionUtils
 from onlyoffice.plone.core import featureUtils
 from onlyoffice.plone.core import fileUtils
@@ -34,10 +35,12 @@ from z3c.form import button
 from z3c.form import field
 from z3c.form import form
 from zope.component import getMultiAdapter
+from zope.interface import implementer
 
 import json
 
 
+@implementer(IOnlyofficeEditorView)
 class Edit(form.EditForm):
     def isAvailable(self):
         return fileUtils.canEdit(self.context)
@@ -46,6 +49,7 @@ class Edit(form.EditForm):
         return render_editor(self, True)
 
 
+@implementer(IOnlyofficeEditorView)
 class FillForm(form.EditForm):
     def isAvailable(self):
         return fileUtils.canFillForm(self.context)
@@ -54,6 +58,7 @@ class FillForm(form.EditForm):
         return render_editor(self, True, "form_filling")
 
 
+@implementer(IOnlyofficeEditorView)
 class View(BrowserView):
     def isAvailable(self):
         return fileUtils.canView(self.context)
@@ -74,6 +79,7 @@ class View(BrowserView):
         return render_editor(self, False)
 
 
+@implementer(IOnlyofficeEditorView)
 class Review(BrowserView):
     def isAvailable(self):
         return fileUtils.canEdit(self.context)

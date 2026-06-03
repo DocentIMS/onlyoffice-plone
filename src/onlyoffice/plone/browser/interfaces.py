@@ -27,6 +27,14 @@ from zope.schema.vocabulary import SimpleTerm
 from zope.schema.vocabulary import SimpleVocabulary
 
 
+class IOnlyofficeEditorView(Interface):
+    """Marker interface for the views that render the embedded ONLYOFFICE editor.
+
+    Used to suppress the redundant document byline (author / modification
+    date) above the editor via a no-op viewlet override.
+    """
+
+
 class IConversionForm(Interface):
     title = schema.TextLine(
         title=_plone_message("label_title", default="Title"),

@@ -252,4 +252,17 @@
       class=".api.DownloadAs"
       permission="zope2.View"
       />
+
+  <!-- Suppress the document byline (author / modification date) above the
+       embedded editor. Registered against the editor views only, so the
+       default byline is unaffected elsewhere. -->
+  <browser:viewlet
+      name="plone.belowcontenttitle.documentbyline"
+      for="*"
+      manager="plone.app.layout.viewlets.interfaces.IBelowContentTitle"
+      view=".interfaces.IOnlyofficeEditorView"
+      class=".viewlets.HiddenDocumentBylineViewlet"
+      layer="onlyoffice.plone.interfaces.IOnlyofficePloneLayer"
+      permission="zope2.View"
+      />
 </configure>
