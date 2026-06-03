@@ -259,10 +259,10 @@
   <browser:viewlet
       name="plone.belowcontenttitle.documentbyline"
       for="*"
-      manager="plone.app.layout.viewlets.interfaces.IBelowContentTitle"
       view=".interfaces.IOnlyofficeEditorView"
+      manager="plone.app.layout.viewlets.interfaces.IBelowContentTitle"
       class=".viewlets.HiddenDocumentBylineViewlet"
-      layer="onlyoffice.plone.interfaces.IOnlyofficePloneLayer"
       permission="zope2.View"
+      layer="onlyoffice.plone.interfaces.IOnlyofficePloneLayer"
       />
 </configure>
