@@ -27,6 +27,15 @@
  -->
 
   <metal:block fill-slot="content-core">
+    <style type="text/css">
+      /* The document name and metadata are already shown in the breadcrumb
+         and in the ONLYOFFICE editor header, so hide the duplicate page
+         title and byline above the editor. */
+      .documentFirstHeading,
+      .documentByline {
+        display: none;
+      }
+    </style>
     <div id="onlyofficeEditor"></div>
     <div id="onlyofficeErrorNotAccessible"
          style="display:none;"
