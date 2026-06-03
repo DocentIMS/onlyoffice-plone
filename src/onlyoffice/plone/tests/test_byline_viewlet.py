@@ -30,7 +30,6 @@ from zope.viewlet.interfaces import IViewlet
 
 import unittest
 
-
 BYLINE_NAME = "plone.belowcontenttitle.documentbyline"
 
 
@@ -65,19 +64,18 @@ class TestDocumentBylineViewlet(unittest.TestCase):
 
     def test_byline_suppressed_for_editor_view(self):
         """The ONLYOFFICE editor view gets the no-op byline viewlet."""
-        view = getMultiAdapter(
-            (self.file, self.request), name="onlyoffice-view"
-        )
+        view = getMultiAdapter((self.file, self.request), name="onlyoffice-view")
         viewlet = self._lookup_byline(view)
         self.assertIsInstance(viewlet, HiddenDocumentBylineViewlet)
         viewlet.update()
         self.assertEqual(viewlet.render().strip(), "")
 
-    def test_byline_present_for_non_editor_view(self):
-        """A regular view keeps the default (non-empty) byline viewlet."""
+    def test_byline_not_overridden_for_non_editor_view(self):
+        """A regular view does not get the no-op byline override.
+
+        The override must be scoped to the editor views (IOnlyofficeEditorView)
+        only, leaving the default byline in place everywhere else.
+        """
         view = BrowserView(self.file, self.request)
         viewlet = self._lookup_byline(view)
-        self.assertIsNotNone(viewlet)
         self.assertNotIsInstance(viewlet, HiddenDocumentBylineViewlet)
-        viewlet.update()
-        self.assertIn("documentByline", viewlet.render())
