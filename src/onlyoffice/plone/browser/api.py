@@ -264,6 +264,50 @@ class SaveAs(BrowserView):
         return json_dumps({"status": "success", "fileName": fileName})
 
 
+class SaveCurrent(BrowserView):
+    """Persist the document the editor just built for download into the Plone
+    File, so the version the user downloads is also the version stored on the
+    server. Called (best effort) by the Download button alongside downloadAs().
+
+    The editing session stays open, so the document key is intentionally kept
+    (same behaviour as an intermediate force save).
+    """
+
+    def __call__(self):
+        self.request.response.setHeader(
+            "Content-Type", "application/json; charset=utf-8"
+        )
+
+        if not getSecurityManager().checkPermission(
+            permissions.ModifyPortalContent, self.context
+        ):
+            pm = getToolByName(self.context, "portal_membership")
+            self.request.response.setStatus(
+                401 if bool(pm.isAnonymousUser()) else 403
+            )
+            return json_dumps({"error": "Not authorized"})
+
+        body = json.loads(self.request.get("BODY"))
+        url = body.get("url")
+
+        if not url:
+            raise BadRequest("Required url parameter not found.")
+
+        # Only accept files served by the configured document server, so this
+        # endpoint cannot be used to fetch arbitrary (e.g. internal) URLs.
+        if not url.startswith(utils.getPublicDocUrl()):
+            raise BadRequest("Unexpected document URL.")
+
+        download = utils.replaceDocUrlToInternal(url)
+        self.context.file = NamedBlobFile(
+            urlopen(download).read(), filename=self.context.file.filename
+        )
+        self.context.reindexObject()
+        logger.info("saved current document " + self.context.absolute_url())
+
+        return json_dumps({"status": "success"})
+
+
 class OInsert(BrowserView):
     def __call__(self):
         pm = getToolByName(self.context, "portal_membership")

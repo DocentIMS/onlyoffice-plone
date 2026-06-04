@@ -179,6 +179,13 @@
       />
 
   <browser:page
+      name="onlyoffice-save-current"
+      for="plone.app.contenttypes.interfaces.IFile"
+      class=".api.SaveCurrent"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
       name="onlyoffice-insert"
       for="*"
       class=".api.OInsert"

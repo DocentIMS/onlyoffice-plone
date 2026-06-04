@@ -301,12 +301,27 @@
       // event.data.url points to the file built from the *current* editor
       // state, so this downloads the document exactly as it is on screen.
       var onDownloadAs = function (event) {
+        // 1) hand the freshly built file to the browser.
         var link = document.createElement("a");
         link.href = event.data.url;
         link.download = config.document.title || "";
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
+
+        // 2) persist that same file to Plone so the downloaded version is also
+        // stored on the server. Only when the session can be saved back.
+        var canPersist = !!(config.editorConfig && config.editorConfig.callbackUrl);
+        if (canPersist) {
+          try {
+            var request = new XMLHttpRequest();
+            request.open("POST", "${context/absolute_url}/onlyoffice-save-current", true);
+            request.setRequestHeader("x-csrf-token", "${view/token}");
+            request.send(JSON.stringify({ url: event.data.url }));
+          } catch (e) {
+            // Best effort: the download has already happened.
+          }
+        }
       };
 
       config.events = {
