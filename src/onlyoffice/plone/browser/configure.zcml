@@ -186,6 +186,13 @@
       />
 
   <browser:page
+      name="onlyoffice-rename"
+      for="plone.app.contenttypes.interfaces.IFile"
+      class=".api.Rename"
+      permission="cmf.ModifyPortalContent"
+      />
+
+  <browser:page
       name="onlyoffice-insert"
       for="*"
       class=".api.OInsert"

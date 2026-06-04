@@ -218,7 +218,7 @@ def get_config(self, forEdit, role=None):
                 "author": self.context.creators[0],
                 "created": str(self.context.creation_date),
             },
-            "permissions": {"edit": canEdit},
+            "permissions": {"edit": canEdit, "rename": canEdit},
         },
         "editorConfig": {
             "mode": "edit" if canEdit else "view",

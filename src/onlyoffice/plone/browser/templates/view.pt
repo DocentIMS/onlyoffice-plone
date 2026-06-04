@@ -349,9 +349,39 @@
         }
       }
 
+      var renameMessages = {
+        renamed: "File renamed.",
+        notRenamed: "The file could not be renamed."
+      };
+
+      // Fired when the user renames the document in the editor. event.data is
+      // the new name without extension; the server updates both the Plone Title
+      // and the stored file name (keeping the extension).
+      var onRequestRename = function (event) {
+        var newName = event.data;
+        if (!newName) { return; }
+        try {
+          var request = new XMLHttpRequest();
+          request.open("POST", "${context/absolute_url}/onlyoffice-rename", true);
+          request.setRequestHeader("x-csrf-token", "${view/token}");
+          request.onload = function () {
+            showOnlyofficeMessage(
+              request.status === 200 ? renameMessages.renamed : renameMessages.notRenamed
+            );
+          };
+          request.onerror = function () {
+            showOnlyofficeMessage(renameMessages.notRenamed);
+          };
+          request.send(JSON.stringify({ name: newName }));
+        } catch (e) {
+          showOnlyofficeMessage(renameMessages.notRenamed);
+        }
+      };
+
       config.events = {
         "onAppReady": onAppReady,
         "onDownloadAs": onDownloadAs,
+        "onRequestRename": onRequestRename,
         "onRequestInsertImage": onRequestInsertImage,
         "onRequestCompareFile": onRequestCompareFile,
         "onRequestMailMergeRecipients": onRequestMailMergeRecipients

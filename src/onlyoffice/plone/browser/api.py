@@ -308,6 +308,55 @@ class SaveCurrent(BrowserView):
         return json_dumps({"status": "success"})
 
 
+class Rename(BrowserView):
+    """Rename the file in response to the editor's "Rename..." action.
+
+    Updates both the content Title and the stored blob filename, keeping the
+    original extension. The Plone id (URL) and the document key are left
+    unchanged so the open editing session stays valid. We deliberately do not
+    fire an ObjectModified event, which would otherwise reset the document key.
+    """
+
+    def __call__(self):
+        self.request.response.setHeader(
+            "Content-Type", "application/json; charset=utf-8"
+        )
+
+        if not getSecurityManager().checkPermission(
+            permissions.ModifyPortalContent, self.context
+        ):
+            pm = getToolByName(self.context, "portal_membership")
+            self.request.response.setStatus(
+                401 if bool(pm.isAnonymousUser()) else 403
+            )
+            return json_dumps({"error": "Not authorized"})
+
+        body = json.loads(self.request.get("BODY"))
+        # ONLYOFFICE sends the new name without the extension.
+        newName = (body.get("name") or "").strip()
+
+        if not newName:
+            raise BadRequest("Required name parameter not found.")
+
+        newName = fileUtils.getCorrectFileName(newName)
+        ext = fileUtils.getFileExt(self.context)
+        fullName = newName + "." + ext if ext else newName
+
+        # Rename the stored blob. Reassign the attribute so ZODB persists the
+        # change to the NamedBlobFile's filename.
+        file = self.context.file
+        file.filename = fullName
+        self.context.file = file
+
+        # Keep the Title in sync with the file name.
+        self.context.title = fullName
+        self.context.reindexObject()
+
+        logger.info("renamed " + self.context.absolute_url() + " to " + fullName)
+
+        return json_dumps({"status": "success", "fileName": fullName})
+
+
 class OInsert(BrowserView):
     def __call__(self):
         pm = getToolByName(self.context, "portal_membership")
