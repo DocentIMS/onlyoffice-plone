@@ -258,6 +258,15 @@ def get_config(self, forEdit, role=None):
                         _("Open file location"), context=self.request
                     ),
                 },
+                # Docent logo in place of the ONLYOFFICE logo. image is used on
+                # light backgrounds, imageDark on the dark theme.
+                "logo": {
+                    "image": state.portal_url()
+                    + "/++plone++onlyoffice-icons/docent-logo.svg",
+                    "imageDark": state.portal_url()
+                    + "/++plone++onlyoffice-icons/docent-logo-dark.svg",
+                    "url": state.portal_url(),
+                },
             },
         },
     }

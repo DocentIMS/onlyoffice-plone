@@ -87,3 +87,9 @@ class TestEditorCustomization(unittest.TestCase):
         self.assertEqual(
             customization["goback"]["url"], self.portal.absolute_url()
         )
+
+    def test_docent_logo(self):
+        logo = self._customization()["logo"]
+        self.assertTrue(logo["image"].endswith("/docent-logo.svg"))
+        self.assertTrue(logo["imageDark"].endswith("/docent-logo-dark.svg"))
+        self.assertTrue(logo["url"])
