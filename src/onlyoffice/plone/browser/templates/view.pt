@@ -118,7 +118,19 @@
       var saveAs = ${view/saveAs}
       var demo = ${view/demo}
       config.width = "100%";
-      config.height = "600px";
+      config.height = "100%";
+
+      // Make the editor fill the browser window from where it starts down to
+      // the bottom of the page, instead of a fixed 600px that leaves blank
+      // space below it. Re-applied on resize so it tracks the viewport.
+      function resizeOnlyofficeEditor() {
+        var el = document.getElementById("onlyofficeEditor");
+        if (!el) { return; }
+        var top = el.getBoundingClientRect().top + window.pageYOffset;
+        el.style.height = Math.max(400, window.innerHeight - top) + "px";
+      }
+      resizeOnlyofficeEditor();
+      window.addEventListener("resize", resizeOnlyofficeEditor);
 
       var baseModalDialog = {
         createDialod: function (selectableTypes, titleValue = null) {
