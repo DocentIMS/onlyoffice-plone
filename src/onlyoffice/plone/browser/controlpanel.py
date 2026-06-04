@@ -80,8 +80,10 @@ class IOnlyofficeControlPanel(Interface):
     directOpen = schema.Bool(
         title=_("Directly open files associated with ONLYOFFICE"),
         description=_(
-            "When enabled, files in formats ONLYOFFICE supports open directly in "
-            "the ONLYOFFICE editor instead of the standard Plone file view."
+            "When enabled, only files in formats ONLYOFFICE manages open directly "
+            "in the ONLYOFFICE editor: Word (.doc, .docx), Excel (.xls, .xlsx), "
+            "PowerPoint (.ppt, .pptx), OpenDocument (.odt, .ods, .odp) and PDF. "
+            "All other files keep the standard Plone view."
         ),
         required=False,
         default=False,
