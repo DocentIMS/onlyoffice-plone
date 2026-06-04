@@ -3,7 +3,7 @@
 ## Unreleased (DocentIMS fork)
 Changes maintained on the DocentIMS fork on top of upstream ONLYOFFICE 4.1.0.
 ## Fixed
-- getFileExt no longer crashes when a content item's file field is missing, None (required setting disabled), or empty; now works for any content type that has a file field
+- getFileExt now derives the document extension from the actual stored file via the content's primary field (not a field hardcoded as "file"), so any content type holding an ONLYOFFICE-managed format (.docx, .xlsx, .pptx, ...) is recognised; still safe when the file field is missing, None, or empty
 - stabilized ONLYOFFICE document key generation and added force-save handling
 ## Changed
 - hide the redundant Plone page title and byline (author/date) in the editor view, via a content-type-conditional viewlet and slot override
