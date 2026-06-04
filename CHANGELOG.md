@@ -1,5 +1,19 @@
 # Change Log
 
+## Unreleased (DocentIMS fork)
+Changes maintained on the DocentIMS fork on top of upstream ONLYOFFICE 4.1.0.
+## Fixed
+- getFileExt no longer crashes when a content item's file field is missing, None (required setting disabled), or empty; now works for any content type that has a file field
+- stabilized ONLYOFFICE document key generation and added force-save handling
+## Changed
+- hide the redundant Plone page title and byline (author/date) in the editor view, via a content-type-conditional viewlet and slot override
+- hide the ONLYOFFICE "Feedback & Support" icon in the editor
+- hide the left/right panels, status bar and rulers by default in the editor
+- hide ONLYOFFICE menu entries when the add-on is not installed
+## Added
+- test coverage for editor byline suppression, create menu, document key and editor config
+- modernized setup tests for robustness across Plone versions
+
 ## 4.1.0
 ## Added
 - replace docxf with pdf as a form template
