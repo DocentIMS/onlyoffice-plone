@@ -37,11 +37,11 @@
          tal:condition="context/file | nothing"
          style="display:flex; justify-content:flex-end; margin-bottom:.75rem;"
     >
-      <a class="btn btn-primary"
-         href="${context/absolute_url}/@@download/file"
-         download=""
-         title="Download the file"
-         i18n:attributes="title"
+      <button type="button"
+              class="btn btn-primary"
+              onclick="onlyofficeDownload()"
+              title="Download the document as it is now in the editor"
+              i18n:attributes="title"
       >
         <svg xmlns="http://www.w3.org/2000/svg"
              width="16"
@@ -55,7 +55,7 @@
           <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z" />
         </svg>
         <span i18n:translate="">Download</span>
-      </a>
+      </button>
     </div>
     <div id="onlyofficeEditor"></div>
     <div id="onlyofficeErrorNotAccessible"
@@ -297,8 +297,21 @@
         });
       };
 
+      // Fired by the document server in response to docEditor.downloadAs().
+      // event.data.url points to the file built from the *current* editor
+      // state, so this downloads the document exactly as it is on screen.
+      var onDownloadAs = function (event) {
+        var link = document.createElement("a");
+        link.href = event.data.url;
+        link.download = config.document.title || "";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      };
+
       config.events = {
         "onAppReady": onAppReady,
+        "onDownloadAs": onDownloadAs,
         "onRequestInsertImage": onRequestInsertImage,
         "onRequestCompareFile": onRequestCompareFile,
         "onRequestMailMergeRecipients": onRequestMailMergeRecipients
@@ -307,6 +320,17 @@
 
       if (saveAs.available) {
         config.events.onRequestSaveAs = onRequestSaveAs
+      }
+
+      // Called by the "Download" button. Asks the editor for the live document
+      // (handled by onDownloadAs above). Falls back to the stored copy if the
+      // editor has not loaded.
+      function onlyofficeDownload() {
+        if (typeof docEditor !== "undefined" && docEditor && docEditor.downloadAs) {
+          docEditor.downloadAs();
+        } else {
+          window.location.href = "${context/absolute_url}/@@download/file";
+        }
       }
 
       function initDocEditor() {
