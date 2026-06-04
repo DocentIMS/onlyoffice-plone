@@ -12,6 +12,7 @@ Changes maintained on the DocentIMS fork on top of upstream ONLYOFFICE 4.1.0.
 - hide ONLYOFFICE menu entries when the add-on is not installed
 - editor now fills the browser window down to the bottom instead of a fixed 600px height
 ## Added
+- "Download" button on the editor view to download the file in its native MS Office format
 - test coverage for editor byline suppression, create menu, document key and editor config
 - modernized setup tests for robustness across Plone versions
 
