@@ -317,12 +317,37 @@
             var request = new XMLHttpRequest();
             request.open("POST", "${context/absolute_url}/onlyoffice-save-current", true);
             request.setRequestHeader("x-csrf-token", "${view/token}");
+            request.onload = function () {
+              if (request.status === 200) {
+                showOnlyofficeMessage(downloadMessages.saved);
+              } else {
+                showOnlyofficeMessage(downloadMessages.notSaved);
+              }
+            };
+            request.onerror = function () {
+              showOnlyofficeMessage(downloadMessages.notSaved);
+            };
             request.send(JSON.stringify({ url: event.data.url }));
           } catch (e) {
             // Best effort: the download has already happened.
+            showOnlyofficeMessage(downloadMessages.notSaved);
           }
+        } else {
+          showOnlyofficeMessage(downloadMessages.downloaded);
         }
       };
+
+      var downloadMessages = {
+        saved: "Document downloaded and saved to the server.",
+        notSaved: "Document downloaded, but it could not be saved to the server.",
+        downloaded: "Document downloaded."
+      };
+
+      function showOnlyofficeMessage(text) {
+        if (typeof docEditor !== "undefined" && docEditor && docEditor.showMessage) {
+          docEditor.showMessage(text);
+        }
+      }
 
       config.events = {
         "onAppReady": onAppReady,
