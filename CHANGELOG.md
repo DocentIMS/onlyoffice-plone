@@ -12,7 +12,7 @@ Changes maintained on the DocentIMS fork on top of upstream ONLYOFFICE 4.1.0.
 - hide ONLYOFFICE menu entries when the add-on is not installed
 - editor now fills the browser window down to the bottom instead of a fixed 600px height
 ## Added
-- in-editor "Rename..." support: renaming the open document updates both the Plone Title and the stored file name (keeping the extension), without ending the editing session
+- in-editor "Rename..." support: renaming the open document updates both the Plone Title (without extension) and the stored file name (keeping the extension), without ending the editing session
 - "Download" button on the editor view that downloads the document as it currently is in the editor (live state) in its native MS Office format, and saves that same version back to the server so the downloaded file is also stored
 - test coverage for editor byline suppression, create menu, document key and editor config
 - modernized setup tests for robustness across Plone versions

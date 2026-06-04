@@ -348,8 +348,8 @@ class Rename(BrowserView):
         file.filename = fullName
         self.context.file = file
 
-        # Keep the Title in sync with the file name.
-        self.context.title = fullName
+        # Keep the Title in sync, but without the extension.
+        self.context.title = newName
         self.context.reindexObject()
 
         logger.info("renamed " + self.context.absolute_url() + " to " + fullName)
