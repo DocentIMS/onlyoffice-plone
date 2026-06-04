@@ -10,7 +10,11 @@
     <element remove="true"
              value="onlyoffice-view-file"
     />
+    <element remove="true"
+             value="onlyoffice-open"
+    />
   </property>
+  <property name="default_view">view</property>
 
   <action action_id="onlyoffice-edit"
           category="object"

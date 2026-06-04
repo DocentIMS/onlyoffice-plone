@@ -8,7 +8,9 @@
             purge="False"
   >
     <element value="onlyoffice-view-file" />
+    <element value="onlyoffice-open" />
   </property>
+  <property name="default_view">onlyoffice-open</property>
 
   <action action_id="onlyoffice-edit"
           category="object"

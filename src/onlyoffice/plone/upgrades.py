@@ -33,3 +33,8 @@ def add_onlyoffice_permissions(context):
 def add_direct_open_setting(context):
     # Add the new "directly open" registry record on existing installs.
     context.runImportStepFromProfile(PROFILE_ID, "plone.app.registry")
+
+
+def enable_direct_open_view(context):
+    # Register the onlyoffice-open File default view on existing installs.
+    context.runImportStepFromProfile(PROFILE_ID, "typeinfo")

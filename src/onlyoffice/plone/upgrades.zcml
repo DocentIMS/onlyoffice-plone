@@ -36,4 +36,12 @@
       handler="onlyoffice.plone.upgrades.add_direct_open_setting"
       />
 
+  <genericsetup:upgradeStep
+      title="Enable direct-open File default view"
+      profile="onlyoffice.plone:default"
+      source="4030"
+      destination="4040"
+      handler="onlyoffice.plone.upgrades.enable_direct_open_view"
+      />
+
 </configure>

@@ -60,6 +60,16 @@
       permission="zope2.View"
       />
 
+  <!-- Default view for File: opens OO-managed files directly in the editor
+       when the "directly open" setting is on, otherwise renders the standard
+       Plone file view. -->
+  <browser:page
+      name="onlyoffice-open"
+      for="plone.app.contenttypes.interfaces.IFile"
+      class=".defaultview.OnlyofficeOpen"
+      permission="zope2.View"
+      />
+
   <browser:page
       name="onlyoffice-view-document"
       for="plone.app.contenttypes.interfaces.IDocument"
