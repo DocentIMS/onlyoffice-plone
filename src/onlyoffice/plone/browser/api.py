@@ -116,9 +116,11 @@ class Callback(BrowserView):
     def _save(self, url):
         download = utils.replaceDocUrlToInternal(url)
         logger.info("saving file " + self.context.absolute_url())
-        # Overwrite the stored file in place. Force saves can be frequent, so we
-        # intentionally do not create a new Plone version on each one.
-        # TODO: consider keeping full versions of documents when force saving.
+        # Full rewrite of the original file in place: read the complete document
+        # from the document server and replace the file content. By design we do
+        # NOT keep versions - no ObjectModified event is fired, so CMFEditions
+        # never snapshots a revision, and force saves (which can be frequent) do
+        # not pile up history. The same content object / URL is kept.
         self.context.file = NamedBlobFile(
             urlopen(download).read(), filename=self.context.file.filename
         )

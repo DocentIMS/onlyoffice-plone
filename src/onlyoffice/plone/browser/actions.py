@@ -233,6 +233,10 @@ def get_config(self, forEdit, role=None):
                 "rightMenu": False,
                 "statusBar": False,
                 "rulers": False,
+                # Make the Save button active and save straight to Plone: each
+                # click triggers a force save (callback status 6). Autosave to
+                # the document server's cache stays on alongside this.
+                "forcesave": True,
             },
         },
     }

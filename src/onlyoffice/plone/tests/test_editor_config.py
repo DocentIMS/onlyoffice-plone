@@ -56,3 +56,7 @@ class TestEditorCustomization(unittest.TestCase):
                 customization[option],
                 f"expected {option} to default to False",
             )
+
+    def test_forcesave_enabled(self):
+        # The Save button must force a save straight to Plone (callback status 6).
+        self.assertTrue(self._customization()["forcesave"])
