@@ -20,6 +20,7 @@ class Config:
     ploneUrl = None
     docInnerUrl = None
     jwtSecret = None
+    directOpen = False
 
     demoDocUrl = "https://onlinedocs.docs.onlyoffice.com/"
     demoHeader = "AuthorizationJWT"
@@ -32,3 +33,4 @@ class Config:
         self.docInnerUrl = registry.get("onlyoffice.plone.docInnerUrl")
         self.jwtSecret = registry.get("onlyoffice.plone.jwtSecret")
         self.demoEnabled = registry.get("onlyoffice.plone.demoEnabled")
+        self.directOpen = registry.get("onlyoffice.plone.directOpen")

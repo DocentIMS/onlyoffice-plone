@@ -77,6 +77,16 @@ class IOnlyofficeControlPanel(Interface):
         required=False,
     )
 
+    directOpen = schema.Bool(
+        title=_("Directly open files associated with ONLYOFFICE"),
+        description=_(
+            "When enabled, files in formats ONLYOFFICE supports open directly in "
+            "the ONLYOFFICE editor instead of the standard Plone file view."
+        ),
+        required=False,
+        default=False,
+    )
+
 
 def settings_validation_demo(data):
     demoUrl = Config(getUtility(IRegistry)).demoDocUrl

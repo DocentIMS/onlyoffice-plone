@@ -28,3 +28,8 @@ def add_onlyoffice_permissions(context):
     # Apply the new ONLYOFFICE view/review/edit permission role mappings on
     # existing installs.
     context.runImportStepFromProfile(PROFILE_ID, "rolemap")
+
+
+def add_direct_open_setting(context):
+    # Add the new "directly open" registry record on existing installs.
+    context.runImportStepFromProfile(PROFILE_ID, "plone.app.registry")

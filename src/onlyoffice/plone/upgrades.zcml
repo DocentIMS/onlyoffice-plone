@@ -28,4 +28,12 @@
       handler="onlyoffice.plone.upgrades.add_onlyoffice_permissions"
       />
 
+  <genericsetup:upgradeStep
+      title="Add 'directly open' setting"
+      profile="onlyoffice.plone:default"
+      source="4020"
+      destination="4030"
+      handler="onlyoffice.plone.upgrades.add_direct_open_setting"
+      />
+
 </configure>

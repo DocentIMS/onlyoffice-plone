@@ -212,6 +212,10 @@ def getTestConvertDocUrl(innerPloneUrl):
         return os.path.join(portal.absolute_url(), "onlyoffice-test-convert")
 
 
+def isDirectOpenEnabled():
+    return bool(Config(getUtility(IRegistry)).directOpen)
+
+
 def setDemo():
     potralAnnotations = IAnnotations(api.portal.get())
     if "onlyoffice.plone.demoStart" not in potralAnnotations:

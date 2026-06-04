@@ -12,6 +12,7 @@ Changes maintained on the DocentIMS fork on top of upstream ONLYOFFICE 4.1.0.
 - hide ONLYOFFICE menu entries when the add-on is not installed
 - editor now fills the browser window down to the bottom instead of a fixed 600px height
 ## Added
+- "Directly open files associated with ONLYOFFICE" control-panel setting (off by default)
 - dedicated ONLYOFFICE permissions ("ONLYOFFICE: View/Review/Edit document") so access to the editor can be granted per role/group independently; checked in addition to the matching Plone right (View / Review / Modify). Defaults mirror existing roles; manage via the ZMI Security tab
 - active Save button (forcesave) so users can save the document to Plone on demand mid-session; saves are a full in-place overwrite of the original file with no versions kept
 - in-editor "Rename..." support: renaming the open document updates both the Plone Title (without extension) and the stored file name (keeping the extension), without ending the editing session
