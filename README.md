@@ -25,6 +25,38 @@ The addon allows to:
 | **Convert (Download as)**      | DOC, DOCM, DOCX, DOT, DOTM, DOTX, EPUB, FB2, FODT, HTML, MHT, ODT, OTT, OXPS, PDF, RTF, XPS, XML, FODS, ODS, OTS, XLS, XLSB, XLSM, XLSX, XLT, XLTM, XLTX, FODP, ODP, OTP, POT, POTM, POTX, PPS, PPSM, PPSX, PPT, PPTM, PPTX                 |
 | **Convert to Office Open XML** | DOC, DOCM, DOT, DOTM, DOTX, EPUB, FB2, FODT, HTML, MHT, ODT, OTT, OXPS, PDF, RTF, XPS, XML, FODS, ODS, OTS, XLS, XLSB, XLSM, XLT, XLTM, XLTX, FODP, ODP, OTP, POT, POTM, POTX, PPS, PPSM, PPSX, PPT, PPTM                                   |
 
+## DocentIMS customizations 🏷️
+
+This fork adds a number of integration and UX changes on top of upstream ONLYOFFICE 4.1.0. See [CHANGELOG.md](CHANGELOG.md) for the full list.
+
+### Editor experience
+- **Streamlined editor chrome:** the redundant Plone page title and byline (author/date) are removed above the editor; the ONLYOFFICE *Feedback & Support*, *Help*, *About* and *chat* items are hidden; left panel, status bar and rulers are hidden; the right panel is collapsed by default.
+- **Compact toolbar:** single-row toolbar with the ribbon tabs flattened (`compactToolbar` + `toolbarNoTabs`).
+- **Dark theme** and **inch** units by default (users can still change both in the editor).
+- **Full-height editor:** the editor fills the browser window instead of a fixed 600px height.
+- **"Open file location"** button returns to the file's parent folder.
+- **Docent logo** (mono, with light and dark variants) replaces the ONLYOFFICE logo in the toolbar.
+
+### Saving
+- **Manual save:** autosave to the document server is off; an active **Save** button force-saves straight to Plone on demand.
+- Saves are a **full in-place overwrite** of the original file — no version history is piled up.
+
+### Download
+- A **Download** button exports the document exactly as it currently is in the editor (live state) in its native format, and **saves that same version back to Plone**, with an on-screen confirmation.
+
+### Rename
+- The editor's **Rename…** action updates both the Plone **Title** (without extension) and the stored **file name** (keeping the extension), without ending the editing session.
+
+### Access control
+- Dedicated permissions **ONLYOFFICE: View / Review / Edit document** gate editor access per role/group. They are checked **in addition** to the matching Plone right (View / Review portal content / Modify portal content) and are managed from the ZMI **Security** tab. Defaults mirror the roles that already hold those rights.
+
+### Direct open
+- A control-panel option, **"Directly open files associated with ONLYOFFICE"** (off by default), makes only OO-managed files (Microsoft Office, OpenDocument, PDF) open straight in the editor in the user's highest allowed mode (edit → review → view). All other files, and the off state, keep the standard Plone file view.
+
+### Other
+- File-type detection derives the extension from the content's **primary file field** rather than a field hardcoded as `file`, so any content type holding an OO-managed format is recognised (and it no longer crashes on missing/empty file fields).
+- Added test coverage (byline viewlet, create menu, document key, editor config, permissions, file extension) and modernized setup tests.
+
 ## Installing ONLYOFFICE Docs
 
 To use the addon, you need a running instance of ONLYOFFICE Docs (Document Server) accessible to both your Plone server and client browsers.
