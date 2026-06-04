@@ -34,6 +34,7 @@ from z3c.form import button
 from z3c.form import field
 from z3c.form import form
 from zope.component import getMultiAdapter
+from zope.i18n import translate
 from zope.interface import implementer
 
 import json
@@ -229,15 +230,34 @@ def get_config(self, forEdit, role=None):
                 "name": user.getProperty("fullname") or user.getUserName(),
             },
             "customization": {
+                # Hidden UI elements.
                 "feedback": False,
+                "help": False,
+                "about": False,
+                "chat": False,
                 "leftMenu": False,
-                "rightMenu": False,
                 "statusBar": False,
                 "rulers": False,
-                # Make the Save button active and save straight to Plone: each
-                # click triggers a force save (callback status 6). Autosave to
-                # the document server's cache stays on alongside this.
+                # Right panel stays available but collapsed by default.
+                "hideRightMenu": True,
+                # Compact, single-row toolbar without ribbon tabs.
+                "compactToolbar": True,
+                "toolbarNoTabs": True,
+                # Manual saving only: autosave to the document server is off,
+                # and the Save button force-saves straight to Plone (status 6).
+                # Note: turning autosave off also disables fast co-editing.
+                "autosave": False,
                 "forcesave": True,
+                # Appearance.
+                "uiTheme": "theme-dark",
+                "unit": "inch",
+                # "Open file location" button returns to the parent folder.
+                "goback": {
+                    "url": aq_parent(aq_inner(self.context)).absolute_url(),
+                    "text": translate(
+                        _("Open file location"), context=self.request
+                    ),
+                },
             },
         },
     }

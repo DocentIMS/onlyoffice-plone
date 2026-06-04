@@ -6,6 +6,7 @@ Changes maintained on the DocentIMS fork on top of upstream ONLYOFFICE 4.1.0.
 - getFileExt now derives the document extension from the actual stored file via the content's primary field (not a field hardcoded as "file"), so any content type holding an ONLYOFFICE-managed format (.docx, .xlsx, .pptx, ...) is recognised; still safe when the file field is missing, None, or empty
 - stabilized ONLYOFFICE document key generation and added force-save handling
 ## Changed
+- editor customization: compact single-row toolbar (no ribbon tabs), dark theme, inch units, right panel collapsed by default, Help/About/chat/Feedback hidden, autosave off with manual force-save Save button, and a "back to folder" button that returns to the file's parent folder
 - hide the redundant Plone page title and byline (author/date) in the editor view, via a content-type-conditional viewlet and slot override
 - hide the ONLYOFFICE "Feedback & Support" icon in the editor
 - hide the left/right panels, status bar and rulers by default in the editor

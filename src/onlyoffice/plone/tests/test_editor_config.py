@@ -49,14 +49,41 @@ class TestEditorCustomization(unittest.TestCase):
         config = json.loads(get_config(view, False))
         return config["editorConfig"]["customization"]
 
-    def test_view_panels_hidden_by_default(self):
+    def test_hidden_ui_elements(self):
         customization = self._customization()
-        for option in ("leftMenu", "rightMenu", "statusBar", "rulers"):
+        for option in (
+            "feedback",
+            "help",
+            "about",
+            "chat",
+            "leftMenu",
+            "statusBar",
+            "rulers",
+        ):
             self.assertFalse(
                 customization[option],
-                f"expected {option} to default to False",
+                f"expected {option} to default to False (hidden)",
             )
 
-    def test_forcesave_enabled(self):
-        # The Save button must force a save straight to Plone (callback status 6).
-        self.assertTrue(self._customization()["forcesave"])
+    def test_toolbar_and_panels(self):
+        customization = self._customization()
+        self.assertTrue(customization["compactToolbar"])
+        self.assertTrue(customization["toolbarNoTabs"])
+        self.assertTrue(customization["hideRightMenu"])
+
+    def test_saving_is_manual(self):
+        customization = self._customization()
+        # Autosave off + forcesave on = explicit Save button that persists to Plone.
+        self.assertFalse(customization["autosave"])
+        self.assertTrue(customization["forcesave"])
+
+    def test_appearance_defaults(self):
+        customization = self._customization()
+        self.assertEqual(customization["uiTheme"], "theme-dark")
+        self.assertEqual(customization["unit"], "inch")
+
+    def test_goback_points_to_parent(self):
+        customization = self._customization()
+        self.assertEqual(
+            customization["goback"]["url"], self.portal.absolute_url()
+        )
