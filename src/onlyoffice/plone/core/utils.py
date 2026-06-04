@@ -17,6 +17,7 @@
 from DateTime import DateTime
 from onlyoffice.plone.core.config import Config
 from plone import api
+from plone.protect.utils import safeWrite
 from plone.registry.interfaces import IRegistry
 from plone.uuid.interfaces import IUUID
 from urllib.parse import parse_qs
@@ -81,6 +82,10 @@ def getDocumentKey(obj):
     if not key:
         key = _generateDocumentKey(obj)
         annotations[DOCUMENT_KEY_ANNOTATION] = key
+        # Initialising the key happens on a GET (opening the editor); tell
+        # plone.protect this write is intentional so it does not trigger the
+        # CSRF confirmation page / abort the transaction.
+        safeWrite(obj)
     return key
 
 
@@ -88,6 +93,7 @@ def resetDocumentKey(obj):
     """Issue a fresh document key, marking the document as a new version."""
     key = _generateDocumentKey(obj)
     IAnnotations(obj)[DOCUMENT_KEY_ANNOTATION] = key
+    safeWrite(obj)
     return key
 
 

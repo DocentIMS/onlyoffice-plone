@@ -261,7 +261,6 @@ class OnlyofficeControlPanelForm(RegistryEditForm):
 
     @button.buttonAndHandler(_Plone("Save"), name="save")
     def handleSave(self, action):
-        logger.error("SAdfasdf")
         data, errors = self.extractData()
 
         if data["demoEnabled"] and utils.getDemoAvailable(True):

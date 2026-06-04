@@ -102,7 +102,7 @@
       name="onlyoffice-review"
       for="plone.app.contenttypes.interfaces.IFile"
       class=".actions.Review"
-      allowed_attributes="canReview hasReviewerRole getRolesInfo"
+      allowed_attributes="canReview"
       template="templates/view.pt"
       permission="zope2.View"
       />
