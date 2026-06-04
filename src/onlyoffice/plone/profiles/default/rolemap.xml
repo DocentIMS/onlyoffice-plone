@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <rolemap>
   <permissions>
-    <!-- -*- extra stuff goes here -*- -->
-
+    <!-- ONLYOFFICE editor access permissions. These are checked in addition to
+         the matching Plone right (View / Review portal content / Modify portal
+         content). Defaults mirror the roles that already hold those rights, so
+         behaviour is unchanged until an admin narrows them. -->
+    <permission name="ONLYOFFICE: View document" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Editor"/>
+      <role name="Contributor"/>
+      <role name="Reviewer"/>
+      <role name="Reader"/>
+    </permission>
+    <permission name="ONLYOFFICE: Review document" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Reviewer"/>
+    </permission>
+    <permission name="ONLYOFFICE: Edit document" acquire="True">
+      <role name="Manager"/>
+      <role name="Site Administrator"/>
+      <role name="Owner"/>
+      <role name="Editor"/>
+    </permission>
   </permissions>
 </rolemap>

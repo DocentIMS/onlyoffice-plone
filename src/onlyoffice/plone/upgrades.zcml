@@ -20,4 +20,12 @@
       handler="onlyoffice.plone.upgrades.upgrade_to_2"
       />
 
+  <genericsetup:upgradeStep
+      title="Add ONLYOFFICE view/review/edit permissions"
+      profile="onlyoffice.plone:default"
+      source="4010"
+      destination="4020"
+      handler="onlyoffice.plone.upgrades.add_onlyoffice_permissions"
+      />
+
 </configure>

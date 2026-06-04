@@ -22,3 +22,9 @@ def upgrade_to_2(context):
         PROFILE_ID.replace("default", "to_2"),
         "plone.app.registry",
     )
+
+
+def add_onlyoffice_permissions(context):
+    # Apply the new ONLYOFFICE view/review/edit permission role mappings on
+    # existing installs.
+    context.runImportStepFromProfile(PROFILE_ID, "rolemap")

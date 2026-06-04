@@ -46,13 +46,9 @@ class Config(Service):
                 raise BadRequest("File not found")
             self.context = context
 
-            can_edit = api.user.has_permission(
-                "Modify portal content", obj=self.context
-            )
-            can_review = api.user.has_permission(
-                "Review portal content", obj=self.context
-            )
-            can_view = api.user.has_permission("View", obj=self.context)
+            can_edit = utils.userCanEdit(self.context)
+            can_review = utils.userCanReview(self.context)
+            can_view = utils.userCanView(self.context)
 
             docUrl = utils.getPublicDocUrl()
             saveAs = featureUtils.getSaveAsObject(self)
@@ -114,13 +110,9 @@ class Permissions(Service):
             if not context:
                 raise BadRequest("File not found")
             self.context = context
-            can_edit = api.user.has_permission(
-                "Modify portal content", obj=self.context
-            )
-            can_review = api.user.has_permission(
-                "Review portal content", obj=self.context
-            )
-            can_view = api.user.has_permission("View", obj=self.context)
+            can_edit = utils.userCanEdit(self.context)
+            can_review = utils.userCanReview(self.context)
+            can_view = utils.userCanView(self.context)
 
             return {
                 "can_edit": can_edit,

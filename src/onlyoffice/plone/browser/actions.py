@@ -26,7 +26,6 @@ from onlyoffice.plone.core import fileUtils
 from onlyoffice.plone.core import utils
 from onlyoffice.plone.interfaces import _
 from onlyoffice.plone.interfaces import logger
-from plone import api
 from Products.CMFPlone import PloneMessageFactory as _plone_message
 from Products.CMFPlone.permissions import AddPortalContent
 from Products.Five.browser import BrowserView
@@ -66,10 +65,12 @@ class View(BrowserView):
     def canView(self):
         try:
             context = self.context
-            can_view = api.user.has_permission("View", obj=context)
-            can_edit = api.user.has_permission("Modify portal content", obj=context)
-            can_review = api.user.has_permission("Review portal content", obj=context)
-            return self.isAvailable() and can_view and not can_edit and not can_review
+            return (
+                self.isAvailable()
+                and utils.userCanView(context)
+                and not utils.userCanEdit(context)
+                and not utils.userCanReview(context)
+            )
 
         except Exception as e:
             logger.error(f"Error checking permissions: {e}")
@@ -87,9 +88,11 @@ class Review(BrowserView):
     def canReview(self):
         try:
             context = self.context
-            can_review = api.user.has_permission("Review portal content", obj=context)
-            can_edit = api.user.has_permission("Modify portal content", obj=context)
-            return self.isAvailable() and can_review and not can_edit
+            return (
+                self.isAvailable()
+                and utils.userCanReview(context)
+                and not utils.userCanEdit(context)
+            )
 
         except Exception as e:
             logger.error(f"Error checking permissions: {e}")
@@ -183,9 +186,7 @@ def get_config(self, forEdit, role=None):
     # cstate = getMultiAdapter((item, item.REQUEST), name='plone_context_state')
     # return cstate.view_url()
 
-    canEdit = forEdit and bool(
-        getSecurityManager().checkPermission("Modify portal content", self.context)
-    )
+    canEdit = forEdit and utils.userCanEdit(self.context)
 
     fileTitle = self.context.Title()
 

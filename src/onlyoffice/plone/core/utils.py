@@ -27,11 +27,35 @@ from zope.publisher.interfaces import Unauthorized
 import base64
 import datetime
 import jwt
+import onlyoffice.plone.permissions as oo_permissions
 import os
 import uuid
 
 
 DOCUMENT_KEY_ANNOTATION = "onlyoffice.plone.documentKey"
+
+
+def userCanView(context):
+    # ONLYOFFICE view access: the generic View right AND the ONLYOFFICE view
+    # permission (the latter lets admins restrict who may open the editor).
+    return bool(
+        api.user.has_permission("View", obj=context)
+        and api.user.has_permission(oo_permissions.ViewDocument, obj=context)
+    )
+
+
+def userCanReview(context):
+    return bool(
+        api.user.has_permission("Review portal content", obj=context)
+        and api.user.has_permission(oo_permissions.ReviewDocument, obj=context)
+    )
+
+
+def userCanEdit(context):
+    return bool(
+        api.user.has_permission("Modify portal content", obj=context)
+        and api.user.has_permission(oo_permissions.EditDocument, obj=context)
+    )
 
 
 def _generateDocumentKey(obj):
