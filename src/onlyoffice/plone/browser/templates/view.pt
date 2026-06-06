@@ -148,13 +148,16 @@
       // the bottom of the page, instead of a fixed 600px that leaves blank
       // space below it. Re-applied on resize so it tracks the viewport.
       function resizeOnlyofficeEditor() {
-        var el = document.getElementById("onlyofficeEditor");
+        var el = document.querySelector('iframe[name="frameEditor"]') ||
+                 document.getElementById("onlyofficeEditor");
         if (!el) { return; }
         var top = el.getBoundingClientRect().top + window.pageYOffset;
         el.style.height = Math.max(400, window.innerHeight - top) + "px";
       }
-      resizeOnlyofficeEditor();
       window.addEventListener("resize", resizeOnlyofficeEditor);
+      window.addEventListener("load", function () {
+        setTimeout(resizeOnlyofficeEditor, 100);
+      });
 
       var baseModalDialog = {
         createDialod: function (selectableTypes, titleValue = null) {
