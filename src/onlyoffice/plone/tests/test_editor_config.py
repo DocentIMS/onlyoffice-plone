@@ -81,6 +81,8 @@ class TestEditorCustomization(unittest.TestCase):
         customization = self._customization()
         self.assertEqual(customization["uiTheme"], "theme-light")
         self.assertEqual(customization["unit"], "inch")
+        # -2 = open at "Fit to width" zoom by default.
+        self.assertEqual(customization["zoom"], -2)
 
     def test_goback_points_to_parent(self):
         customization = self._customization()

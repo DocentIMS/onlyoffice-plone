@@ -32,7 +32,7 @@ This fork adds a number of integration and UX changes on top of upstream ONLYOFF
 ### Editor experience
 - **Streamlined editor chrome:** the redundant Plone page title and byline (author/date) are removed above the editor; the ONLYOFFICE *Feedback & Support*, *Help*, *About* and *chat* items are hidden; left panel, status bar and rulers are hidden; the right panel is collapsed by default.
 - **Compact toolbar:** single-row toolbar with the ribbon tabs flattened (`compactToolbar` + `toolbarNoTabs`).
-- **Light theme** and **inch** units by default (users can still change both in the editor).
+- **Light theme**, **inch** units, and **Fit-to-width** zoom by default (users can still change all three in the editor).
 - **Full-height editor:** the editor fills the browser window instead of a fixed 600px height.
 - **"Open file location"** button returns to the file's parent folder.
 - **Docent logo** (mono, with light and dark variants) replaces the ONLYOFFICE logo in the toolbar; it is plain branding and **not clickable**.

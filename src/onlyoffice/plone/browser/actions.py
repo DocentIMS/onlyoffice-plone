@@ -251,6 +251,9 @@ def get_config(self, forEdit, role=None):
                 # Appearance.
                 "uiTheme": "theme-light",
                 "unit": "inch",
+                # Open at "Fit to width" zoom by default (-2 = fit to width,
+                # -1 = fit to page); users can still change it under View.
+                "zoom": -2,
                 # "Open file location" button returns to the parent folder.
                 "goback": {
                     "url": aq_parent(aq_inner(self.context)).absolute_url(),
