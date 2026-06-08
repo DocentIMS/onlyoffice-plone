@@ -42,8 +42,14 @@
             editor page. */
       .documentByline,
       #viewlet-below-content-title { display: none !important; }
-      /* 2) Remove the gap above the editor. */
-      #content-core { margin-top: 0 !important; }
+      /* 2) Remove the gap above the editor. Different themes put the spacing on
+            different wrappers, so zero the top margin/padding on all the usual
+            content containers (this stylesheet only loads on the editor page). */
+      #portal-column-content,
+      #content,
+      #content-core,
+      .principal-content,
+      main#content { margin-top: 0 !important; padding-top: 0 !important; }
       .onlyoffice-editor-wrap { position: relative; margin-top: 0; }
       /* 3) Compact Download button floated over the top-right of the ONLYOFFICE
             header, just left of the "Editing" control. The editor toolbar is a
