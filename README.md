@@ -36,14 +36,14 @@ This fork adds a number of integration and UX changes on top of upstream ONLYOFF
 - **Full-height editor:** the editor fills the browser window instead of a fixed 600px height.
 - **"Open file location"** button returns to the file's parent folder.
 - **Docent logo** (mono, with light and dark variants) replaces the ONLYOFFICE logo in the toolbar; it is plain branding and **not clickable**.
-- **Tightened layout:** the empty top spacing above the editor frame is collapsed so the toolbar sits right under the Plone content separator.
+- **Tightened layout:** the document byline (author/date) and the empty below-title strip are hidden and the gap above the editor is removed, so the editor sits directly under the breadcrumb.
 
 ### Saving
 - **Manual save:** autosave to the document server is off; an active **Save** button force-saves straight to Plone on demand. The Save button greys out while there are no unsaved changes (native), and a **"File saved"** confirmation is shown after a manual save.
 - Saves are a **full in-place overwrite** of the original file — no version history is piled up.
 
 ### Download
-- A **Download** button exports the document exactly as it currently is in the editor (live state) in its native format, and **saves that same version back to Plone**, with an on-screen confirmation.
+- A compact **Download** button, floated over the top-right of the editor header, exports the document exactly as it currently is in the editor (live state) in its native format, and **saves that same version back to Plone**, with an on-screen confirmation.
 
 ### Rename
 - The editor's **Rename…** action updates both the Plone **Title** (without extension) and the stored **file name** (keeping the extension), without ending the editing session.

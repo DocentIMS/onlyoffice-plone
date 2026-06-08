@@ -13,7 +13,8 @@ Changes maintained on the DocentIMS fork on top of upstream ONLYOFFICE 4.1.0.
 - hide the left/right panels, status bar and rulers by default in the editor
 - hide ONLYOFFICE menu entries when the add-on is not installed
 - editor now fills the browser window down to the bottom instead of a fixed 600px height
-- collapse the empty top spacing above the editor frame so the toolbar sits directly under the Plone content separator
+- hide the document byline (author/date) and the empty below-title strip and remove the gap above the editor, so the editor sits directly under the breadcrumb
+- the editor-view Download button is now a compact button floated over the top-right of the ONLYOFFICE header (instead of a full-width bar above the frame)
 - the Docent toolbar logo is no longer a clickable link (plain branding, "url" dropped from the logo config)
 ## Added
 - "Directly open files associated with ONLYOFFICE" control-panel setting (off by default): when on, only OO-managed files (Office, ODF, PDF) open straight in the editor in the user's highest allowed mode (edit/review/view); all other files and the off state keep the standard Plone file view
