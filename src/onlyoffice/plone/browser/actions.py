@@ -262,14 +262,16 @@ def get_config(self, forEdit, role=None):
                     ),
                 },
                 # Docent logo in place of the ONLYOFFICE logo. image is used on
-                # light backgrounds, imageDark on the dark theme. No "url" is
-                # set on purpose so the logo is plain branding and not a
-                # clickable link.
+                # light backgrounds, imageDark on the dark theme. "url" must be
+                # an explicit empty string to make the logo plain branding and
+                # NOT a clickable link - omitting it lets ONLYOFFICE fall back
+                # to its default (onlyoffice.com) link.
                 "logo": {
                     "image": state.portal_url()
                     + "/++plone++onlyoffice-icons/docent-logo.svg",
                     "imageDark": state.portal_url()
                     + "/++plone++onlyoffice-icons/docent-logo-dark.svg",
+                    "url": "",
                 },
             },
         },

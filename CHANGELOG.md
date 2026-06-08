@@ -3,7 +3,6 @@
 ## Unreleased (DocentIMS fork)
 Changes maintained on the DocentIMS fork on top of upstream ONLYOFFICE 4.1.0.
 ## Fixed
-- editor modal dialogs (Save Copy as / insert image / compare / mail merge): the Ok and Cancel buttons were `type="submit"`, so a click triggered a native form submit that navigated the page to the site root instead of running the intended JS action; they are now `type="button"`
 - getFileExt now derives the document extension from the actual stored file via the content's primary field (not a field hardcoded as "file"), so any content type holding an ONLYOFFICE-managed format (.docx, .xlsx, .pptx, ...) is recognised; still safe when the file field is missing, None, or empty
 - stabilized ONLYOFFICE document key generation and added force-save handling
 ## Changed
