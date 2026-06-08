@@ -125,15 +125,18 @@
         </div>
         <div id="relatedItems"></div>
         <div class="formControls">
+          <!-- These are driven entirely by JS (XHR) click handlers; keep them
+               as type="button" so a click never triggers a native form submit
+               that would navigate the page away to the site root. -->
           <input class="btn submit-widget button-field btn-secondary"
                  name="cancel"
-                 type="submit"
+                 type="button"
                  value="Cancel"
                  i18n:attributes="value label_cancel;"
           />
           <input class="btn submit-widget button-field btn-primary"
                  name="ok"
-                 type="submit"
+                 type="button"
                  value="Ok"
                  i18n:attributes="value label_ok;"
           />

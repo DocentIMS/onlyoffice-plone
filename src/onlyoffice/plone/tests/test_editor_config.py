@@ -79,7 +79,7 @@ class TestEditorCustomization(unittest.TestCase):
 
     def test_appearance_defaults(self):
         customization = self._customization()
-        self.assertEqual(customization["uiTheme"], "theme-dark")
+        self.assertEqual(customization["uiTheme"], "theme-light")
         self.assertEqual(customization["unit"], "inch")
 
     def test_goback_points_to_parent(self):

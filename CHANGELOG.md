@@ -3,10 +3,11 @@
 ## Unreleased (DocentIMS fork)
 Changes maintained on the DocentIMS fork on top of upstream ONLYOFFICE 4.1.0.
 ## Fixed
+- editor modal dialogs (Save Copy as / insert image / compare / mail merge): the Ok and Cancel buttons were `type="submit"`, so a click triggered a native form submit that navigated the page to the site root instead of running the intended JS action; they are now `type="button"`
 - getFileExt now derives the document extension from the actual stored file via the content's primary field (not a field hardcoded as "file"), so any content type holding an ONLYOFFICE-managed format (.docx, .xlsx, .pptx, ...) is recognised; still safe when the file field is missing, None, or empty
 - stabilized ONLYOFFICE document key generation and added force-save handling
 ## Changed
-- editor customization: compact single-row toolbar (no ribbon tabs), dark theme, inch units, right panel collapsed by default, Help/About/chat/Feedback hidden, autosave off with manual force-save Save button, a "back to folder" button that returns to the file's parent folder, and the Docent logo (mono, light/dark variants) in place of the ONLYOFFICE toolbar logo
+- editor customization: compact single-row toolbar (no ribbon tabs), light theme, inch units, right panel collapsed by default, Help/About/chat/Feedback hidden, autosave off with manual force-save Save button, a "back to folder" button that returns to the file's parent folder, and the Docent logo (mono, light/dark variants) in place of the ONLYOFFICE toolbar logo
 - hide the redundant Plone page title and byline (author/date) in the editor view, via a content-type-conditional viewlet and slot override
 - hide the ONLYOFFICE "Feedback & Support" icon in the editor
 - hide the left/right panels, status bar and rulers by default in the editor

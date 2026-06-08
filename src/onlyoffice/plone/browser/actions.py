@@ -249,7 +249,7 @@ def get_config(self, forEdit, role=None):
                 "autosave": False,
                 "forcesave": True,
                 # Appearance.
-                "uiTheme": "theme-dark",
+                "uiTheme": "theme-light",
                 "unit": "inch",
                 # "Open file location" button returns to the parent folder.
                 "goback": {
