@@ -35,8 +35,8 @@ This fork adds a number of integration and UX changes on top of upstream ONLYOFF
 - **Light theme**, **inch** units, and **Fit-to-width** zoom by default (users can still change all three in the editor).
 - **Full-height editor:** the editor fills the browser window instead of a fixed 600px height.
 - **"Open file location"** button returns to the file's parent folder.
-- **Docent logo** (mono, with light and dark variants) replaces the ONLYOFFICE logo in the toolbar; it is plain branding and **not clickable**.
-- **Tightened layout:** the document byline (author/date) and the empty below-title strip are hidden and the gap above the editor is removed, so the editor sits directly under the breadcrumb.
+- **Docent logo — Developer Edition only:** the editor is configured to show the mono Docent logo (light/dark variants) in place of the ONLYOFFICE logo and to make it non-clickable (`customization.logo`, `url: ""`). ⚠️ This only takes effect with **ONLYOFFICE Docs Developer Edition** (a commercial license). On the free **Community Edition** the Document Server **ignores** logo customization and keeps the ONLYOFFICE logo and its link to onlyoffice.com — that branding is required by the AGPL v3 / trademark terms and cannot be removed from Plone. The config is harmless and activates automatically if a Developer license is added later.
+- **Tightened layout:** the document byline (author/date) and the empty below-title strip are hidden and the gap above the editor is reduced, so the editor sits just under the breadcrumb.
 
 ### Saving
 - **Manual save:** autosave to the document server is off; an active **Save** button force-saves straight to Plone on demand. The Save button greys out while there are no unsaved changes (native), and a **"File saved"** confirmation is shown after a manual save.
