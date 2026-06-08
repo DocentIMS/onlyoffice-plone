@@ -92,4 +92,6 @@ class TestEditorCustomization(unittest.TestCase):
         logo = self._customization()["logo"]
         self.assertTrue(logo["image"].endswith("/docent-logo.svg"))
         self.assertTrue(logo["imageDark"].endswith("/docent-logo-dark.svg"))
-        self.assertTrue(logo["url"])
+        # The logo is plain branding, not a link: no "url" so it is not
+        # clickable in the editor toolbar.
+        self.assertNotIn("url", logo)

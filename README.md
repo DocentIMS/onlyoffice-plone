@@ -35,10 +35,11 @@ This fork adds a number of integration and UX changes on top of upstream ONLYOFF
 - **Dark theme** and **inch** units by default (users can still change both in the editor).
 - **Full-height editor:** the editor fills the browser window instead of a fixed 600px height.
 - **"Open file location"** button returns to the file's parent folder.
-- **Docent logo** (mono, with light and dark variants) replaces the ONLYOFFICE logo in the toolbar.
+- **Docent logo** (mono, with light and dark variants) replaces the ONLYOFFICE logo in the toolbar; it is plain branding and **not clickable**.
+- **Tightened layout:** the empty top spacing above the editor frame is collapsed so the toolbar sits right under the Plone content separator.
 
 ### Saving
-- **Manual save:** autosave to the document server is off; an active **Save** button force-saves straight to Plone on demand.
+- **Manual save:** autosave to the document server is off; an active **Save** button force-saves straight to Plone on demand. The Save button greys out while there are no unsaved changes (native), and a **"File saved"** confirmation is shown after a manual save.
 - Saves are a **full in-place overwrite** of the original file — no version history is piled up.
 
 ### Download

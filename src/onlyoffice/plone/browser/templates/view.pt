@@ -33,9 +33,19 @@
   <metal:title fill-slot="content-title" />
 
   <metal:block fill-slot="content-core">
+    <!-- The editor view drops the page title and byline, so the theme's
+         default top spacing above the content just shows as empty white space
+         between the Plone content separator and the top of the ONLYOFFICE
+         frame. Collapse that spacing here (scoped to this rendered page). -->
+    <style type="text/css">
+      #portal-column-content,
+      #content,
+      #content-core { margin-top: 0 !important; padding-top: 0 !important; }
+      .onlyoffice-download-bar { margin-top: 0 !important; }
+    </style>
     <div class="onlyoffice-download-bar"
          tal:condition="context/file | nothing"
-         style="display:flex; justify-content:flex-end; margin-bottom:.75rem;"
+         style="display:flex; justify-content:flex-end; margin-bottom:.5rem;"
     >
       <button type="button"
               class="btn btn-primary"
@@ -381,9 +391,30 @@
         }
       };
 
+      var saveMessages = {
+        saved: "File saved."
+      };
+
+      // The Save button greys out on its own while there are no unsaved
+      // changes (native behaviour with forcesave + autosave off). Here we just
+      // confirm a manual save: onDocumentStateChange fires with data === true
+      // when the document becomes modified and data === false once it has been
+      // saved back. We only show the message on the modified -> saved
+      // transition, so it does not fire on the initial clean load.
+      var documentWasModified = false;
+      var onDocumentStateChange = function (event) {
+        if (event.data) {
+          documentWasModified = true;
+        } else if (documentWasModified) {
+          documentWasModified = false;
+          showOnlyofficeMessage(saveMessages.saved);
+        }
+      };
+
       config.events = {
         "onAppReady": onAppReady,
         "onDownloadAs": onDownloadAs,
+        "onDocumentStateChange": onDocumentStateChange,
         "onRequestRename": onRequestRename,
         "onRequestInsertImage": onRequestInsertImage,
         "onRequestCompareFile": onRequestCompareFile,
