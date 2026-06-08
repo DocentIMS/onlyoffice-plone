@@ -50,7 +50,10 @@
       #content-core,
       .principal-content,
       main#content { margin-top: 0 !important; padding-top: 0 !important; }
-      .onlyoffice-editor-wrap { position: relative; margin-top: 0; }
+      /* Any residual gap above the editor lives on a theme wrapper we don't
+         control here, so pull the whole editor block up by ~half the gap.
+         Tunable: make this more negative to tighten, less to loosen. */
+      .onlyoffice-editor-wrap { position: relative; margin-top: -1rem; }
       /* 3) Compact Download button floated over the top-right of the ONLYOFFICE
             header, just left of the "Editing" control. The editor toolbar is a
             cross-origin iframe we cannot inject into, so this Plone button is
