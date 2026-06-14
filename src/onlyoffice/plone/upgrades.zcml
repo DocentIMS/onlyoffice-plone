@@ -44,4 +44,12 @@
       handler="onlyoffice.plone.upgrades.enable_direct_open_view"
       />
 
+  <genericsetup:upgradeStep
+      title="Add sidebar (collective.sidebar) actions and recategorize object actions"
+      profile="onlyoffice.plone:default"
+      source="4040"
+      destination="4050"
+      handler="onlyoffice.plone.upgrades.add_sidebar_actions"
+      />
+
 </configure>

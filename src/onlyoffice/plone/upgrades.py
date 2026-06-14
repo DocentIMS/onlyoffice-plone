@@ -38,3 +38,11 @@ def add_direct_open_setting(context):
 def enable_direct_open_view(context):
     # Register the onlyoffice-open File default view on existing installs.
     context.runImportStepFromProfile(PROFILE_ID, "typeinfo")
+
+
+def add_sidebar_actions(context):
+    # Add the 'sidebar_links' create actions (rendered by collective.sidebar)
+    # and recategorize the File/Document ONLYOFFICE actions to 'object_buttons'
+    # so they surface in the sidebar's Actions section on existing installs.
+    context.runImportStepFromProfile(PROFILE_ID, "actions")
+    context.runImportStepFromProfile(PROFILE_ID, "typeinfo")
