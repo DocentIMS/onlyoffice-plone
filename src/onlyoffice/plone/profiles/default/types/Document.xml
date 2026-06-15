@@ -11,7 +11,7 @@
   </property>
 
   <action action_id="onlyoffice-conversion-document"
-          category="object"
+          category="object_buttons"
           condition_expr="object/@@onlyoffice-convert-document/isAvailable"
           icon_expr="string:onlyoffice-logo"
           title="Conversion in ONLYOFFICE"

@@ -12,12 +12,19 @@
       file="meta.zcml"
       />
 
-  <!--
   <browser:jbot
       directory="overrides"
       layer="onlyoffice.plone.interfaces.IOnlyofficePloneLayer"
       />
-  -->
+
+  <!-- Data for the collapsible ONLYOFFICE group in collective.sidebar -->
+  <browser:page
+      name="onlyoffice-sidebar"
+      for="*"
+      class=".sidebar.OnlyofficeSidebar"
+      permission="zope2.View"
+      layer="onlyoffice.plone.interfaces.IOnlyofficePloneLayer"
+      />
 
   <browser:resourceDirectory
       name="onlyoffice-static"

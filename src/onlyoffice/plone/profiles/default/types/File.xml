@@ -13,7 +13,7 @@
   <property name="default_view">onlyoffice-open</property>
 
   <action action_id="onlyoffice-edit"
-          category="object"
+          category="object_buttons"
           condition_expr="object/@@onlyoffice-edit/isAvailable"
           icon_expr="string:onlyoffice-logo"
           title="ONLYOFFICE Edit"
@@ -26,7 +26,7 @@
   </action>
 
   <action action_id="onlyoffice-view"
-          category="object"
+          category="object_buttons"
           condition_expr="object/@@onlyoffice-view/canView"
           icon_expr="string:onlyoffice-logo"
           title="ONLYOFFICE View"
@@ -39,7 +39,7 @@
   </action>
 
   <action action_id="onlyoffice-review"
-          category="object"
+          category="object_buttons"
           condition_expr="object/@@onlyoffice-review/canReview"
           icon_expr="string:onlyoffice-logo"
           title="ONLYOFFICE Review"
@@ -52,7 +52,7 @@
   </action>
 
   <action action_id="onlyoffice-fill-form"
-          category="object"
+          category="object_buttons"
           condition_expr="object/@@onlyoffice-fill-form/isAvailable"
           icon_expr="string:onlyoffice-logo"
           title="Fill in form in ONLYOFFICE"
@@ -65,7 +65,7 @@
   </action>
 
   <action action_id="onlyoffice-conversion-file"
-          category="object"
+          category="object_buttons"
           condition_expr="object/@@onlyoffice-convert-file/isAvailable"
           icon_expr="string:onlyoffice-logo"
           title="Conversion in ONLYOFFICE"

@@ -38,3 +38,30 @@ def add_direct_open_setting(context):
 def enable_direct_open_view(context):
     # Register the onlyoffice-open File default view on existing installs.
     context.runImportStepFromProfile(PROFILE_ID, "typeinfo")
+
+
+def add_sidebar_actions(context):
+    # Recategorize the File/Document ONLYOFFICE actions to 'object_buttons' so
+    # they surface in the sidebar's Actions section, and import the actions tool.
+    context.runImportStepFromProfile(PROFILE_ID, "actions")
+    context.runImportStepFromProfile(PROFILE_ID, "typeinfo")
+
+
+def remove_sidebar_links_actions(context):
+    # Earlier 4050 added flat create links in the 'sidebar_links' action
+    # category. These are replaced by the collapsible ONLYOFFICE group rendered
+    # by the sidebar template override, so remove the now-redundant actions.
+    from plone import api
+
+    portal_actions = api.portal.get_tool("portal_actions")
+    category = portal_actions.get("sidebar_links")
+    if category is None:
+        return
+    for action_id in (
+        "onlyoffice-create-word",
+        "onlyoffice-create-cell",
+        "onlyoffice-create-slide",
+        "onlyoffice-create-form",
+    ):
+        if action_id in category.objectIds():
+            category.manage_delObjects([action_id])

@@ -44,4 +44,20 @@
       handler="onlyoffice.plone.upgrades.enable_direct_open_view"
       />
 
+  <genericsetup:upgradeStep
+      title="Add sidebar (collective.sidebar) actions and recategorize object actions"
+      profile="onlyoffice.plone:default"
+      source="4040"
+      destination="4050"
+      handler="onlyoffice.plone.upgrades.add_sidebar_actions"
+      />
+
+  <genericsetup:upgradeStep
+      title="Remove flat sidebar_links create actions (replaced by collapsible group)"
+      profile="onlyoffice.plone:default"
+      source="4050"
+      destination="4060"
+      handler="onlyoffice.plone.upgrades.remove_sidebar_links_actions"
+      />
+
 </configure>
