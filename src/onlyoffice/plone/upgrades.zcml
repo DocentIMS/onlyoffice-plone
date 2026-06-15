@@ -52,4 +52,12 @@
       handler="onlyoffice.plone.upgrades.add_sidebar_actions"
       />
 
+  <genericsetup:upgradeStep
+      title="Remove flat sidebar_links create actions (replaced by collapsible group)"
+      profile="onlyoffice.plone:default"
+      source="4050"
+      destination="4060"
+      handler="onlyoffice.plone.upgrades.remove_sidebar_links_actions"
+      />
+
 </configure>
