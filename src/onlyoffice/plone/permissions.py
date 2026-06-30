@@ -29,20 +29,15 @@ ZMI Security tab, or per folder).
 """
 
 from AccessControl.Permission import addPermission
-from AccessControl.Permission import setDefaultRoles
 
 
 ViewDocument = "ONLYOFFICE: View document"
 ReviewDocument = "ONLYOFFICE: Review document"
 EditDocument = "ONLYOFFICE: Edit document"
 
-addPermission(ViewDocument)
-addPermission(ReviewDocument)
-addPermission(EditDocument)
-
-setDefaultRoles(
+addPermission(
     ViewDocument,
-    (
+    default_roles=(
         "Manager",
         "Site Administrator",
         "Owner",
@@ -52,11 +47,11 @@ setDefaultRoles(
         "Reader",
     ),
 )
-setDefaultRoles(
+addPermission(
     ReviewDocument,
-    ("Manager", "Site Administrator", "Reviewer"),
+    default_roles=("Manager", "Site Administrator", "Reviewer"),
 )
-setDefaultRoles(
+addPermission(
     EditDocument,
-    ("Manager", "Site Administrator", "Owner", "Editor"),
+    default_roles=("Manager", "Site Administrator", "Owner", "Editor"),
 )

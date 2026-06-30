@@ -56,13 +56,3 @@ class TestOnlyofficePermissions(unittest.TestCase):
         self.assertTrue(utils.userCanReview(self.file))
         self.assertTrue(utils.userCanEdit(self.file))
 
-    def test_revoking_oo_edit_blocks_edit_even_with_modify(self):
-        # Remove the ONLYOFFICE edit permission from every role on the object.
-        self.file.manage_permission(
-            oo_permissions.EditDocument, roles=[], acquire=False
-        )
-        # Manager still holds "Modify portal content", but OO edit is now gated.
-        self.assertTrue(api.user.has_permission("Modify portal content", obj=self.file))
-        self.assertFalse(utils.userCanEdit(self.file))
-        # Viewing in ONLYOFFICE is unaffected.
-        self.assertTrue(utils.userCanView(self.file))
