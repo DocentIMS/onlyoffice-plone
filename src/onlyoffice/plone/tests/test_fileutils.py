@@ -35,9 +35,7 @@ class TestGetFileExt(unittest.TestCase):
         setRoles(self.portal, TEST_USER_ID, ["Manager"])
 
     def _file(self, fid, filename, data=b"data"):
-        obj = api.content.create(
-            container=self.portal, type="File", id=fid, title=fid
-        )
+        obj = api.content.create(container=self.portal, type="File", id=fid, title=fid)
         if filename is not None:
             obj.file = NamedBlobFile(data, filename=filename)
         return obj

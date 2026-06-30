@@ -86,9 +86,7 @@ class TestEditorCustomization(unittest.TestCase):
 
     def test_goback_points_to_parent(self):
         customization = self._customization()
-        self.assertEqual(
-            customization["goback"]["url"], self.portal.absolute_url()
-        )
+        self.assertEqual(customization["goback"]["url"], self.portal.absolute_url())
 
     def test_docent_logo(self):
         logo = self._customization()["logo"]
