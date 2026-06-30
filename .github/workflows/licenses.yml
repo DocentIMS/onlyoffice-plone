@@ -21,7 +21,8 @@ jobs:
       - name: Install Dependencies
         run: |
           python3 -m pip install --upgrade pip build
-          pip install -r requirements.txt
+          pip install setuptools
+          pip install zc.buildout --no-deps
       - name: Get Repository License
         id: license
         run: |
