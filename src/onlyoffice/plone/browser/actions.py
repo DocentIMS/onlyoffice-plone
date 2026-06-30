@@ -257,9 +257,7 @@ def get_config(self, forEdit, role=None):
                 # "Open file location" button returns to the parent folder.
                 "goback": {
                     "url": aq_parent(aq_inner(self.context)).absolute_url(),
-                    "text": translate(
-                        _("Open file location"), context=self.request
-                    ),
+                    "text": translate(_("Open file location"), context=self.request),
                 },
                 # Docent logo in place of the ONLYOFFICE logo. image is used on
                 # light backgrounds, imageDark on the dark theme. "url" must be

@@ -55,7 +55,6 @@
           >
             <ul class="nav nav-pills flex-column">
 
-          links
               <li tal:repeat="link links">
                 <a class="nav-link"
                    href="${link/url}"
@@ -99,7 +98,6 @@
                id="${id}-collapse"
           >
             <ul class="nav nav-pills flex-column">
-          static links
               <li tal:repeat="link links">
                 <a class="nav-link"
                    href="${link/url}"
@@ -252,7 +250,7 @@
                 data-bs-target="#${id}-collapse"
                 data-bs-toggle="${collapse}"
           >
-            <span>ONLYOFFICE</span>
+            <span i18n:translate="">ONLYOFFICE</span>
             <tal:icon tal:condition="collapsible"
                       tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')"
             />
@@ -511,6 +509,7 @@
             <div class="mb-3">
               <label class="form-label visually-hidden"
                      for="search"
+                     i18n:translate=""
               >Search</label>
               <input class="form-control"
                      id="search"
@@ -559,7 +558,7 @@
                  href="${context/absolute_url}/@@manage-portlets"
               >
                 <svg xmlns="http://www.w3.org/2000/svg"
-                     class="plone-icon  bi bi-window"
+                     class="plone-icon bi bi-window"
                      fill="currentColor"
                      height="16"
                      viewbox="0 0 16 16"
@@ -568,14 +567,14 @@
                   <path d="M2.5 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1m2-.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m1 .5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"></path>
                   <path d="M2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm13 2v2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1M2 14a1 1 0 0 1-1-1V6h14v7a1 1 0 0 1-1 1z"></path>
                 </svg>
-                Manage Portlets (all)</a>
+                <span i18n:translate="">Manage Portlets (all)</span></a>
             </li>
             <li>
               <a class="nav-link"
                  href="${context/absolute_url}/@@topbar-manage-portlets/plone.footerportlets"
               >
                 <svg xmlns="http://www.w3.org/2000/svg"
-                     class="plone-icon  bi bi-window"
+                     class="plone-icon bi bi-window"
                      fill="currentColor"
                      height="16"
                      viewbox="0 0 16 16"
@@ -584,7 +583,7 @@
                   <path d="M2.5 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1m2-.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m1 .5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"></path>
                   <path d="M2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm13 2v2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1M2 14a1 1 0 0 1-1-1V6h14v7a1 1 0 0 1-1 1z"></path>
                 </svg>
-                Manage Footer Portlets</a>
+                <span i18n:translate="">Manage Footer Portlets</span></a>
             </li>
 
 

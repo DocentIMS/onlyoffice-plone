@@ -28,14 +28,14 @@ then narrow access by removing roles from these permissions (site-wide via the
 ZMI Security tab, or per folder).
 """
 
-from Products.CMFCore.permissions import setDefaultRoles
+from AccessControl.Permission import addPermission
 
 
 ViewDocument = "ONLYOFFICE: View document"
 ReviewDocument = "ONLYOFFICE: Review document"
 EditDocument = "ONLYOFFICE: Edit document"
 
-setDefaultRoles(
+addPermission(
     ViewDocument,
     (
         "Manager",
@@ -47,11 +47,11 @@ setDefaultRoles(
         "Reader",
     ),
 )
-setDefaultRoles(
+addPermission(
     ReviewDocument,
     ("Manager", "Site Administrator", "Reviewer"),
 )
-setDefaultRoles(
+addPermission(
     EditDocument,
     ("Manager", "Site Administrator", "Owner", "Editor"),
 )
