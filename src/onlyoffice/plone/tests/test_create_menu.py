@@ -27,7 +27,6 @@ from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 
 import unittest
 
-
 MENU_ITEM_NAME = "plone.contentmenu.onlyoffice.create"
 
 

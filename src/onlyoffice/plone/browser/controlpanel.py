@@ -40,7 +40,6 @@ import json
 import os
 import requests
 
-
 _Plone = MessageFactory("plone")
 
 

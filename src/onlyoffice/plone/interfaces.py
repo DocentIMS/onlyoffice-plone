@@ -22,7 +22,6 @@ from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 
 import logging
 
-
 logger = logging.getLogger("onlyoffice")
 _ = MessageFactory("onlyoffice.plone")
 
