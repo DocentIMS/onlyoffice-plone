@@ -30,6 +30,7 @@ from zope.lifecycleevent import modified
 import re
 import unittest
 
+
 # Characters ONLYOFFICE permits in a document key, max length 128.
 KEY_RE = re.compile(r"^[0-9A-Za-z._=-]{1,128}$")
 

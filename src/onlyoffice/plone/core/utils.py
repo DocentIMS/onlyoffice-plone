@@ -32,6 +32,7 @@ import onlyoffice.plone.permissions as oo_permissions
 import os
 import uuid
 
+
 DOCUMENT_KEY_ANNOTATION = "onlyoffice.plone.documentKey"
 
 

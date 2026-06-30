@@ -2,6 +2,7 @@ import os
 import pkg_resources
 import subprocess
 
+
 domain = "onlyoffice.plone"
 os.chdir(pkg_resources.resource_filename(domain, ""))
 os.chdir("../../../")

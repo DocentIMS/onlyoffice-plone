@@ -24,6 +24,7 @@ from zope.interface import Interface
 # -*- coding: utf-8 -*-
 import logging
 
+
 logger = logging.getLogger("onlyoffice")
 
 

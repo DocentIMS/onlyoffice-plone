@@ -16,6 +16,7 @@
 
 from onlyoffice.plone.core import utils
 
+
 # Field names that hold editable document content.
 CONTENT_FIELDS = {"file", "image"}
 
