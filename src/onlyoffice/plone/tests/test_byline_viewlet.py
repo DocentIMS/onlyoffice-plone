@@ -30,6 +30,7 @@ from zope.viewlet.interfaces import IViewlet
 
 import unittest
 
+
 BYLINE_NAME = "plone.belowcontenttitle.documentbyline"
 
 
