@@ -1,33 +1,64 @@
-<tal:variables tal:define="portal_url view/get_portal_url;
-                        navigation_root_url view/get_navigation_root_url;
-                        toLocalizedTime nocall: context/@@plone/toLocalizedTime;
-                        context_url context/absolute_url;
-                        anonymous view/is_anonymous;
-                        collapsible view/collapse_enabled;
-                        show_portlets view/is_portlets_enabled;
-                        collapse python:collapsible and 'collapse' or '';
-                        role python:collapsible and 'button' or '';
-                        icons python:context.restrictedTraverse('@@iconresolver');" i18n:domain="collective.sidebar">
+<tal:variables tal:define="
+                 portal_url view/get_portal_url;
+                 navigation_root_url view/get_navigation_root_url;
+                 toLocalizedTime nocall: context/@@plone/toLocalizedTime;
+                 context_url context/absolute_url;
+                 anonymous view/is_anonymous;
+                 collapsible view/collapse_enabled;
+                 show_portlets view/is_portlets_enabled;
+                 collapse python:collapsible and 'collapse' or '';
+                 role python:collapsible and 'button' or '';
+                 icons python:context.restrictedTraverse('@@iconresolver');
+               "
+               i18n:domain="collective.sidebar"
+>
 
-  <div class="offcanvas offcanvas-${view/get_sidebar_position}" tabindex="-1" id="portal-sidebar" aria-labelledby="offcanvasExampleLabel" tal:define="items view/get_items|None; back view/get_back|None;" data-sidebar-mouse="${view/get_mouse_activated}" data-sidebar-mouse-area="${view/get_mouse_area}">
+  <div class="offcanvas offcanvas-${view/get_sidebar_position}"
+       id="portal-sidebar"
+       aria-labelledby="offcanvasExampleLabel"
+       tabindex="-1"
+       data-sidebar-mouse="${view/get_mouse_activated}"
+       data-sidebar-mouse-area="${view/get_mouse_area}"
+       tal:define="
+         items view/get_items|None;
+         back view/get_back|None;
+       "
+  >
 
     <div class="offcanvas-body pt-4">
 
       <!-- Site Actions -->
       <tal:condition tal:condition="view/is_siteactions_enabled|None">
-        <div class="sidebar-section pb-3" tal:define="id python:'site_actions'; links view/get_site_actions" tal:condition="links" id="section-${id}">
+        <div class="sidebar-section pb-3"
+             id="section-${id}"
+             tal:define="
+               id python:'site_actions';
+               links view/get_site_actions;
+             "
+             tal:condition="links"
+        >
 
-          <span class="h6 sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-3 text-muted text-uppercase" data-bs-toggle="${collapse}" data-bs-target="#${id}-collapse" role="${role}" aria-expanded="true">
+          <span class="h6 sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-3 text-muted text-uppercase"
+                aria-expanded="true"
+                role="${role}"
+                data-bs-target="#${id}-collapse"
+                data-bs-toggle="${collapse}"
+          >
             <span i18n:translate="navigation_heading_site_actions">Site actions</span>
-            <tal:icon tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')" tal:condition="collapsible" />
+            <tal:icon tal:condition="collapsible"
+                      tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')"
+            />
           </span>
 
-          <div class="${collapse}" id="${id}-collapse">
+          <div class="${collapse}"
+               id="${id}-collapse"
+          >
             <ul class="nav nav-pills flex-column">
 
-          links
               <li tal:repeat="link links">
-                <a href="${link/url}" class="nav-link">
+                <a class="nav-link"
+                   href="${link/url}"
+                >
                   <tal:icon tal:replace="structure python:icons.tag(link['icon'], tag_class='me-1')" />
                 ${link/title}
                 </a>
@@ -42,18 +73,35 @@
 
       <!-- Static Links -->
       <tal:condition tal:condition="view/is_sitelinks_enabled|None">
-        <div class="sidebar-section pb-3" tal:define="id python:'links'; links view/get_static_links" tal:condition="links" id="section-${id}">
+        <div class="sidebar-section pb-3"
+             id="section-${id}"
+             tal:define="
+               id python:'links';
+               links view/get_static_links;
+             "
+             tal:condition="links"
+        >
 
-          <span class="h6 sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-3 text-muted text-uppercase" data-bs-toggle="${collapse}" data-bs-target="#${id}-collapse" role="${role}" aria-expanded="true">
+          <span class="h6 sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-3 text-muted text-uppercase"
+                aria-expanded="true"
+                role="${role}"
+                data-bs-target="#${id}-collapse"
+                data-bs-toggle="${collapse}"
+          >
             <span i18n:translate="navigation_heading_links">Links</span>
-            <tal:icon tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')" tal:condition="collapsible" />
+            <tal:icon tal:condition="collapsible"
+                      tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')"
+            />
           </span>
 
-          <div class="${collapse}" id="${id}-collapse">
+          <div class="${collapse}"
+               id="${id}-collapse"
+          >
             <ul class="nav nav-pills flex-column">
-          static links
               <li tal:repeat="link links">
-                <a href="${link/url}" class="nav-link">
+                <a class="nav-link"
+                   href="${link/url}"
+                >
                   <tal:icon tal:replace="structure python:icons.tag(link['icon'], tag_class='me-1')" />
                 ${link/title}
                 </a>
@@ -68,15 +116,35 @@
 
       <!-- Navigation -->
 
-      <div class="sidebar-section pb-3" tal:define="id python:'navigation'" id="section-${id}" tal:condition="python:view.is_navigation_enabled()">
+      <div class="sidebar-section pb-3"
+           id="section-${id}"
+           tal:define="
+             id python:'navigation';
+           "
+           tal:condition="python:view.is_navigation_enabled()"
+      >
 
-        <span class="h6 sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-3 text-muted text-uppercase" data-bs-toggle="${collapse}" data-bs-target="#${id}-collapse" role="${role}" aria-expanded="true">
+        <span class="h6 sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-3 text-muted text-uppercase"
+              aria-expanded="true"
+              role="${role}"
+              data-bs-target="#${id}-collapse"
+              data-bs-toggle="${collapse}"
+        >
           <span i18n:translate="navigation_heading_navigation">Navigation</span>
-          <tal:icon tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')" tal:condition="collapsible" />
+          <tal:icon tal:condition="collapsible"
+                    tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')"
+          />
         </span>
 
-        <div class="${collapse}" id="${id}-collapse">
-          <div id="navigation-wrapper" class="navigation-static" tal:attributes="class view/get_navigation_class">
+        <div class="${collapse}"
+             id="${id}-collapse"
+        >
+          <div class="navigation-static"
+               id="navigation-wrapper"
+               tal:attributes="
+                 class view/get_navigation_class;
+               "
+          >
             <tal:navigation replace="structure context/@@navigation" />
           </div>
         </div>
@@ -87,46 +155,71 @@
 
       <!-- Editing -->
 
-      <div class="sidebar-section pb-3" tal:define="id python:'edit'" tal:condition="view/can_edit" id="section-${id}">
+      <div class="sidebar-section pb-3"
+           id="section-${id}"
+           tal:define="
+             id python:'edit';
+           "
+           tal:condition="view/can_edit"
+      >
 
-        <span class="h6 sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-3 text-muted text-uppercase" data-bs-toggle="${collapse}" data-bs-target="#${id}-collapse" role="${role}" aria-expanded="true">
+        <span class="h6 sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-3 text-muted text-uppercase"
+              aria-expanded="true"
+              role="${role}"
+              data-bs-target="#${id}-collapse"
+              data-bs-toggle="${collapse}"
+        >
           <span i18n:translate="navigation_heading_edit">Edit</span>
-          <tal:icon tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')" tal:condition="collapsible" />
+          <tal:icon tal:condition="collapsible"
+                    tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')"
+          />
         </span>
 
-        <div class="${collapse}" id="${id}-collapse">
+        <div class="${collapse}"
+             id="${id}-collapse"
+        >
           <ul class="nav nav-pills flex-column">
 
             <li>
-              <a href="${context/absolute_url}/view" class="nav-link">
+              <a class="nav-link"
+                 href="${context/absolute_url}/view"
+              >
                 <tal:icon tal:replace="structure python:icons.tag('plone-view', tag_class='me-1')" />
                 <span i18n:translate="view">View</span>
               </a>
             </li>
 
             <li>
-              <a href="${context/absolute_url}/edit" class="nav-link">
+              <a class="nav-link"
+                 href="${context/absolute_url}/edit"
+              >
                 <tal:icon tal:replace="structure python:icons.tag('plone-edit', tag_class='me-1')" />
                 <span i18n:translate="edit">Edit</span>
               </a>
             </li>
 
             <li>
-              <a href="${view/get_folder_contents_url}" class="nav-link">
+              <a class="nav-link"
+                 href="${view/get_folder_contents_url}"
+              >
                 <tal:icon tal:replace="structure python:icons.tag('folder', tag_class='me-1')" />
                 <span i18n:translate="contents">Contents</span>
               </a>
             </li>
 
             <li>
-              <a href="${context/absolute_url}/@@historyview" class="nav-link">
+              <a class="nav-link"
+                 href="${context/absolute_url}/@@historyview"
+              >
                 <tal:icon tal:replace="structure python:icons.tag('plone-clock', tag_class='me-1')" />
                 <span tal:content="python:toLocalizedTime(context.ModificationDate(), long_format=1)">Modified</span>
               </a>
             </li>
 
             <li>
-              <a href="${context/absolute_url}/@@sharing" class="nav-link">
+              <a class="nav-link"
+                 href="${context/absolute_url}/@@sharing"
+              >
                 <tal:icon tal:replace="structure python:icons.tag('shield-check', tag_class='me-1')" />
                 <span i18n:translate="sharing">Sharing</span>
               </a>
@@ -140,23 +233,37 @@
       <!-- End: Editing -->
 
       <!-- ONLYOFFICE: create new documents (added by onlyoffice.plone) -->
-      <tal:onlyoffice define="oo nocall:context/@@onlyoffice-sidebar|nothing">
+      <tal:onlyoffice define="
+                        oo nocall:context/@@onlyoffice-sidebar|nothing;
+                      ">
         <div class="sidebar-section pb-3"
-             tal:define="id python:'onlyoffice'"
+             id="section-${id}"
+             tal:define="
+               id python:'onlyoffice';
+             "
              tal:condition="python:oo and oo.available()"
-             id="section-${id}">
+        >
 
           <span class="h6 sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-3 text-muted text-uppercase"
-                data-bs-toggle="${collapse}" data-bs-target="#${id}-collapse"
-                role="${role}" aria-expanded="true">
-            <span>ONLYOFFICE</span>
-            <tal:icon tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')" tal:condition="collapsible" />
+                aria-expanded="true"
+                role="${role}"
+                data-bs-target="#${id}-collapse"
+                data-bs-toggle="${collapse}"
+          >
+            <span i18n:translate="">ONLYOFFICE</span>
+            <tal:icon tal:condition="collapsible"
+                      tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')"
+            />
           </span>
 
-          <div class="${collapse}" id="${id}-collapse">
+          <div class="${collapse}"
+               id="${id}-collapse"
+          >
             <ul class="nav nav-pills flex-column">
               <li tal:repeat="item python:oo.items()">
-                <a href="${item/url}" class="nav-link">
+                <a class="nav-link"
+                   href="${item/url}"
+                >
                   <span tal:content="item/title">Document</span>
                 </a>
               </li>
@@ -170,14 +277,31 @@
       <!-- Workflow -->
 
       <tal:condition tal:condition="view/get_workflow_actions|None">
-        <div class="sidebar-section pb-3" tal:define="id python:'workflow'; actions view/get_workflow_actions|None" tal:condition="python:view.can_edit() and view.has_workflow()" id="section-${id}">
+        <div class="sidebar-section pb-3"
+             id="section-${id}"
+             tal:define="
+               id python:'workflow';
+               actions view/get_workflow_actions|None;
+             "
+             tal:condition="python:view.can_edit() and view.has_workflow()"
+        >
 
-          <span class="h6 sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-3 text-muted text-uppercase" data-bs-toggle="${collapse}" data-bs-target="#${id}-collapse" role="${role}" aria-expanded="true">
+          <span class="h6 sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-3 text-muted text-uppercase"
+                aria-expanded="true"
+                role="${role}"
+                data-bs-target="#${id}-collapse"
+                data-bs-toggle="${collapse}"
+          >
             <span i18n:translate="navigation_heading_workflow">Workflow</span>
-            <tal:icon tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')" tal:condition="collapsible" />
+            <tal:icon tal:condition="collapsible"
+                      tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')"
+            />
           </span>
 
-          <div class="${collapse}" id="${id}-collapse" i18n:domain="plone">
+          <div class="${collapse}"
+               id="${id}-collapse"
+               i18n:domain="plone"
+          >
             <ul class="nav nav-pills flex-column">
 
               <li>
@@ -188,14 +312,18 @@
               </li>
 
               <li tal:repeat="action actions">
-                <a href="${action/action}" class="nav-link">
+                <a class="nav-link"
+                   href="${action/action}"
+                >
                   <tal:icon tal:replace="structure python:icons.tag('arrow-left-right', tag_class='me-1')" />
                   <span i18n:translate="">${action/title}</span>
                 </a>
               </li>
 
               <li tal:condition="actions">
-                <a href="${context/absolute_url}/content_status_history" class="nav-link">
+                <a class="nav-link"
+                   href="${context/absolute_url}/content_status_history"
+                >
                   <tal:icon tal:replace="structure python:icons.tag('three-dots', tag_class='me-1')" />
                   <span i18n:translate="">Advanced</span>
                 </a>
@@ -210,18 +338,37 @@
 
       <!-- Object Actions -->
 
-      <div class="sidebar-section pb-3" tal:define="id python:'actions'; actions view/get_actions" tal:condition="python:view.is_actions_enabled() and view.can_edit() and actions" id="section-${id}">
+      <div class="sidebar-section pb-3"
+           id="section-${id}"
+           tal:define="
+             id python:'actions';
+             actions view/get_actions;
+           "
+           tal:condition="python:view.is_actions_enabled() and view.can_edit() and actions"
+      >
 
-        <span class="h6 sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-3 text-muted text-uppercase" data-bs-toggle="${collapse}" data-bs-target="#${id}-collapse" role="${role}" aria-expanded="true">
+        <span class="h6 sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-3 text-muted text-uppercase"
+              aria-expanded="true"
+              role="${role}"
+              data-bs-target="#${id}-collapse"
+              data-bs-toggle="${collapse}"
+        >
           <span i18n:translate="navigation_heading_actions">Actions</span>
-          <tal:icon tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')" tal:condition="collapsible" />
+          <tal:icon tal:condition="collapsible"
+                    tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')"
+          />
         </span>
 
-        <div class="${collapse}" id="${id}-collapse" i18n:domain="plone">
+        <div class="${collapse}"
+             id="${id}-collapse"
+             i18n:domain="plone"
+        >
           <ul class="nav nav-pills flex-column">
             <tal:links repeat="action actions">
               <li tal:condition="action/allowed">
-                <a href="${action/url}" class="nav-link ${python:'pat-plone-modal' if action.get('modal', None) else ''}">
+                <a class="nav-link ${python:'pat-plone-modal' if action.get('modal', None) else ''}"
+                   href="${action/url}"
+                >
                   <tal:icon tal:replace="structure python:icons.tag(action['icon'], tag_class='me-1')" />
                   <span i18n:translate="">${action/title}</span>
                 </a>
@@ -236,52 +383,90 @@
 
       <!-- Document Management -->
       <tal:condition tal:condition="view/is_add_enabled|None">
-      <div class="sidebar-section pb-3" tal:define="id python:'add'; items view/get_addable_items;" tal:condition="items" id="section-${id}">
+        <div class="sidebar-section pb-3"
+             id="section-${id}"
+             tal:define="
+               id python:'add';
+               items view/get_addable_items;
+             "
+             tal:condition="items"
+        >
 
-        <span class="h6 sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-3 text-muted text-uppercase" data-bs-toggle="${collapse}" data-bs-target="#${id}-collapse" role="${role}" aria-expanded="true">
-          <span i18n:translate="navigation_heading_add">Add</span>
-          <tal:icon tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')" tal:condition="collapsible" />
-        </span>
+          <span class="h6 sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-3 text-muted text-uppercase"
+                aria-expanded="true"
+                role="${role}"
+                data-bs-target="#${id}-collapse"
+                data-bs-toggle="${collapse}"
+          >
+            <span i18n:translate="navigation_heading_add">Add</span>
+            <tal:icon tal:condition="collapsible"
+                      tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')"
+            />
+          </span>
 
-        <div class="${collapse}" id="${id}-collapse" i18n:domain="plone">
+          <div class="${collapse}"
+               id="${id}-collapse"
+               i18n:domain="plone"
+          >
 
 
-          <ul class="nav nav-pills flex-column">
+            <ul class="nav nav-pills flex-column">
 
-            <li tal:repeat="item items">
-              <a href="${item/action}" class="nav-link">
-                <tal:icon tal:replace="structure python:icons.tag('plus', tag_class='me-1')" />
-                <span i18n:translate="">${item/title|item/Title}</span>
-              </a>
-            </li>
-          </ul>
+              <li tal:repeat="item items">
+                <a class="nav-link"
+                   href="${item/action}"
+                >
+                  <tal:icon tal:replace="structure python:icons.tag('plus', tag_class='me-1')" />
+                  <span i18n:translate="">${item/title|item/Title}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
       </tal:condition>
 
       <!-- End: Document Management -->
 
       <!-- Display Management -->
 
-      <div class="sidebar-section pb-3" tal:define="id python:'display'" tal:condition="view/can_edit" id="section-${id}">
+      <div class="sidebar-section pb-3"
+           id="section-${id}"
+           tal:define="
+             id python:'display';
+           "
+           tal:condition="view/can_edit"
+      >
 
-        <span class="h6 sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-3 text-muted text-uppercase" data-bs-toggle="${collapse}" data-bs-target="#${id}-collapse" role="${role}" aria-expanded="true">
+        <span class="h6 sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-3 text-muted text-uppercase"
+              aria-expanded="true"
+              role="${role}"
+              data-bs-target="#${id}-collapse"
+              data-bs-toggle="${collapse}"
+        >
           <span i18n:translate="navigation_heading_display">Display</span>
-          <tal:icon tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')" tal:condition="collapsible" />
+          <tal:icon tal:condition="collapsible"
+                    tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')"
+          />
         </span>
 
-        <div class="${collapse}" id="${id}-collapse">
+        <div class="${collapse}"
+             id="${id}-collapse"
+        >
           <ul class="nav nav-pills flex-column">
 
             <li>
-              <a href="${view/get_default_view_link}" class="nav-link pat-plone-modal">
+              <a class="nav-link pat-plone-modal"
+                 href="${view/get_default_view_link}"
+              >
                 <tal:icon tal:replace="structure python:icons.tag('display', tag_class='me-1')" />
                 <span i18n:translate="select_default_view">Default View</span>
               </a>
             </li>
 
             <li>
-              <a href="${view/get_default_page_link}" class="nav-link pat-plone-modal">
+              <a class="nav-link pat-plone-modal"
+                 href="${view/get_default_page_link}"
+              >
                 <tal:icon tal:replace="structure python:icons.tag('file-earmark-text', tag_class='me-1')" />
                 <span i18n:translate="select_default_page">Default Page</span>
               </a>
@@ -296,86 +481,162 @@
 
       <!-- Search -->
 
-      <div class="sidebar-section pb-3" tal:define="id python:'search'" tal:condition="view/can_edit" id="section-${id}">
+      <div class="sidebar-section pb-3"
+           id="section-${id}"
+           tal:define="
+             id python:'search';
+           "
+           tal:condition="view/can_edit"
+      >
 
-        <span class="h6 sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-3 text-muted text-uppercase" data-bs-toggle="${collapse}" data-bs-target="#${id}-collapse" role="${role}" aria-expanded="true">
+        <span class="h6 sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-3 text-muted text-uppercase"
+              aria-expanded="true"
+              role="${role}"
+              data-bs-target="#${id}-collapse"
+              data-bs-toggle="${collapse}"
+        >
           <span i18n:translate="navigation_heading_search">Search</span>
-          <tal:icon tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')" tal:condition="collapsible" />
+          <tal:icon tal:condition="collapsible"
+                    tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')"
+          />
         </span>
 
-        <div class="collapse px-3" id="${id}-collapse">
+        <div class="collapse px-3"
+             id="${id}-collapse"
+        >
 
           <form action="${context/portal_url}/@@search">
             <div class="mb-3">
-              <label for="search" class="form-label visually-hidden">Search</label>
-              <input type="text" class="form-control" id="search" name="SearchableText" placeholder="Type and hit enter" i18n:attributes="placeholder search_placeholder">
-              </div>
-              <button class="btn btn-primary visually-hidden" type="submit" i18n:translate="search_button_submit">Search</button>
-            </form>
-
-          </div>
+              <label class="form-label visually-hidden"
+                     for="search"
+                     i18n:translate=""
+              >Search</label>
+              <input class="form-control"
+                     id="search"
+                     name="SearchableText"
+                     placeholder="Type and hit enter"
+                     type="text"
+                     i18n:attributes="placeholder search_placeholder"
+              />
+            </div>
+            <button class="btn btn-primary visually-hidden"
+                    type="submit"
+                    i18n:translate="search_button_submit"
+            >Search</button>
+          </form>
 
         </div>
-        <!-- End: Search -->
 
-        <!-- Start: Manage portlets -->
-        <div class="sidebar-section pb-3" tal:condition="show_portlets" id="section-portlets" tal:define="id python:'manage-portlets';">
-          <span class="h6 sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-3 text-muted text-uppercase" data-bs-toggle="${collapse}" data-bs-target="#${id}-collapse" role="${role}" aria-expanded="true">
-            <span i18n:translate="navigation_heading_search">Manage Portlets</span>
-            <tal:icon tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')" tal:condition="collapsible" />
-          </span>
-          <div class="${collapse}" id="${id}-collapse">
-            <ul class="nav nav-pills flex-column">
-              <li>
-                <a href="${context/absolute_url}/@@manage-portlets" class="nav-link">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="plone-icon  bi bi-window" viewBox="0 0 16 16">
-                    <path d="M2.5 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1m2-.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m1 .5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"></path>
-                    <path d="M2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm13 2v2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1M2 14a1 1 0 0 1-1-1V6h14v7a1 1 0 0 1-1 1z"></path>
-                  </svg>  
-              Manage Portlets (all)</a>
-              </li>
-              <li>
-                <a href="${context/absolute_url}/@@topbar-manage-portlets/plone.footerportlets" class="nav-link">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="plone-icon  bi bi-window" viewBox="0 0 16 16">
-                    <path d="M2.5 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1m2-.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m1 .5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"></path>
-                    <path d="M2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm13 2v2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1M2 14a1 1 0 0 1-1-1V6h14v7a1 1 0 0 1-1 1z"></path>
-                  </svg>  
-              Manage Footer Portlets</a>
-              </li>
+      </div>
+      <!-- End: Search -->
+
+      <!-- Start: Manage portlets -->
+      <div class="sidebar-section pb-3"
+           id="section-portlets"
+           tal:define="
+             id python:'manage-portlets';
+           "
+           tal:condition="show_portlets"
+      >
+        <span class="h6 sidebar-heading d-flex justify-content-between align-items-center px-3 mt-3 mb-3 text-muted text-uppercase"
+              aria-expanded="true"
+              role="${role}"
+              data-bs-target="#${id}-collapse"
+              data-bs-toggle="${collapse}"
+        >
+          <span i18n:translate="navigation_heading_search">Manage Portlets</span>
+          <tal:icon tal:condition="collapsible"
+                    tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')"
+          />
+        </span>
+        <div class="${collapse}"
+             id="${id}-collapse"
+        >
+          <ul class="nav nav-pills flex-column">
+            <li>
+              <a class="nav-link"
+                 href="${context/absolute_url}/@@manage-portlets"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     class="plone-icon bi bi-window"
+                     fill="currentColor"
+                     height="16"
+                     viewbox="0 0 16 16"
+                     width="16"
+                >
+                  <path d="M2.5 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1m2-.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m1 .5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"></path>
+                  <path d="M2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm13 2v2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1M2 14a1 1 0 0 1-1-1V6h14v7a1 1 0 0 1-1 1z"></path>
+                </svg>
+                <span i18n:translate="">Manage Portlets (all)</span></a>
+            </li>
+            <li>
+              <a class="nav-link"
+                 href="${context/absolute_url}/@@topbar-manage-portlets/plone.footerportlets"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg"
+                     class="plone-icon bi bi-window"
+                     fill="currentColor"
+                     height="16"
+                     viewbox="0 0 16 16"
+                     width="16"
+                >
+                  <path d="M2.5 4a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1m2-.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m1 .5a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"></path>
+                  <path d="M2 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm13 2v2H1V3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1M2 14a1 1 0 0 1-1-1V6h14v7a1 1 0 0 1-1 1z"></path>
+                </svg>
+                <span i18n:translate="">Manage Footer Portlets</span></a>
+            </li>
 
 
-            </ul>
-          </div>
+          </ul>
         </div>
-        <!-- End: Manage Portlets -->
+      </div>
+      <!-- End: Manage Portlets -->
 
-        <!-- Start:  Profile -->
-        <div class="sidebar-section pb-3" tal:define="id python:'user'; links view/get_user_actions" tal:condition="links" id="section-${id}">
-          <span class="h6 sidebar-heading d-flex justify-content-between xalign-items-center px-3 mt-3 mb-3 text-muted text-lowercase" data-bs-toggle="${collapse}" data-bs-target="#${id}-collapse" role="${role}" aria-expanded="true">
-            <span i18n:translate="navigation_heading_user">
-               ${view/get_username} 
-            </span>
-            <tal:icon tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')" tal:condition="collapsible" />
+      <!-- Start:  Profile -->
+      <div class="sidebar-section pb-3"
+           id="section-${id}"
+           tal:define="
+             id python:'user';
+             links view/get_user_actions;
+           "
+           tal:condition="links"
+      >
+        <span class="h6 sidebar-heading d-flex justify-content-between xalign-items-center px-3 mt-3 mb-3 text-muted text-lowercase"
+              aria-expanded="true"
+              role="${role}"
+              data-bs-target="#${id}-collapse"
+              data-bs-toggle="${collapse}"
+        >
+          <span i18n:translate="navigation_heading_user">
+               ${view/get_username}
           </span>
+          <tal:icon tal:condition="collapsible"
+                    tal:replace="structure python:icons.tag('chevron-right', tag_class='toggle-icon')"
+          />
+        </span>
 
-          <div class="${collapse}" id="${id}-collapse">
-            <ul class="nav nav-pills flex-column">
+        <div class="${collapse}"
+             id="${id}-collapse"
+        >
+          <ul class="nav nav-pills flex-column">
 
-              <li tal:repeat="link links">
-                <a href="${link/url}" class="nav-link">
-                  <tal:icon tal:replace="structure python:icons.tag(link['icon'], tag_class='me-1')" />
+            <li tal:repeat="link links">
+              <a class="nav-link"
+                 href="${link/url}"
+              >
+                <tal:icon tal:replace="structure python:icons.tag(link['icon'], tag_class='me-1')" />
                 ${link/title}
-                </a>
-              </li>
-            </ul>
-          </div>
-
+              </a>
+            </li>
+          </ul>
         </div>
-
-        <!-- End: Profile -->
 
       </div>
 
+      <!-- End: Profile -->
+
     </div>
 
-  </tal:variables>
+  </div>
+
+</tal:variables>

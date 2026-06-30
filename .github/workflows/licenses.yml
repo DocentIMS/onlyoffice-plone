@@ -19,10 +19,10 @@ jobs:
           python-version: '3.9'
           cache: 'pip'
       - name: Install Dependencies
-        run: | 
-          python3 -m pip install --upgrade pip==20.3.4
-          python3 -m pip install --upgrade build
-          pip install -r requirements.txt
+        run: |
+          python3 -m pip install --upgrade pip build
+          pip install setuptools
+          pip install zc.buildout --no-deps
       - name: Get Repository License
         id: license
         run: |

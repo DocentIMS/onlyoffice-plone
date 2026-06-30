@@ -284,9 +284,7 @@ class SaveCurrent(BrowserView):
             permissions.ModifyPortalContent, self.context
         ):
             pm = getToolByName(self.context, "portal_membership")
-            self.request.response.setStatus(
-                401 if bool(pm.isAnonymousUser()) else 403
-            )
+            self.request.response.setStatus(401 if bool(pm.isAnonymousUser()) else 403)
             return json_dumps({"error": "Not authorized"})
 
         body = json.loads(self.request.get("BODY"))
@@ -328,9 +326,7 @@ class Rename(BrowserView):
             permissions.ModifyPortalContent, self.context
         ):
             pm = getToolByName(self.context, "portal_membership")
-            self.request.response.setStatus(
-                401 if bool(pm.isAnonymousUser()) else 403
-            )
+            self.request.response.setStatus(401 if bool(pm.isAnonymousUser()) else 403)
             return json_dumps({"error": "Not authorized"})
 
         body = json.loads(self.request.get("BODY"))
