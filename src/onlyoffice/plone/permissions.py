@@ -37,7 +37,15 @@ EditDocument = "ONLYOFFICE: Edit document"
 
 setDefaultRoles(
     ViewDocument,
-    ("Manager", "Site Administrator", "Owner", "Editor", "Contributor", "Reviewer", "Reader"),
+    (
+        "Manager",
+        "Site Administrator",
+        "Owner",
+        "Editor",
+        "Contributor",
+        "Reviewer",
+        "Reader",
+    ),
 )
 setDefaultRoles(
     ReviewDocument,
