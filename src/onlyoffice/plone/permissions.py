@@ -30,7 +30,6 @@ ZMI Security tab, or per folder).
 
 from AccessControl.Permission import addPermission
 
-
 ViewDocument = "ONLYOFFICE: View document"
 ReviewDocument = "ONLYOFFICE: Review document"
 EditDocument = "ONLYOFFICE: Edit document"

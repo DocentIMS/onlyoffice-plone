@@ -55,4 +55,3 @@ class TestOnlyofficePermissions(unittest.TestCase):
         self.assertTrue(utils.userCanView(self.file))
         self.assertTrue(utils.userCanReview(self.file))
         self.assertTrue(utils.userCanEdit(self.file))
-
