@@ -3,6 +3,9 @@
 ## Unreleased (DocentIMS fork)
 Changes maintained on the DocentIMS fork on top of upstream ONLYOFFICE 4.1.0.
 ## Fixed
+- CI: the Artifact, Release and Licenses workflows run on Python 3.12, not 3.9. Plone's 6.1 constraints pin pip 26.1.2, which needs Python 3.10 or later, so Artifact failed while installing its tools
+- CI: Create Tag and Release run only on the upstream ONLYOFFICE repository, so a version bump in this fork's CHANGELOG cannot tag it or publish it to PyPI
+- setup.py: python_requires >=3.10, classifiers list Python 3.10-3.13 and Plone 6.1 and 6.2 - what CI tests and Plone 6.1/6.2 support; tox.ini drops py39-plone60
 - the default File view (onlyoffice-open) renders Plone's file_view for files it does not open in ONLYOFFICE, as File does without this add-on; it rendered the generic "view", whose download link (`<file>/view/++widget++form.widgets.file/@@download/<name>`) answered 404. Falls back to "view" only where file_view is not registered
 - getFileExt now derives the document extension from the actual stored file via the content's primary field (not a field hardcoded as "file"), so any content type holding an ONLYOFFICE-managed format (.docx, .xlsx, .pptx, ...) is recognised; still safe when the file field is missing, None, or empty
 - stabilized ONLYOFFICE document key generation and added force-save handling
