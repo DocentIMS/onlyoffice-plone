@@ -11,6 +11,9 @@ on:
 
 jobs:
   create-tag:
+    # DocentIMS fork: never tag or publish from here. onlyoffice.plone on
+    # PyPI is ONLYOFFICE's; the fork is vendored into docent-server-build.
+    if: github.repository == 'ONLYOFFICE/onlyoffice-plone'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
