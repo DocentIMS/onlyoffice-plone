@@ -18,6 +18,7 @@ from onlyoffice.plone.core import fileUtils
 from onlyoffice.plone.core import utils
 from Products.Five.browser import BrowserView
 from zope.component import getMultiAdapter
+from zope.component import queryMultiAdapter
 
 
 class OnlyofficeOpen(BrowserView):
@@ -51,8 +52,16 @@ class OnlyofficeOpen(BrowserView):
             self.request.response.redirect(f"{self.context.absolute_url()}/{target}")
             return ""
 
-        # Fall back to the standard Plone file view, rendered inline so the
-        # page is byte-for-byte the normal one (no redirect, no behaviour
-        # change when the setting is off or the file is not OO-managed).
-        view = getMultiAdapter((self.context, self.request), name="view")
+        # Fall back to the standard Plone file view, rendered inline (no
+        # redirect, no behaviour change when the setting is off or the file is
+        # not OO-managed). That is file_view, plone.app.contenttypes' File
+        # view - not "view", the generic Dexterity display form: its download
+        # link is <file>/view/++widget++form.widgets.file/@@download/<name>,
+        # and "view" leads back here, to a page that is not a form, so the
+        # link answers 404. file_view links to <file>/@@download/file/<name>.
+        # It is registered on plone.app.contenttypes' browser layer, so where
+        # that layer is not active it does not exist; keep "view" then.
+        view = queryMultiAdapter((self.context, self.request), name="file_view")
+        if view is None:
+            view = getMultiAdapter((self.context, self.request), name="view")
         return view()
