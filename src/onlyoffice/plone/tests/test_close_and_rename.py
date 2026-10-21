@@ -60,7 +60,9 @@ class TestTheBar(unittest.TestCase):
         source = _template()
         bar = source[source.index('id="ooDocentBar"') :]
         self.assertLess(bar.index("oo-docent-spacer"), bar.index('id="ooDocentRename"'))
-        self.assertLess(bar.index('id="ooDocentRename"'), bar.index('id="ooDocentClose"'))
+        self.assertLess(
+            bar.index('id="ooDocentRename"'), bar.index('id="ooDocentClose"')
+        )
 
     def test_save_and_close_stores_the_live_document(self):
         source = _template()
