@@ -489,7 +489,7 @@
 
       // onDocumentStateChange fires with data === true when the document has
       // changes the document server has not taken yet. It used to put up a
-      // "File saved." message each time they had gone, which read as saved in
+      // File saved message each time they had gone, which read as saved in
       // Docent when it only meant saved on the document server (2026-10-21):
       // that message is gone. All this records now is that the document was
       // edited, for the "Changes saved" note after leaving.
