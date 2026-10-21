@@ -49,6 +49,19 @@ class TestTheBar(unittest.TestCase):
             self.assertIn(f'id="{element}"', source)
         self.assertIn("Save &amp; Close", source)
 
+    def test_the_bar_does_not_repeat_the_file_name(self):
+        # ONLYOFFICE's header shows it; the bar keeps it only for the script.
+        source = _template()
+        start = source.index('id="ooDocentName"')
+        self.assertIn('hidden="hidden"', source[start : source.index(">", start)])
+        self.assertNotIn("barName.hidden", source)
+
+    def test_rename_sits_beside_save_and_close(self):
+        source = _template()
+        bar = source[source.index('id="ooDocentBar"') :]
+        self.assertLess(bar.index("oo-docent-spacer"), bar.index('id="ooDocentRename"'))
+        self.assertLess(bar.index('id="ooDocentRename"'), bar.index('id="ooDocentClose"'))
+
     def test_save_and_close_stores_the_live_document(self):
         source = _template()
         self.assertIn("onlyoffice-save-current", source)
