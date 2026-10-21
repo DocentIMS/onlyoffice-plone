@@ -243,6 +243,11 @@ def get_config(self, forEdit, role=None):
                 # Compact, single-row toolbar without ribbon tabs.
                 "compactToolbar": True,
                 "toolbarNoTabs": True,
+                # No Plugins tab: Docent uses no ONLYOFFICE plugins, and the
+                # tab-only switch (layout.toolbar.plugins) needs a white-label
+                # licence. No AI tab either (ai.disabled, ONLYOFFICE 10.0).
+                "plugins": False,
+                "ai": {"disabled": True},
                 # Manual saving only: autosave to the document server is off,
                 # and the Save button force-saves straight to Plone (status 6).
                 # Note: turning autosave off also disables fast co-editing.

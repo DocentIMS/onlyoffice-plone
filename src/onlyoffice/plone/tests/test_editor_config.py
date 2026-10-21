@@ -71,6 +71,11 @@ class TestEditorCustomization(unittest.TestCase):
         self.assertTrue(customization["toolbarNoTabs"])
         self.assertTrue(customization["hideRightMenu"])
 
+    def test_no_plugins_or_ai(self):
+        customization = self._customization()
+        self.assertFalse(customization["plugins"])
+        self.assertTrue(customization["ai"]["disabled"])
+
     def test_saving_is_manual(self):
         customization = self._customization()
         # Autosave off + forcesave on = explicit Save button that persists to Plone.
