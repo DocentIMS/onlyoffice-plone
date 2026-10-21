@@ -54,7 +54,104 @@
          control here, so pull the whole editor block up by ~half the gap.
          Tunable: make this more negative to tighten, less to loosen. */
       .onlyoffice-editor-wrap { position: relative; margin-top: -1rem; }
+      /* 4) Docent bar above the editor: the file name with Rename, and
+            Save & Close (2026-10-21). */
+      .oo-docent-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+                       margin: -0.5rem 0 1.25rem; min-height: 36px; }
+      .oo-docent-name { font-size: 14px; font-weight: 600; }
+      .oo-docent-spacer { flex-grow: 1; }
+      .oo-docent-rename { display: inline-flex; align-items: center; gap: 4px; height: 28px;
+                          padding: 0 8px; border: 1px solid #DFD9D1; border-radius: 6px;
+                          background: #FFFFFF; color: #1F5F6E; font-size: 12px; font-weight: 500;
+                          cursor: pointer; }
+      .oo-docent-rename:hover { border-color: #3A9FB5; }
+      .oo-docent-rename-form { display: inline-flex; align-items: center; gap: 6px; }
+      .oo-docent-rename-form input { height: 28px; font-size: 13px; padding: 0 8px; min-width: 260px;
+                                     border: 1px solid #BAD8DE; border-radius: 6px; }
+      .oo-docent-small { height: 28px; padding: 0 10px; border-radius: 6px; font-size: 12px;
+                         border: 1px solid #DFD9D1; background: #FFFFFF; cursor: pointer; }
+      .oo-docent-small.primary { background: #1F5F6E; border-color: #1F5F6E; color: #FFFFFF; }
+      .oo-docent-note { font-size: 12px; color: #64041f; }
+      .oo-docent-close { display: inline-flex; align-items: center; gap: 6px; height: 32px;
+                         padding: 0 14px; border-radius: 999px; border: 1px solid #1F5F6E;
+                         background: #1F5F6E; color: #FFFFFF; font-size: 11.2px; font-weight: 600;
+                         cursor: pointer; }
+      .oo-docent-close:hover { background: #17505D; border-color: #17505D; }
+      .oo-docent-close[disabled] { opacity: .7; cursor: progress; }
+      .oo-docent-bar [hidden] { display: none !important; }
     </style>
+    <!-- The file name with a Rename button, and Save & Close. Rename and
+         Save are shown by the script below only when the editor opened for
+         editing; a read-only view gets Close. -->
+    <div class="oo-docent-bar"
+         id="ooDocentBar"
+    >
+      <span class="oo-docent-name"
+            id="ooDocentName"
+            tal:content="context/Title"
+      >Title</span>
+      <button class="oo-docent-rename"
+              id="ooDocentRename"
+              hidden="hidden"
+              type="button"
+      >
+        <svg aria-hidden="true"
+             fill="none"
+             height="13"
+             stroke="currentColor"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="1.4"
+             viewbox="0 0 16 16"
+             width="13"
+        ><path d="M11.2 2.4 13.6 4.8 5.6 12.8 2.4 13.6 3.2 10.4z"></path></svg>
+        <span i18n:translate="">Rename</span>
+      </button>
+      <span class="oo-docent-rename-form"
+            id="ooDocentRenameForm"
+            hidden="hidden"
+      >
+        <input id="ooDocentRenameInput"
+               aria-label="New name"
+               type="text"
+               i18n:attributes="aria-label"
+        />
+        <button class="oo-docent-small primary"
+                id="ooDocentRenameSave"
+                type="button"
+                i18n:translate=""
+        >Save name</button>
+        <button class="oo-docent-small"
+                id="ooDocentRenameCancel"
+                type="button"
+                i18n:translate=""
+        >Cancel</button>
+      </span>
+      <span class="oo-docent-note"
+            id="ooDocentNote"
+            role="status"
+      ></span>
+      <span class="oo-docent-spacer"></span>
+      <button class="oo-docent-close"
+              id="ooDocentClose"
+              hidden="hidden"
+              type="button"
+      >
+        <svg aria-hidden="true"
+             fill="none"
+             height="13"
+             stroke="currentColor"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="1.8"
+             viewbox="0 0 16 16"
+             width="13"
+        ><path d="M3 8.5 6.5 12 13 4.5"></path></svg>
+        <span id="ooDocentCloseLabel"
+              i18n:translate=""
+        >Save &amp; Close</span>
+      </button>
+    </div>
     <div class="onlyoffice-editor-wrap">
       <!-- No Download button over the editor (2026-10-21): it sat on top
            of ONLYOFFICE's own header. Download stays in File > Download as,
@@ -307,6 +404,12 @@
       // event.data.url points to the file built from the *current* editor
       // state, so this downloads the document exactly as it is on screen.
       var onDownloadAs = function (event) {
+        // Save & Close asked for the live document: store it, then leave.
+        // No browser download in that case.
+        if (closing) {
+          saveAndLeave(event.data.url);
+          return;
+        }
         // 1) hand the freshly built file to the browser.
         var link = document.createElement("a");
         link.href = event.data.url;
@@ -384,25 +487,143 @@
         }
       };
 
-      var saveMessages = {
-        saved: "File saved."
-      };
-
-      // The Save button greys out on its own while there are no unsaved
-      // changes (native behaviour with forcesave + autosave off). Here we just
-      // confirm a manual save: onDocumentStateChange fires with data === true
-      // when the document becomes modified and data === false once it has been
-      // saved back. We only show the message on the modified -> saved
-      // transition, so it does not fire on the initial clean load.
-      var documentWasModified = false;
+      // onDocumentStateChange fires with data === true when the document has
+      // changes the document server has not taken yet. It used to put up a
+      // File saved message each time they had gone, which read as saved in
+      // Docent when it only meant saved on the document server (2026-10-21):
+      // that message is gone. All this records now is that the document was
+      // edited, for the "Changes saved" note after leaving.
+      var everEdited = false;
       var onDocumentStateChange = function (event) {
         if (event.data) {
-          documentWasModified = true;
-        } else if (documentWasModified) {
-          documentWasModified = false;
-          showOnlyofficeMessage(saveMessages.saved);
+          everEdited = true;
         }
       };
+
+      // ---- Docent bar: Rename, and Save & Close -----------------------------
+      var closing = false;
+      var NOTE_KEY = "docentChangesSaved";
+      var canSave = !!(config.editorConfig && config.editorConfig.callbackUrl
+                       && config.editorConfig.mode === "edit");
+      var backUrl = (config.editorConfig && config.editorConfig.customization
+                     && config.editorConfig.customization.goback
+                     && config.editorConfig.customization.goback.url) || "..";
+      var barName = document.getElementById("ooDocentName");
+      var barNote = document.getElementById("ooDocentNote");
+      var renameButton = document.getElementById("ooDocentRename");
+      var renameForm = document.getElementById("ooDocentRenameForm");
+      var renameInput = document.getElementById("ooDocentRenameInput");
+      var closeButton = document.getElementById("ooDocentClose");
+      var closeLabel = document.getElementById("ooDocentCloseLabel");
+
+      // The folder page shows "Changes saved" when it finds this (the
+      // ChangesSavedNote viewlet). Only after an edit.
+      function leaveNote() {
+        if (!everEdited) { return; }
+        try { window.sessionStorage.setItem(NOTE_KEY, barName.textContent || ""); }
+        catch (e) { /* private window: no note */ }
+      }
+
+      function leave() {
+        leaveNote();
+        window.location.href = backUrl;
+      }
+
+      function closeFailed() {
+        closing = false;
+        closeButton.disabled = false;
+        closeLabel.textContent = "Save & Close";
+        barNote.textContent = "Could not save. Your changes are still open here; try again.";
+      }
+
+      // Store the live document (the same save the old Download button made
+      // alongside its download), then go back to the folder.
+      function saveAndLeave(url) {
+        try {
+          var request = new XMLHttpRequest();
+          request.open("POST", "${context/absolute_url}/onlyoffice-save-current", true);
+          request.setRequestHeader("x-csrf-token", "${view/token}");
+          request.onload = function () {
+            if (request.status === 200) { leave(); } else { closeFailed(); }
+          };
+          request.onerror = closeFailed;
+          request.send(JSON.stringify({ url: url }));
+        } catch (e) {
+          closeFailed();
+        }
+      }
+
+      if (canSave) {
+        renameButton.hidden = false;
+      } else {
+        closeLabel.textContent = "Close";
+      }
+      closeButton.hidden = false;
+
+      closeButton.addEventListener("click", function () {
+        if (closing) { return; }
+        // Nothing to save: a read-only view, or no edits made.
+        if (!canSave || !everEdited
+            || typeof docEditor === "undefined" || !docEditor || !docEditor.downloadAs) {
+          leave();
+          return;
+        }
+        closing = true;
+        closeButton.disabled = true;
+        closeLabel.textContent = "Saving...";
+        barNote.textContent = "";
+        docEditor.downloadAs();
+      });
+
+      // Leaving any other way (breadcrumb, a link, the browser's Back): the
+      // document server writes the edits back to Docent shortly after the
+      // last editor closes, so the folder page may say so too.
+      window.addEventListener("pagehide", function () {
+        if (!closing) { leaveNote(); }
+      });
+
+      function showRenameForm(show) {
+        renameForm.hidden = !show;
+        renameButton.hidden = show;
+        barName.hidden = show;
+        if (show) {
+          renameInput.value = barName.textContent;
+          renameInput.focus();
+          renameInput.select();
+        }
+      }
+
+      function saveName() {
+        var newName = renameInput.value.trim();
+        if (!newName || newName === barName.textContent) {
+          showRenameForm(false);
+          return;
+        }
+        var request = new XMLHttpRequest();
+        request.open("POST", "${context/absolute_url}/onlyoffice-rename", true);
+        request.setRequestHeader("x-csrf-token", "${view/token}");
+        request.onload = function () {
+          if (request.status === 200) {
+            barName.textContent = newName;
+            barNote.textContent = "Renamed. The editor shows the new name next time the file opens.";
+            showRenameForm(false);
+          } else {
+            barNote.textContent = renameMessages.notRenamed;
+          }
+        };
+        request.onerror = function () { barNote.textContent = renameMessages.notRenamed; };
+        request.send(JSON.stringify({ name: newName }));
+      }
+
+      renameButton.addEventListener("click", function () { showRenameForm(true); });
+      document.getElementById("ooDocentRenameCancel").addEventListener("click", function () {
+        showRenameForm(false);
+      });
+      document.getElementById("ooDocentRenameSave").addEventListener("click", saveName);
+      renameInput.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") { event.preventDefault(); saveName(); }
+        if (event.key === "Escape") { showRenameForm(false); }
+      });
 
       config.events = {
         "onAppReady": onAppReady,

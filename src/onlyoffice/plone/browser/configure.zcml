@@ -315,4 +315,16 @@
       permission="zope2.View"
       layer="onlyoffice.plone.interfaces.IOnlyofficePloneLayer"
       />
+
+  <!-- "Changes saved", once, on the page reached after leaving an edited
+       document (see ChangesSavedNoteViewlet). In the page head, so it is
+       there whatever the theme draws in the body. -->
+  <browser:viewlet
+      name="onlyoffice.changes-saved-note"
+      for="*"
+      manager="plone.app.layout.viewlets.interfaces.IHtmlHead"
+      class=".viewlets.ChangesSavedNoteViewlet"
+      permission="zope2.View"
+      layer="onlyoffice.plone.interfaces.IOnlyofficePloneLayer"
+      />
 </configure>
