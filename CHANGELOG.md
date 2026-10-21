@@ -10,6 +10,9 @@ Changes maintained on the DocentIMS fork on top of upstream ONLYOFFICE 4.1.0.
 - getFileExt now derives the document extension from the actual stored file via the content's primary field (not a field hardcoded as "file"), so any content type holding an ONLYOFFICE-managed format (.docx, .xlsx, .pptx, ...) is recognised; still safe when the file field is missing, None, or empty
 - stabilized ONLYOFFICE document key generation and added force-save handling
 ## Changed
+- editor: a Docent bar above it shows the file name with a Rename button and a Save & Close button (Close in a read-only view); Save & Close stores the live document through onlyoffice-save-current, then returns to the folder
+- after leaving an edited document (Save & Close, the breadcrumb or any other way) the next page shows "Changes saved" for 4 seconds, with "Don't show this again" (ChangesSavedNoteViewlet)
+- editor: no "File saved." message while typing; it meant saved on the document server, not in Plone
 - editor: no Plugins tab (`customization.plugins: false`) and no AI tab (`customization.ai.disabled`, ONLYOFFICE 10.0)
 - editor view: the Download button floated over the ONLYOFFICE header is gone; File > Download as remains
 - editor customization: compact single-row toolbar (no ribbon tabs), light theme, inch units, fit-to-width default zoom, right panel collapsed by default, Help/About/chat/Feedback hidden, autosave off with manual force-save Save button, a "back to folder" button that returns to the file's parent folder, and the Docent logo (mono, light/dark variants) in place of the ONLYOFFICE toolbar logo
