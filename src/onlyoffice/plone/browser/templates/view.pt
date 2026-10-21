@@ -54,11 +54,11 @@
          control here, so pull the whole editor block up by ~half the gap.
          Tunable: make this more negative to tighten, less to loosen. */
       .onlyoffice-editor-wrap { position: relative; margin-top: -1rem; }
-      /* 4) Docent bar above the editor: the file name with Rename, and
-            Save & Close (2026-10-21). */
+      /* 4) Docent bar above the editor: Rename and Save & Close, together
+            on the right (2026-10-21). ONLYOFFICE's own header already shows
+            the file name, so the bar does not repeat it. */
       .oo-docent-bar { display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
                        margin: -0.5rem 0 1.25rem; min-height: 36px; }
-      .oo-docent-name { font-size: 14px; font-weight: 600; }
       .oo-docent-spacer { flex-grow: 1; }
       .oo-docent-rename { display: inline-flex; align-items: center; gap: 4px; height: 28px;
                           padding: 0 8px; border: 1px solid #DFD9D1; border-radius: 6px;
@@ -80,33 +80,23 @@
       .oo-docent-close[disabled] { opacity: .7; cursor: progress; }
       .oo-docent-bar [hidden] { display: none !important; }
     </style>
-    <!-- The file name with a Rename button, and Save & Close. Rename and
+    <!-- Rename and Save & Close, on the right. Rename and
          Save are shown by the script below only when the editor opened for
          editing; a read-only view gets Close. -->
     <div class="oo-docent-bar"
          id="ooDocentBar"
     >
-      <span class="oo-docent-name"
-            id="ooDocentName"
+      <span class="oo-docent-spacer"></span>
+      <span class="oo-docent-note"
+            id="ooDocentNote"
+            role="status"
+      ></span>
+      <!-- Not shown: the current name, for the Rename box and the
+           "Changes saved" note. -->
+      <span id="ooDocentName"
+            hidden="hidden"
             tal:content="context/Title"
       >Title</span>
-      <button class="oo-docent-rename"
-              id="ooDocentRename"
-              hidden="hidden"
-              type="button"
-      >
-        <svg aria-hidden="true"
-             fill="none"
-             height="13"
-             stroke="currentColor"
-             stroke-linecap="round"
-             stroke-linejoin="round"
-             stroke-width="1.4"
-             viewbox="0 0 16 16"
-             width="13"
-        ><path d="M11.2 2.4 13.6 4.8 5.6 12.8 2.4 13.6 3.2 10.4z"></path></svg>
-        <span i18n:translate="">Rename</span>
-      </button>
       <span class="oo-docent-rename-form"
             id="ooDocentRenameForm"
             hidden="hidden"
@@ -127,11 +117,23 @@
                 i18n:translate=""
         >Cancel</button>
       </span>
-      <span class="oo-docent-note"
-            id="ooDocentNote"
-            role="status"
-      ></span>
-      <span class="oo-docent-spacer"></span>
+      <button class="oo-docent-rename"
+              id="ooDocentRename"
+              hidden="hidden"
+              type="button"
+      >
+        <svg aria-hidden="true"
+             fill="none"
+             height="13"
+             stroke="currentColor"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="1.4"
+             viewbox="0 0 16 16"
+             width="13"
+        ><path d="M11.2 2.4 13.6 4.8 5.6 12.8 2.4 13.6 3.2 10.4z"></path></svg>
+        <span i18n:translate="">Rename</span>
+      </button>
       <button class="oo-docent-close"
               id="ooDocentClose"
               hidden="hidden"
@@ -585,7 +587,6 @@
       function showRenameForm(show) {
         renameForm.hidden = !show;
         renameButton.hidden = show;
-        barName.hidden = show;
         if (show) {
           renameInput.value = barName.textContent;
           renameInput.focus();
