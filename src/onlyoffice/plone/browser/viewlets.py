@@ -31,11 +31,14 @@ class HiddenDocumentBylineViewlet(ViewletBase):
 
 
 # The "Changes saved" note (2026-10-21). The editor page (templates/view.pt)
-# leaves the document's name in sessionStorage under NOTE_KEY when someone
-# leaves it after editing - by Save & Close, the breadcrumb or anything else -
-# and whichever page comes next shows the note once, in the bottom right
-# corner, for four seconds. "Don't show this again" is kept per browser in
-# localStorage under HIDE_KEY.
+# leaves {name, saved} in sessionStorage under NOTE_KEY when someone leaves
+# it after editing - by Save & Close, the breadcrumb or anything else - and
+# whichever page comes next shows the note once, in the bottom right corner,
+# for four seconds. Save & Close has stored the document by then: "Changes
+# saved". Any other way out leaves the document server to write it back a
+# few seconds later: "Changes are being saved" (2026-10-22). A plain string
+# (an editor page from before that) reads as saved. "Don't show this again"
+# is kept per browser in localStorage under HIDE_KEY.
 NOTE_KEY = "docentChangesSaved"
 HIDE_KEY = "docentHideChangesSaved"
 
@@ -57,10 +60,18 @@ animation:oo-saved-run 4s linear forwards}
 </style>
 <script>
 (function () {
-  var name;
+  var name, saved = true, raw;
   try {
-    name = window.sessionStorage.getItem("__NOTE_KEY__");
-    if (name === null) { return; }
+    raw = window.sessionStorage.getItem("__NOTE_KEY__");
+    if (raw === null) { return; }
+    name = raw;
+    try {
+      var data = JSON.parse(raw);
+      if (data && typeof data === "object") {
+        name = data.name || "";
+        saved = !!data.saved;
+      }
+    } catch (e) { /* the old plain name */ }
     window.sessionStorage.removeItem("__NOTE_KEY__");
     if (window.localStorage.getItem("__HIDE_KEY__") === "1") { return; }
   } catch (e) { return; }
@@ -68,10 +79,13 @@ animation:oo-saved-run 4s linear forwards}
     var note = document.createElement("div");
     note.className = "oo-saved-note";
     note.setAttribute("role", "status");
-    note.innerHTML = '<b>Changes saved</b><small></small>'
+    note.innerHTML = '<b></b><small></small>'
       + '<label><input type="checkbox"> Don&#8217;t show this again</label>'
       + '<button type="button" aria-label="Dismiss" title="Dismiss">&times;</button><i></i>';
-    note.querySelector("small").textContent = name;
+    note.querySelector("b").textContent =
+      saved ? "Changes saved" : "Changes are being saved";
+    note.querySelector("small").textContent = saved ? name
+      : name + " \u2014 ONLYOFFICE is writing them to Docent.";
     function close() { if (note.parentNode) { note.parentNode.removeChild(note); } }
     note.querySelector("button").addEventListener("click", close);
     note.querySelector("input").addEventListener("change", function (event) {

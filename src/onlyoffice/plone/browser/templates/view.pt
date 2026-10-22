@@ -567,16 +567,22 @@
       var closeButton = document.getElementById("ooDocentClose");
       var closeLabel = document.getElementById("ooDocentCloseLabel");
 
-      // The folder page shows "Changes saved" when it finds this (the
-      // ChangesSavedNote viewlet). Only after an edit.
-      function leaveNote() {
+      // The folder page shows a note when it finds this (the
+      // ChangesSavedNote viewlet). Only after an edit. `saved` is true when
+      // Save & Close stored the document before leaving ("Changes saved");
+      // any other way out leaves the document server to write it back a
+      // few seconds later ("Changes are being saved").
+      function leaveNote(saved) {
         if (!everEdited) { return; }
-        try { window.sessionStorage.setItem(NOTE_KEY, barName.textContent || ""); }
+        try {
+          window.sessionStorage.setItem(NOTE_KEY, JSON.stringify(
+            { name: barName.textContent || "", saved: !!saved }));
+        }
         catch (e) { /* private window: no note */ }
       }
 
-      function leave() {
-        leaveNote();
+      function leave(saved) {
+        leaveNote(saved);
         window.location.href = backUrl;
       }
 
@@ -596,7 +602,7 @@
           request.open("POST", "${context/absolute_url}/onlyoffice-save-current", true);
           request.setRequestHeader("x-csrf-token", "${view/token}");
           request.onload = function () {
-            if (request.status === 200) { leave(); } else { closeFailed(); }
+            if (request.status === 200) { leave(true); } else { closeFailed(); }
           };
           request.onerror = closeFailed;
           request.send(JSON.stringify({ url: url }));
@@ -632,7 +638,7 @@
       // document server writes the edits back to Docent shortly after the
       // last editor closes, so the folder page may say so too.
       window.addEventListener("pagehide", function () {
-        if (!closing) { leaveNote(); }
+        if (!closing) { leaveNote(false); }
       });
 
       function showRenameForm(show) {

@@ -100,6 +100,8 @@ class TestTheNote(unittest.TestCase):
         self.assertIn(NOTE_KEY, html)
         self.assertIn(HIDE_KEY, html)
         self.assertIn("Changes saved", html)
+        # Leaving by the breadcrumb: the document server is still writing.
+        self.assertIn("Changes are being saved", html)
         self.assertIn("4000", html)
 
     def test_it_is_in_the_page_head(self):
