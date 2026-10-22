@@ -10,6 +10,7 @@ Changes maintained on the DocentIMS fork on top of upstream ONLYOFFICE 4.1.0.
 - getFileExt now derives the document extension from the actual stored file via the content's primary field (not a field hardcoded as "file"), so any content type holding an ONLYOFFICE-managed format (.docx, .xlsx, .pptx, ...) is recognised; still safe when the file field is missing, None, or empty
 - stabilized ONLYOFFICE document key generation and added force-save handling
 ## Changed
+- editor: Save & Close, Close, Rename, Save name and Cancel have tooltips that say what they do; the "Changes saved" note's close button is titled Dismiss
 - editor: a Docent bar above it holds a Rename button and a Save & Close button, together on the right (ONLYOFFICE's own header shows the file name) (Close in a read-only view); Save & Close stores the live document through onlyoffice-save-current, then returns to the folder
 - after leaving an edited document (Save & Close, the breadcrumb or any other way) the next page shows "Changes saved" for 4 seconds, with "Don't show this again" (ChangesSavedNoteViewlet)
 - editor: no "File saved." message while typing; it meant saved on the document server, not in Plone
