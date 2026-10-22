@@ -79,6 +79,47 @@
       .oo-docent-close:hover { background: #17505D; border-color: #17505D; }
       .oo-docent-close[disabled] { opacity: .7; cursor: progress; }
       .oo-docent-bar [hidden] { display: none !important; }
+      /* 5) The bar sits in #content-core, where the Docent theme paints every
+            <button> as a coral outline: a 2px coral inset box-shadow, coral
+            text (!important), Roboto Slab capitals, 3.5em tall. Its id
+            selector beats the classes above, so the shape and colours are
+            restated here with the id and !important. */
+      #content-core .oo-docent-bar button {
+        box-shadow: none !important; text-transform: none !important;
+        letter-spacing: normal !important; font-family: inherit !important;
+        line-height: 1 !important; min-height: 0 !important; text-decoration: none !important;
+      }
+      #content-core .oo-docent-rename {
+        display: inline-flex !important; height: 28px !important; padding: 0 8px !important;
+        border: 1px solid #DFD9D1 !important; border-radius: 6px !important;
+        background: #FFFFFF !important; color: #1F5F6E !important;
+        font-size: 12px !important; font-weight: 500 !important;
+      }
+      #content-core .oo-docent-rename:hover { border-color: #3A9FB5 !important; }
+      #content-core .oo-docent-small {
+        height: 28px !important; padding: 0 10px !important; border-radius: 6px !important;
+        border: 1px solid #DFD9D1 !important; background: #FFFFFF !important;
+        color: #212529 !important; font-size: 12px !important; font-weight: 500 !important;
+      }
+      #content-core .oo-docent-small.primary {
+        background: #1F5F6E !important; border-color: #1F5F6E !important; color: #FFFFFF !important;
+      }
+      #content-core .oo-docent-close {
+        display: inline-flex !important; height: 32px !important; padding: 0 14px !important;
+        border-radius: 999px !important; border: 1px solid #1F5F6E !important;
+        background: #1F5F6E !important; color: #FFFFFF !important;
+        font-size: 11.2px !important; font-weight: 600 !important;
+      }
+      #content-core .oo-docent-close:hover,
+      #content-core .oo-docent-small.primary:hover {
+        background: #17505D !important; border-color: #17505D !important;
+      }
+      body.docent-dark #content-core .oo-docent-rename,
+      body.docent-dark #content-core .oo-docent-small:not(.primary) {
+        background: #1c222c !important; border-color: #3a4250 !important; color: #9fd0da !important;
+      }
+      /* The display rules above outrank 4)'s [hidden]; this one outranks them. */
+      #content-core .oo-docent-bar [hidden] { display: none !important; }
     </style>
     <!-- Rename and Save & Close, on the right. Rename and
          Save are shown by the script below only when the editor opened for
