@@ -108,19 +108,25 @@
         />
         <button class="oo-docent-small primary"
                 id="ooDocentRenameSave"
+                title="Save the new name"
                 type="button"
+                i18n:attributes="title"
                 i18n:translate=""
         >Save name</button>
         <button class="oo-docent-small"
                 id="ooDocentRenameCancel"
+                title="Keep the current name"
                 type="button"
+                i18n:attributes="title"
                 i18n:translate=""
         >Cancel</button>
       </span>
       <button class="oo-docent-rename"
               id="ooDocentRename"
               hidden="hidden"
+              title="Rename this document (also renames the file)"
               type="button"
+              i18n:attributes="title"
       >
         <svg aria-hidden="true"
              fill="none"
@@ -137,7 +143,9 @@
       <button class="oo-docent-close"
               id="ooDocentClose"
               hidden="hidden"
+              title="Save your changes to Docent and go back"
               type="button"
+              i18n:attributes="title"
       >
         <svg aria-hidden="true"
              fill="none"
@@ -535,6 +543,7 @@
         closing = false;
         closeButton.disabled = false;
         closeLabel.textContent = "Save & Close";
+        closeButton.title = "Save your changes to Docent and go back";
         barNote.textContent = "Could not save. Your changes are still open here; try again.";
       }
 
@@ -559,6 +568,7 @@
         renameButton.hidden = false;
       } else {
         closeLabel.textContent = "Close";
+        closeButton.title = "Close and go back";
       }
       closeButton.hidden = false;
 

@@ -80,6 +80,12 @@ class TestTheBar(unittest.TestCase):
         self.assertIn(f'var NOTE_KEY = "{NOTE_KEY}"', source)
         self.assertIn('"pagehide"', source)
 
+    def test_the_buttons_say_what_they_do(self):
+        source = _template()
+        self.assertIn('title="Save your changes to Docent and go back"', source)
+        self.assertIn('closeButton.title = "Close and go back";', source)
+        self.assertIn('title="Rename this document (also renames the file)"', source)
+
 
 class TestTheNote(unittest.TestCase):
     layer = ONLYOFFICE_PLONE_INTEGRATION_TESTING

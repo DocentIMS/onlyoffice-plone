@@ -70,7 +70,7 @@ animation:oo-saved-run 4s linear forwards}
     note.setAttribute("role", "status");
     note.innerHTML = '<b>Changes saved</b><small></small>'
       + '<label><input type="checkbox"> Don&#8217;t show this again</label>'
-      + '<button type="button" aria-label="Dismiss">&times;</button><i></i>';
+      + '<button type="button" aria-label="Dismiss" title="Dismiss">&times;</button><i></i>';
     note.querySelector("small").textContent = name;
     function close() { if (note.parentNode) { note.parentNode.removeChild(note); } }
     note.querySelector("button").addEventListener("click", close);
