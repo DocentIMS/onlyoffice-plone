@@ -196,6 +196,19 @@ def getInnerDocUrl():
         return os.path.join(docInnerUrl, "")
 
 
+def isDocServerUrl(url):
+    """Whether ``url`` is on the document server: its public address, or the
+    internal one Plone reaches it by."""
+    if not url:
+        return False
+    try:
+        prefixes = {getPublicDocUrl(), getInnerDocUrl()}
+    except TypeError:
+        # No document server address is configured at all.
+        return False
+    return any(p and p != "/" and url.startswith(p) for p in prefixes)
+
+
 def getPloneContextUrl(context):
     innerPloneUrl = Config(getUtility(IRegistry)).ploneUrl
 

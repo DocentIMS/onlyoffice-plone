@@ -34,6 +34,7 @@ from Products.CMFPlone.permissions import AddPortalContent
 from Products.Five.browser import BrowserView
 from urllib.request import urlopen
 from zExceptions import BadRequest
+from zExceptions import Forbidden
 from zope.component import getMultiAdapter
 from zope.i18n import translate
 from zope.publisher.interfaces import NotFound
@@ -63,18 +64,24 @@ class Callback(BrowserView):
             body = json.loads(self.request.get("BODY"))
             logger.debug(body)
 
-            if utils.isJwtEnabled():
-                token = body.get("token")
+            # The secret is the only real check here. The token in the URL is
+            # decoded with its signature unverified, so anybody can write one,
+            # and this view is public: with no secret, anybody could post a
+            # "save" and have any URL's content written over the file.
+            if not utils.isJwtEnabled():
+                raise Exception("No JWT secret is set; refusing to save")
 
-                if not token:
-                    token = utils.getTokenFromHeader(self.request)
+            token = body.get("token")
 
-                if not token:
-                    raise Exception("Expected JWT")
+            if not token:
+                token = utils.getTokenFromHeader(self.request)
 
-                body = utils.decodeSecurityToken(token)
-                if body.get("payload"):
-                    body = body["payload"]
+            if not token:
+                raise Exception("Expected JWT")
+
+            body = utils.decodeSecurityToken(token)
+            if body.get("payload"):
+                body = body["payload"]
 
             status = body["status"]
             self._handleStatus(status, body.get("url"))
@@ -114,6 +121,11 @@ class Callback(BrowserView):
             self._save(url)
 
     def _save(self, url):
+        # Only from the document server. The body names the URL to read the
+        # edited file from, and nothing else may be fetched and stored.
+        if not utils.isDocServerUrl(url):
+            raise Exception("Unexpected document URL")
+
         download = utils.replaceDocUrlToInternal(url)
         logger.info("saving file " + self.context.absolute_url())
         # Full rewrite of the original file in place: read the complete document
@@ -132,13 +144,17 @@ class ODownload(Download):
     def _getFile(self):
         logger.info("got download request for " + self.context.absolute_url())
 
-        if utils.isJwtEnabled():
-            token = utils.getTokenFromHeader(self.request)
+        # As for the callback: with no secret, the URL token is the only check
+        # on this public view, and anybody can write one.
+        if not utils.isJwtEnabled():
+            raise Forbidden("No JWT secret is set; refusing to serve the file")
 
-            if not token:
-                raise Exception("Expected JWT")
+        token = utils.getTokenFromHeader(self.request)
 
-            utils.decodeSecurityToken(token)
+        if not token:
+            raise Exception("Expected JWT")
+
+        utils.decodeSecurityToken(token)
 
         utils.checkSecurityToken(self.context, utils.getTokenFromRequest(self.request))
 
