@@ -3,6 +3,7 @@
 ## Unreleased (DocentIMS fork)
 Changes maintained on the DocentIMS fork on top of upstream ONLYOFFICE 4.1.0.
 ## Fixed
+- security: onlyoffice-callback and onlyoffice-dl refuse every request when no JWT secret is set. Both are public, and the token in their URL is decoded unverified, so with no secret anybody could download any document or overwrite it with any URL's content. A save is also fetched only from the document server's own address (public or internal). A site with no secret can no longer open or save documents in ONLYOFFICE until one is set
 - CI: the Artifact, Release and Licenses workflows run on Python 3.12, not 3.9. Plone's 6.1 constraints pin pip 26.1.2, which needs Python 3.10 or later, so Artifact failed while installing its tools
 - CI: Create Tag and Release run only on the upstream ONLYOFFICE repository, so a version bump in this fork's CHANGELOG cannot tag it or publish it to PyPI
 - setup.py: python_requires >=3.10, classifiers list Python 3.10-3.13 and Plone 6.1 and 6.2 - what CI tests and Plone 6.1/6.2 support; tox.ini drops py39-plone60
