@@ -84,7 +84,8 @@ class TestEditorCustomization(unittest.TestCase):
 
     def test_appearance_defaults(self):
         customization = self._customization()
-        self.assertEqual(customization["uiTheme"], "theme-light")
+        self.assertEqual(customization["uiTheme"], "theme-docent")
+        self.assertEqual(customization["font"]["name"], "Inter, Segoe UI, Arial")
         self.assertEqual(customization["unit"], "inch")
         # -2 = open at "Fit to width" zoom by default.
         self.assertEqual(customization["zoom"], -2)
