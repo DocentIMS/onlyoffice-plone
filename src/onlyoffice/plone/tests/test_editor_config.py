@@ -82,6 +82,26 @@ class TestEditorCustomization(unittest.TestCase):
         self.assertFalse(customization["autosave"])
         self.assertTrue(customization["forcesave"])
 
+    def test_docent_theme_helper_url(self):
+        from onlyoffice.plone.browser import actions
+
+        self.assertEqual(
+            actions.docent_theme_helper_url("https://docs.example.com/"),
+            "https://docs.example.com/web-apps/docent/docent-theme.html?v=1",
+        )
+        self.assertEqual(
+            actions.docent_theme_helper_url("https://docs.example.com"),
+            "https://docs.example.com/web-apps/docent/docent-theme.html?v=1",
+        )
+        self.assertEqual(actions.docent_theme_helper_url(""), "")
+        actions.DOCENT_THEME_DEFAULT = False
+        try:
+            self.assertEqual(
+                actions.docent_theme_helper_url("https://docs.example.com/"), ""
+            )
+        finally:
+            actions.DOCENT_THEME_DEFAULT = True
+
     def test_docent_branding_switch(self):
         from onlyoffice.plone.browser import actions
 
