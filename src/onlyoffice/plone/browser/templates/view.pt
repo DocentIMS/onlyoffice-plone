@@ -806,7 +806,41 @@
         docEditor = new DocsAPI.DocEditor("onlyofficeEditor", config);
       }
 
-      initDocEditor();
+      // Docent as the default editor theme (DOCENT_THEME_DEFAULT in
+      // actions.py): the document server's docent-theme.html stores it as this
+      // browser's ONLYOFFICE theme the first time, then says it is done. The
+      // editor starts on that answer, or after 1.5 s if the page is missing.
+      (function () {
+        var helper = "${view/docentThemeHelper}";
+        var started = false;
+        var helperOrigin;
+        function start() {
+          if (started) { return; }
+          started = true;
+          window.removeEventListener("message", onMessage);
+          initDocEditor();
+        }
+        function onMessage(event) {
+          if (event.origin === helperOrigin && event.data === "docent-theme-ready") {
+            start();
+          }
+        }
+        try {
+          helperOrigin = helper ? new URL(helper, window.location.href).origin : "";
+        } catch (e) {
+          helperOrigin = "";
+        }
+        if (!helperOrigin) { start(); return; }
+        window.addEventListener("message", onMessage);
+        var frame = document.createElement("iframe");
+        frame.src = helper;
+        frame.title = "";
+        frame.tabIndex = -1;
+        frame.setAttribute("aria-hidden", "true");
+        frame.style.display = "none";
+        document.body.appendChild(frame);
+        setTimeout(start, 1500);
+      })();
     </script>
   </metal:block>
 

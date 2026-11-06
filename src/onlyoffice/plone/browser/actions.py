@@ -51,6 +51,15 @@ DOCENT_EDITOR_BRANDING = False
 DOCENT_UI_THEME = "theme-docent"
 DOCENT_UI_FONT = {"name": "Inter, Segoe UI, Arial"}
 
+# Docent as the default editor theme on Community Edition. Before starting the
+# editor, the page loads docent-theme.html from the document server in a
+# hidden frame (installed there by docent-branding.sh). Once per browser, that
+# page stores theme-docent as the browser's chosen ONLYOFFICE theme, just as
+# picking "Docent" under View > Interface theme does; a theme the user picked
+# is kept. No licence is needed.
+DOCENT_THEME_DEFAULT = True
+DOCENT_THEME_HELPER = "web-apps/docent/docent-theme.html?v=1"
+
 
 @implementer(IOnlyofficeEditorView)
 class Edit(form.EditForm):
@@ -166,8 +175,16 @@ class DownloadAsForm(form.Form):
         return bool(conversionUtils.getConvertToExtArray(ext))
 
 
+def docent_theme_helper_url(docUrl):
+    """URL of the document server's default-theme page, or "" when off."""
+    if not (DOCENT_THEME_DEFAULT and docUrl):
+        return ""
+    return docUrl.rstrip("/") + "/" + DOCENT_THEME_HELPER
+
+
 def render_editor(self, forEdit, role=None):
     self.docUrl = utils.getPublicDocUrl()
+    self.docentThemeHelper = docent_theme_helper_url(self.docUrl)
     self.saveAs = featureUtils.getSaveAsObject(self)
     self.demo = featureUtils.getDemoAsObject(self)
     self.relatedItemsOptions = json.dumps(
