@@ -67,8 +67,12 @@ class TestTheBar(unittest.TestCase):
     def test_cancel_sits_between_rename_and_save_and_close(self):
         source = _template()
         bar = source[source.index('id="ooDocentBar"') :]
-        self.assertLess(bar.index('id="ooDocentRename"'), bar.index('id="ooDocentCancel"'))
-        self.assertLess(bar.index('id="ooDocentCancel"'), bar.index('id="ooDocentClose"'))
+        self.assertLess(
+            bar.index('id="ooDocentRename"'), bar.index('id="ooDocentCancel"')
+        )
+        self.assertLess(
+            bar.index('id="ooDocentCancel"'), bar.index('id="ooDocentClose"')
+        )
         # Hidden until the script knows the editor opened for editing.
         start = bar.index('id="ooDocentCancel"')
         self.assertIn('hidden="hidden"', bar[start : bar.index(">", start)])
