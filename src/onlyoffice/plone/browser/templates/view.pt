@@ -26,11 +26,19 @@
  *
  -->
 
-  <!-- The document name and metadata are already shown in the breadcrumb and
-       in the ONLYOFFICE editor header. Drop the duplicate page title here and
-       suppress the byline via a no-op viewlet (see viewlets.py / the viewlet
-       override in configure.zcml). -->
-  <metal:title fill-slot="content-title" />
+  <!-- The page is headed like every other Docent page (6 Nov 2026): the
+       project name eyebrow the theme draws, then the document's name as
+       the title, with the project-colour bar down the left and the
+       document mark top right (both styled by DocentIMS.ActionItems for
+       body.template-onlyoffice-*). The byline under it stays suppressed
+       via a no-op viewlet (see viewlets.py / the viewlet override in
+       configure.zcml). -->
+  <metal:title fill-slot="content-title">
+    <h1 class="documentFirstHeading"
+        id="ooDocentTitle"
+        tal:content="context/Title"
+    >Title</h1>
+  </metal:title>
 
   <metal:block fill-slot="content-core">
     <style type="text/css">
@@ -660,8 +668,26 @@
       }
       closeButton.hidden = false;
 
+      // A new document is born "Document.docx" (Spreadsheet.xlsx,
+      // Presentation.pptx, PDF form.pdf): the name ONLYOFFICE's Create
+      // gives it. Saving under that name fills Prj Docs with
+      // indistinguishable files, so Save & Close asks for a real name
+      // first (6 Nov 2026). Rename stores the title without the
+      // extension, hence both spellings.
+      var DEFAULT_NAMES = ["document", "spreadsheet", "presentation", "pdf form"];
+      function hasDefaultName() {
+        var name = (barName.textContent || "").trim().toLowerCase();
+        name = name.replace(/\.(docx|xlsx|pptx|pdf|docxf|oform)$/, "");
+        return DEFAULT_NAMES.indexOf(name) !== -1;
+      }
+
       closeButton.addEventListener("click", function () {
         if (closing) { return; }
+        if (canSave && hasDefaultName()) {
+          barNote.textContent = "Give the document a name before saving.";
+          showRenameForm(true);
+          return;
+        }
         // Nothing to save: a read-only view, or no edits made.
         if (!canSave || !everEdited
             || typeof docEditor === "undefined" || !docEditor || !docEditor.downloadAs) {
@@ -738,6 +764,8 @@
         request.onload = function () {
           if (request.status === 200) {
             barName.textContent = newName;
+            var pageTitle = document.getElementById("ooDocentTitle");
+            if (pageTitle) { pageTitle.textContent = newName; }
             barNote.textContent = "Renamed. The editor shows the new name next time the file opens.";
             showRenameForm(false);
           } else {

@@ -78,6 +78,27 @@ class TestTheBar(unittest.TestCase):
         self.assertIn('hidden="hidden"', bar[start : bar.index(">", start)])
         self.assertIn("cancelButton.hidden = false;", source)
 
+    def test_the_page_is_headed_with_the_document_name(self):
+        # Like every other Docent page (6 Nov 2026): the title slot carries
+        # the name, and a rename updates it in place.
+        source = _template()
+        self.assertIn('<metal:title fill-slot="content-title">', source)
+        self.assertIn('id="ooDocentTitle"', source)
+        self.assertIn('tal:content="context/Title"', source)
+        self.assertIn('pageTitle.textContent = newName', source)
+
+    def test_save_and_close_wants_a_real_name_first(self):
+        # "Document.docx" is what Create names a new file; Save & Close
+        # opens Rename instead of storing it under that name.
+        source = _template()
+        self.assertIn('DEFAULT_NAMES = ["document", "spreadsheet", "presentation", "pdf form"]',
+                      source)
+        self.assertIn('(docx|xlsx|pptx|pdf|docxf|oform)$/, "")', source)
+        self.assertIn('if (canSave && hasDefaultName()) {', source)
+        self.assertIn('Give the document a name before saving.', source)
+        start = source.index('if (canSave && hasDefaultName()) {')
+        self.assertIn('showRenameForm(true)', source[start:start + 300])
+
     def test_cancel_marks_the_document_and_asks_first(self):
         source = _template()
         self.assertIn("onlyoffice-discard", source)
