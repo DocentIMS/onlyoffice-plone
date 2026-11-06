@@ -220,7 +220,7 @@ def get_config(self, forEdit, role=None):
                 "author": self.context.creators[0],
                 "created": str(self.context.creation_date),
             },
-            "permissions": {"edit": canEdit, "rename": canEdit},
+            "permissions": {"edit": canEdit, "rename": canEdit, "chat": False},
         },
         "editorConfig": {
             "mode": "edit" if canEdit else "view",
@@ -230,19 +230,35 @@ def get_config(self, forEdit, role=None):
                 "name": user.getProperty("fullname") or user.getUserName(),
             },
             "customization": {
-                # Hidden UI elements.
+                # Hidden UI elements. Settings here are the ones ONLYOFFICE
+                # Docs 10 still honours on the free Community Edition; the
+                # old leftMenu / statusBar / toolbarNoTabs / chat booleans
+                # were dropped (7.1 and 8.2) and hiding a single ribbon tab
+                # (customization.layout) needs the white-label licence.
                 "feedback": False,
                 "help": False,
                 "about": False,
-                "chat": False,
-                "leftMenu": False,
-                "statusBar": False,
-                "rulers": False,
+                "hideRulers": True,
+                # No ONLYOFFICE header row: its icons move into the ribbon
+                # row and the file name is not repeated there (the Docent
+                # bar above the editor already shows it).
+                "compactHeader": True,
+                "toolbarHideFileName": True,
                 # Right panel stays available but collapsed by default.
                 "hideRightMenu": True,
-                # Compact, single-row toolbar without ribbon tabs.
+                # Compact toolbar; tabs drawn as a thin line over the
+                # toolbar instead of the ribbon's header band. tabStyle /
+                # tabBackground replace toolbarNoTabs (dropped in 8.2).
                 "compactToolbar": True,
-                "toolbarNoTabs": True,
+                "features": {
+                    "tabStyle": "line",
+                    "tabBackground": "toolbar",
+                    "spellcheck": False,
+                },
+                # No comment adding, no Display Mode button, no Macros.
+                "comments": False,
+                "review": {"hideReviewDisplay": True},
+                "macros": False,
                 # No Plugins tab: Docent uses no ONLYOFFICE plugins, and the
                 # tab-only switch (layout.toolbar.plugins) needs a white-label
                 # licence. No AI tab either (ai.disabled, ONLYOFFICE 10.0).

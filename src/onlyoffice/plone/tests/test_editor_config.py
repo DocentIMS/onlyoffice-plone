@@ -51,24 +51,30 @@ class TestEditorCustomization(unittest.TestCase):
 
     def test_hidden_ui_elements(self):
         customization = self._customization()
-        for option in (
-            "feedback",
-            "help",
-            "about",
-            "chat",
-            "leftMenu",
-            "statusBar",
-            "rulers",
-        ):
+        for option in ("feedback", "help", "about", "comments", "macros"):
             self.assertFalse(
                 customization[option],
                 f"expected {option} to default to False (hidden)",
             )
+        self.assertTrue(customization["hideRulers"])
+        self.assertTrue(customization["review"]["hideReviewDisplay"])
+        self.assertFalse(customization["features"]["spellcheck"])
+        # Dropped by ONLYOFFICE (7.1 / 8.2) or white-label only: not sent.
+        for option in ("chat", "leftMenu", "statusBar", "rulers", "toolbarNoTabs"):
+            self.assertNotIn(option, customization)
+
+    def test_chat_off_through_permissions(self):
+        view = getMultiAdapter((self.file, self.request), name="onlyoffice-view")
+        config = json.loads(get_config(view, False))
+        self.assertFalse(config["document"]["permissions"]["chat"])
 
     def test_toolbar_and_panels(self):
         customization = self._customization()
+        self.assertTrue(customization["compactHeader"])
+        self.assertTrue(customization["toolbarHideFileName"])
         self.assertTrue(customization["compactToolbar"])
-        self.assertTrue(customization["toolbarNoTabs"])
+        self.assertEqual(customization["features"]["tabStyle"], "line")
+        self.assertEqual(customization["features"]["tabBackground"], "toolbar")
         self.assertTrue(customization["hideRightMenu"])
 
     def test_no_plugins_or_ai(self):

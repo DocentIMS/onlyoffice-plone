@@ -30,8 +30,8 @@ The addon allows to:
 This fork adds a number of integration and UX changes on top of upstream ONLYOFFICE 4.1.0. See [CHANGELOG.md](CHANGELOG.md) for the full list.
 
 ### Editor experience
-- **Streamlined editor chrome:** the redundant Plone page title and byline (author/date) are removed above the editor; the ONLYOFFICE *Feedback & Support*, *Help*, *About* and *chat* items are hidden; left panel, status bar and rulers are hidden; the right panel is collapsed by default.
-- **Compact toolbar:** single-row toolbar with the ribbon tabs flattened (`compactToolbar` + `toolbarNoTabs`).
+- **Streamlined editor chrome:** the redundant Plone page title and byline (author/date) are removed above the editor; the ONLYOFFICE *Feedback & Support*, *Help*, *About* and chat items are hidden; the ONLYOFFICE header row is folded into the toolbar row (`compactHeader`, file name not repeated there); rulers are hidden; the right panel is collapsed by default; comment adding, the review Display Mode button, macros and the spell-checker are off. The left panel and status bar cannot be hidden on the Community Edition (that is the white-label licence), nor can single ribbon tabs.
+- **Compact toolbar:** compact toolbar with the ribbon tabs drawn as a thin line over it (`compactToolbar` + `features.tabStyle: line` + `features.tabBackground: toolbar`; `toolbarNoTabs` was dropped by ONLYOFFICE 8.2).
 - **Light theme**, **inch** units, and **Fit-to-width** zoom by default (users can still change all three in the editor).
 - **Full-height editor:** the editor fills the browser window instead of a fixed 600px height.
 - **"Open file location"** button returns to the file's parent folder.
