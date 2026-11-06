@@ -222,9 +222,19 @@ class Create(BrowserView):
 
         state = portal_state(self)
         language = state.language()
+        # Docent's own blank templates (Docent colours, Inter, title, heading
+        # and table styles) come first; ONLYOFFICE's per-language ones are the
+        # fallback, e.g. for PDF forms.
         file_path = os.path.join(
-            os.path.abspath(os.path.dirname(__file__)), "app_data", language, template
+            os.path.abspath(os.path.dirname(__file__)), "docent_templates", template
         )
+        if not os.path.exists(file_path):
+            file_path = os.path.join(
+                os.path.abspath(os.path.dirname(__file__)),
+                "app_data",
+                language,
+                template,
+            )
         if not os.path.exists(file_path):
             language = language.split("-")[0]
             file_path = os.path.join(

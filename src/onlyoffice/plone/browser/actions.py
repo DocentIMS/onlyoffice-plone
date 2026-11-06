@@ -253,8 +253,14 @@ def get_config(self, forEdit, role=None):
                 # Note: turning autosave off also disables fast co-editing.
                 "autosave": False,
                 "forcesave": True,
-                # Appearance.
-                "uiTheme": "theme-light",
+                # Appearance. theme-docent is Docent's own colour theme. It is
+                # a file on the document server (docent-onlyoffice-server-build,
+                # docent-branding.sh); until it is there, ONLYOFFICE falls back
+                # to its default theme.
+                "uiTheme": "theme-docent",
+                # Docent's interface font. Inter only shows where the browser
+                # has it; Windows falls back to Segoe UI.
+                "font": {"name": "Inter, Segoe UI, Arial"},
                 "unit": "inch",
                 # Open at "Fit to width" zoom by default (-2 = fit to width,
                 # -1 = fit to page); users can still change it under View.
