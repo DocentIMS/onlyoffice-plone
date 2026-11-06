@@ -82,10 +82,23 @@ class TestEditorCustomization(unittest.TestCase):
         self.assertFalse(customization["autosave"])
         self.assertTrue(customization["forcesave"])
 
-    def test_appearance_defaults(self):
-        customization = self._customization()
+    def test_docent_branding_switch(self):
+        from onlyoffice.plone.browser import actions
+
+        actions.DOCENT_EDITOR_BRANDING = True
+        try:
+            customization = self._customization()
+        finally:
+            actions.DOCENT_EDITOR_BRANDING = False
         self.assertEqual(customization["uiTheme"], "theme-docent")
         self.assertEqual(customization["font"]["name"], "Inter, Segoe UI, Arial")
+
+    def test_appearance_defaults(self):
+        customization = self._customization()
+        # Docent branding is off on Community Edition: no custom font (it
+        # triggers ONLYOFFICE's "Paid feature" box) and the stock light theme.
+        self.assertEqual(customization["uiTheme"], "theme-light")
+        self.assertNotIn("font", customization)
         self.assertEqual(customization["unit"], "inch")
         # -2 = open at "Fit to width" zoom by default.
         self.assertEqual(customization["zoom"], -2)
