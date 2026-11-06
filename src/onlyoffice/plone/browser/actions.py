@@ -40,6 +40,18 @@ from zope.interface import implementer
 import json
 
 
+# Docent editor branding (Docent colour theme + Inter interface font). Off on
+# ONLYOFFICE Docs Community Edition: a custom interface font needs a
+# white-label licence (without one the editor shows a "Paid feature" box), and
+# Community does not apply a custom theme from uiTheme on its own (it only
+# lists it under View > Interface theme). Turn on after a licence upgrade; the
+# theme-docent file is already on the document server (docent-branding.sh in
+# docent-onlyoffice-server-build).
+DOCENT_EDITOR_BRANDING = False
+DOCENT_UI_THEME = "theme-docent"
+DOCENT_UI_FONT = {"name": "Inter, Segoe UI, Arial"}
+
+
 @implementer(IOnlyofficeEditorView)
 class Edit(form.EditForm):
     def isAvailable(self):
@@ -253,14 +265,8 @@ def get_config(self, forEdit, role=None):
                 # Note: turning autosave off also disables fast co-editing.
                 "autosave": False,
                 "forcesave": True,
-                # Appearance. theme-docent is Docent's own colour theme. It is
-                # a file on the document server (docent-onlyoffice-server-build,
-                # docent-branding.sh); until it is there, ONLYOFFICE falls back
-                # to its default theme.
-                "uiTheme": "theme-docent",
-                # Docent's interface font. Inter only shows where the browser
-                # has it; Windows falls back to Segoe UI.
-                "font": {"name": "Inter, Segoe UI, Arial"},
+                # Appearance (see DOCENT_EDITOR_BRANDING for the Docent theme).
+                "uiTheme": "theme-light",
                 "unit": "inch",
                 # Open at "Fit to width" zoom by default (-2 = fit to width,
                 # -1 = fit to page); users can still change it under View.
@@ -285,6 +291,11 @@ def get_config(self, forEdit, role=None):
             },
         },
     }
+    if DOCENT_EDITOR_BRANDING:
+        customization = config["editorConfig"]["customization"]
+        customization["uiTheme"] = DOCENT_UI_THEME
+        customization["font"] = dict(DOCENT_UI_FONT)
+
     if canEdit:
         config["editorConfig"]["callbackUrl"] = (
             utils.getPloneContextUrl(self.context)
