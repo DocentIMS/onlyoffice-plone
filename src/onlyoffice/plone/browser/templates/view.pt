@@ -26,11 +26,19 @@
  *
  -->
 
-  <!-- The document name and metadata are already shown in the breadcrumb and
-       in the ONLYOFFICE editor header. Drop the duplicate page title here and
-       suppress the byline via a no-op viewlet (see viewlets.py / the viewlet
-       override in configure.zcml). -->
-  <metal:title fill-slot="content-title" />
+  <!-- The page is headed like every other Docent page (6 Nov 2026): the
+       project name eyebrow the theme draws, then the document's name as
+       the title, with the project-colour bar down the left and the
+       document mark top right (both styled by DocentIMS.ActionItems for
+       body.template-onlyoffice-*). The byline under it stays suppressed
+       via a no-op viewlet (see viewlets.py / the viewlet override in
+       configure.zcml). -->
+  <metal:title fill-slot="content-title">
+    <h1 class="documentFirstHeading"
+        id="ooDocentTitle"
+        tal:content="context/Title"
+    >Title</h1>
+  </metal:title>
 
   <metal:block fill-slot="content-core">
     <style type="text/css">
@@ -567,6 +575,8 @@
             if (request.status === 200) {
               var shownName = document.getElementById("ooDocentName");
               if (shownName) { shownName.textContent = newName; }
+              var pageTitle = document.getElementById("ooDocentTitle");
+              if (pageTitle) { pageTitle.textContent = newName; }
             }
             showOnlyofficeMessage(
               request.status === 200 ? renameMessages.renamed : renameMessages.notRenamed
@@ -773,6 +783,8 @@
         request.onload = function () {
           if (request.status === 200) {
             barName.textContent = newName;
+            var pageTitle = document.getElementById("ooDocentTitle");
+            if (pageTitle) { pageTitle.textContent = newName; }
             barNote.textContent = "Renamed. The editor shows the new name next time the file opens.";
             showRenameForm(false);
             if (closeAfterRename) {
