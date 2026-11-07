@@ -191,6 +191,12 @@ def render_editor(self, forEdit, role=None):
         fileUtils.getRelatedRtemsOptions(self.context)
     )
     self.token = get_token(self)
+    # The Share button (Plone's Sharing screen) only for people who may share.
+    self.canShare = bool(
+        getSecurityManager().checkPermission(
+            "Sharing page: Delegate roles", self.context
+        )
+    )
     self.defaultNames = json.dumps(fileUtils.defaultNames(self.request))
     self.editorCfg = get_config(self, forEdit, role)
     if not self.editorCfg:
