@@ -110,6 +110,9 @@ class Callback(BrowserView):
         #   4 = document closed with no changes
         #   6 = force save while still being edited (e.g. Strict-mode Save)
         #   7 = force save error
+        # History: each editing session leaves one revision of what it
+        # stored in Plone (saveRevision), made when the session ends, not on
+        # every Save click.
         if status in (2, 3):
             # The editing session has ended. Cancel in the editor marked the
             # document (Discard): the edits are not kept, and a fresh key
@@ -119,10 +122,17 @@ class Callback(BrowserView):
                     "discarding edits of " + self.context.absolute_url() + " (Cancel)"
                 )
                 utils.clearDiscard(self.context)
+                # What an earlier Save in this session stored stays, and is
+                # kept as the session's revision.
+                if utils.sessionSaved(self.context):
+                    self._saveRevision(users)
+                utils.clearSessionSaved(self.context)
                 utils.resetDocumentKey(self.context)
                 return
             # Persist and start a new version so the next open gets a fresh key.
             self._save(url)
+            self._saveRevision(users)
+            utils.clearSessionSaved(self.context)
             utils.resetDocumentKey(self.context)
         elif status == 6:
             # Intermediate force save: persist the current content but keep the
@@ -130,13 +140,21 @@ class Callback(BrowserView):
             # still editing and wants this kept, so a Cancel mark is stale.
             utils.clearDiscard(self.context)
             self._save(url)
+            utils.markSessionSaved(self.context)
         elif status == 4:
-            # Closed with no changes: nothing to keep or to throw away.
+            # Closed with no changes since the last Save: nothing to throw
+            # away, but a Save in this session is kept as its revision.
             utils.clearDiscard(self.context)
+            if utils.sessionSaved(self.context):
+                self._saveRevision(users)
+                utils.clearSessionSaved(self.context)
         elif status == 1 and users:
             # Somebody is still editing after the one who pressed Cancel
             # left (the document server names who): their work is kept.
             utils.clearDiscard(self.context)
+
+    def _saveRevision(self, users):
+        utils.saveRevision(self.context, users)
 
     def _save(self, url):
         # Only from the document server. The body names the URL to read the
@@ -145,12 +163,14 @@ class Callback(BrowserView):
             raise Exception("Unexpected document URL")
 
         download = utils.replaceDocUrlToInternal(url)
+        utils.saveOriginalRevision(self.context)
         logger.info("saving file " + self.context.absolute_url())
         # Full rewrite of the original file in place: read the complete document
-        # from the document server and replace the file content. By design we do
-        # NOT keep versions - no ObjectModified event is fired, so CMFEditions
-        # never snapshots a revision, and force saves (which can be frequent) do
-        # not pile up history. The same content object / URL is kept.
+        # from the document server and replace the file content. No
+        # ObjectModified event is fired, so CMFEditions does not snapshot each
+        # save and force saves (which can be frequent) do not pile up history;
+        # the callback keeps one revision per editing session instead
+        # (saveRevision). The same content object / URL is kept.
         self.context.file = NamedBlobFile(
             urlopen(download).read(), filename=self.context.file.filename
         )
@@ -343,10 +363,13 @@ class SaveCurrent(BrowserView):
             raise BadRequest("Unexpected document URL.")
 
         download = utils.replaceDocUrlToInternal(url)
+        utils.saveOriginalRevision(self.context)
         self.context.file = NamedBlobFile(
             urlopen(download).read(), filename=self.context.file.filename
         )
         self.context.reindexObject()
+        # Kept as the session's revision when the session ends.
+        utils.markSessionSaved(self.context)
         logger.info("saved current document " + self.context.absolute_url())
 
         return json_dumps({"status": "success"})

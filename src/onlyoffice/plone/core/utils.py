@@ -16,6 +16,7 @@
 
 from DateTime import DateTime
 from onlyoffice.plone.core.config import Config
+from onlyoffice.plone.interfaces import logger
 from plone import api
 from plone.protect.utils import safeWrite
 from plone.registry.interfaces import IRegistry
@@ -37,6 +38,10 @@ DOCUMENT_KEY_ANNOTATION = "onlyoffice.plone.documentKey"
 #: The document key whose edits are to be thrown away (Cancel in the
 #: editor). The callback drops the write-back for that key.
 DISCARD_ANNOTATION = "onlyoffice.plone.discardKey"
+#: The document key of an editing session that has stored the document in
+#: Plone at least once (a Save while editing). When that session ends, its
+#: result is kept as a revision even if nothing changed after the Save.
+SAVED_ANNOTATION = "onlyoffice.plone.savedKey"
 
 
 def userCanView(context):
@@ -120,6 +125,92 @@ def clearDiscard(obj):
     if DISCARD_ANNOTATION in annotations:
         del annotations[DISCARD_ANNOTATION]
         safeWrite(obj)
+
+
+def markSessionSaved(obj):
+    """The open editing session (current key) stored the document in Plone."""
+    IAnnotations(obj)[SAVED_ANNOTATION] = getDocumentKey(obj)
+    safeWrite(obj)
+
+
+def sessionSaved(obj):
+    """True when the open editing session stored the document in Plone."""
+    annotations = IAnnotations(obj)
+    mark = annotations.get(SAVED_ANNOTATION)
+    return bool(mark) and mark == annotations.get(DOCUMENT_KEY_ANNOTATION)
+
+
+def clearSessionSaved(obj):
+    annotations = IAnnotations(obj)
+    if SAVED_ANNOTATION in annotations:
+        del annotations[SAVED_ANNOTATION]
+        safeWrite(obj)
+
+
+def _editorNames(users):
+    names = []
+    for userid in users or ():
+        member = api.user.get(userid=userid)
+        name = member and (member.getProperty("fullname") or member.getUserName())
+        names.append(name or userid)
+    return names
+
+
+def _repositorySave(repository, obj, comment, users=None):
+    editor = None
+    for userid in users or ():
+        editor = api.user.get(userid=userid)
+        if editor is not None:
+            break
+    if editor is not None:
+        with api.env.adopt_user(user=editor):
+            with api.env.adopt_roles(["Manager"]):
+                repository.save(obj=obj, comment=comment)
+    else:
+        with api.env.adopt_roles(["Manager"]):
+            repository.save(obj=obj, comment=comment)
+
+
+def saveOriginalRevision(obj):
+    """Before ONLYOFFICE first overwrites a document that has no History
+    yet, keep the document as it was, so the first edit can be reverted."""
+    try:
+        repository = api.portal.get_tool("portal_repository")
+        if not repository.isVersionable(obj):
+            return False
+        history = repository.getHistoryMetadata(obj)
+        if history and history.getLength(countPurged=False):
+            return False
+        _repositorySave(repository, obj, "Before editing in ONLYOFFICE")
+        return True
+    except Exception:
+        logger.exception("could not save a revision of " + obj.absolute_url())
+        return False
+
+
+def saveRevision(obj, users=None):
+    """Keep the document as it is now as a revision in its History.
+
+    Called once at the end of an ONLYOFFICE editing session, so a session
+    leaves one revision however often people clicked Save. Only for types
+    with versioning switched on (portal_repository). The document server's
+    callback is anonymous, so the revision is saved as the first editor
+    named in the callback when there is one, with the rights to save it.
+    A failure here is logged and never stops the document being stored.
+    """
+    try:
+        repository = api.portal.get_tool("portal_repository")
+        if not repository.isVersionable(obj):
+            return False
+        names = _editorNames(users)
+        comment = "Edited in ONLYOFFICE"
+        if names:
+            comment += " by " + ", ".join(names)
+        _repositorySave(repository, obj, comment, users)
+        return True
+    except Exception:
+        logger.exception("could not save a revision of " + obj.absolute_url())
+        return False
 
 
 def isJwtEnabled():
