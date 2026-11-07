@@ -151,15 +151,15 @@
     <div class="oo-docent-bar"
          id="ooDocentBar"
     >
-      <!-- Share (7 Nov 2026), on the far left: the quick-share page
+      <!-- Share (7 Nov 2026), on the far left: the quick-share form
            (DocentIMS.Sharing @@quick-share: pick a member, view by
-           default, one toggle for edit) in a new tab so the editor stays
-           open. Only for people who may share it. -->
-      <a class="oo-docent-rename oo-docent-share"
+           default, one toggle for edit) as a small popup over the editor
+           (pat-plone-modal), so the page never leaves. Only for people
+           who may share it. -->
+      <a class="oo-docent-rename oo-docent-share pat-plone-modal"
          id="ooDocentShare"
          href="${context/absolute_url}/@@quick-share"
-         rel="noopener"
-         target="_blank"
+         data-pat-plone-modal="width: 600px;"
          title="Share this document: choose who can see and edit it"
          tal:condition="view/canShare"
          i18n:attributes="title"
