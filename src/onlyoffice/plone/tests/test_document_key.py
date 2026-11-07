@@ -181,9 +181,7 @@ class TestSaveRevision(unittest.TestCase):
         return history.getLength(countPurged=False) if history else 0
 
     def test_not_versionable_saves_nothing(self):
-        types = [
-            t for t in self.repository.getVersionableContentTypes() if t != "File"
-        ]
+        types = [t for t in self.repository.getVersionableContentTypes() if t != "File"]
         self.repository.setVersionableContentTypes(types)
         self.assertFalse(utils.saveRevision(self.file, [TEST_USER_ID]))
 
