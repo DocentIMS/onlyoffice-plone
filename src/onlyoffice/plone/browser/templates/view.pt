@@ -73,6 +73,7 @@
                           background: #FFFFFF; color: #1F5F6E; font-size: 12px; font-weight: 500;
                           cursor: pointer; }
       .oo-docent-rename:hover { border-color: #3A9FB5; }
+      a.oo-docent-share, a.oo-docent-share:hover { text-decoration: none !important; }
       .oo-docent-rename-form { display: inline-flex; align-items: center; gap: 6px; }
       .oo-docent-rename-form input { height: 28px; font-size: 13px; padding: 0 8px; min-width: 260px;
                                      border: 1px solid #BAD8DE; border-radius: 6px; }
@@ -150,6 +151,30 @@
     <div class="oo-docent-bar"
          id="ooDocentBar"
     >
+      <!-- Share (7 Nov 2026), on the far left: Plone's Sharing screen
+           for this document, in a new tab so the editor stays open. Only
+           for people who may share it. -->
+      <a class="oo-docent-rename oo-docent-share"
+         id="ooDocentShare"
+         href="${context/absolute_url}/@@sharing"
+         rel="noopener"
+         target="_blank"
+         title="Share this document: choose who can see and edit it"
+         tal:condition="view/canShare"
+         i18n:attributes="title"
+      >
+        <svg aria-hidden="true"
+             fill="none"
+             height="13"
+             stroke="currentColor"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="1.4"
+             viewbox="0 0 16 16"
+             width="13"
+        ><circle cx="12" cy="3.5" r="1.8"></circle><circle cx="4" cy="8" r="1.8"></circle><circle cx="12" cy="12.5" r="1.8"></circle><path d="M5.6 7.1 10.4 4.4M5.6 8.9l4.8 2.7"></path></svg>
+        <span i18n:translate="">Share</span>
+      </a>
       <span class="oo-docent-spacer"></span>
       <span class="oo-docent-note"
             id="ooDocentNote"
@@ -694,6 +719,17 @@
 
       closeButton.addEventListener("click", function () {
         if (closing) { return; }
+        // A new name typed in the Rename box but not saved yet (7 Nov
+        // 2026): save it first, then close - saveName clicks Save & Close
+        // again once the name is stored.
+        if (canSave && !renameForm.hidden) {
+          var typed = renameInput.value.trim();
+          if (typed && typed !== barName.textContent) {
+            closeAfterRename = true;
+            saveName();
+            return;
+          }
+        }
         // Still called "Document": ask for a name, then close.
         if (canSave && hasDefaultName(barName.textContent)) {
           closeAfterRename = true;

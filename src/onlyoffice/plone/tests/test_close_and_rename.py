@@ -180,3 +180,39 @@ class TestDefaultNameBeforeClose(unittest.TestCase):
         start = source.index('cancelButton.addEventListener("click"')
         handler = source[start : source.index("});", start)]
         self.assertNotIn("hasDefaultName", handler)
+
+
+class TestShareAndTypedName(unittest.TestCase):
+    """Share on the far left of the bar; Save & Close keeps a name typed in
+    the Rename box but not saved yet (7 Nov 2026)."""
+
+    def test_share_is_first_and_opens_the_sharing_screen(self):
+        source = _template()
+        bar = source[source.index('id="ooDocentBar"') :]
+        self.assertLess(bar.index('id="ooDocentShare"'), bar.index("oo-docent-spacer"))
+        self.assertIn('href="${context/absolute_url}/@@sharing"', bar)
+        self.assertIn('tal:condition="view/canShare"', bar)
+
+    def test_save_and_close_saves_a_typed_name_first(self):
+        source = _template()
+        start = source.index('closeButton.addEventListener("click"')
+        handler = source[start : source.index("});", start)]
+        self.assertIn("!renameForm.hidden", handler)
+        self.assertLess(handler.index("saveName();"), handler.index("hasDefaultName"))
+
+
+class TestCanShare(unittest.TestCase):
+    layer = ONLYOFFICE_PLONE_INTEGRATION_TESTING
+
+    def test_only_people_who_may_share_see_share(self):
+        from AccessControl import getSecurityManager
+
+        portal = self.layer["portal"]
+        setRoles(portal, TEST_USER_ID, ["Manager"])
+        self.assertTrue(
+            getSecurityManager().checkPermission("Sharing page: Delegate roles", portal)
+        )
+        setRoles(portal, TEST_USER_ID, ["Member"])
+        self.assertFalse(
+            getSecurityManager().checkPermission("Sharing page: Delegate roles", portal)
+        )
