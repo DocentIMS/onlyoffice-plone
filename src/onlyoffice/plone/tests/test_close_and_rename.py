@@ -136,3 +136,38 @@ class TestTheNote(unittest.TestCase):
             name="onlyoffice.changes-saved-note",
         )
         self.assertIsNotNone(viewlet)
+
+
+class TestDefaultNameBeforeClose(unittest.TestCase):
+    """Save & Close asks for a real name while a document is still called
+    Document, Spreadsheet, Presentation or PDF form (6 Nov 2026)."""
+
+    def test_default_names(self):
+        from onlyoffice.plone.core.fileUtils import defaultNames
+
+        names = defaultNames()
+        for name in ("Document", "Spreadsheet", "Presentation", "PDF form"):
+            self.assertIn(name, names)
+
+    def test_save_and_close_checks_the_name(self):
+        source = _template()
+        self.assertIn("${view/defaultNames}", source)
+        start = source.index('closeButton.addEventListener("click"')
+        handler = source[start : source.index("});", start)]
+        self.assertIn("hasDefaultName(barName.textContent)", handler)
+        self.assertIn("Give this document a name before closing.", handler)
+        # Checked before the nothing-to-save shortcut, so an unedited new
+        # document is asked too; read-only Close (canSave false) is not.
+        self.assertLess(handler.index("hasDefaultName"), handler.index("leave();"))
+        self.assertIn("canSave && hasDefaultName", handler)
+
+    def test_a_new_name_then_closes(self):
+        source = _template()
+        self.assertIn("closeAfterRename = true;", source)
+        self.assertIn("closeButton.click();", source)
+
+    def test_cancel_is_not_checked(self):
+        source = _template()
+        start = source.index('cancelButton.addEventListener("click"')
+        handler = source[start : source.index("});", start)]
+        self.assertNotIn("hasDefaultName", handler)

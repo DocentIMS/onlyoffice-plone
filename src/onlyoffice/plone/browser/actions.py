@@ -191,6 +191,7 @@ def render_editor(self, forEdit, role=None):
         fileUtils.getRelatedRtemsOptions(self.context)
     )
     self.token = get_token(self)
+    self.defaultNames = json.dumps(fileUtils.defaultNames(self.request))
     self.editorCfg = get_config(self, forEdit, role)
     if not self.editorCfg:
         index = ViewPageTemplateFile("templates/error.pt")
