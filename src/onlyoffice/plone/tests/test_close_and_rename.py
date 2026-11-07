@@ -31,6 +31,7 @@ from zope.viewlet.interfaces import IViewlet
 import os
 import unittest
 
+
 TEMPLATE = os.path.join(
     os.path.dirname(os.path.dirname(__file__)), "browser", "templates", "view.pt"
 )

@@ -39,6 +39,7 @@ from zope.interface import implementer
 
 import json
 
+
 # Docent editor branding (Docent colour theme + Inter interface font). Off on
 # ONLYOFFICE Docs Community Edition: a custom interface font needs a
 # white-label licence (without one the editor shows a "Paid feature" box), and
