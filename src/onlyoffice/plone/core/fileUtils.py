@@ -22,6 +22,7 @@ from plone.app.dexterity.interfaces import IDXFileFactory
 from plone.app.z3cform.widgets.relateditems import get_relateditems_options
 from plone.rfc822.interfaces import IPrimaryFieldInfo
 from zope.event import notify
+from zope.i18n import translate
 from zope.lifecycleevent import ObjectModifiedEvent
 
 import re
@@ -147,6 +148,19 @@ def getDefaultNameByType(str):
         return _("PDF form")
 
     return None
+
+
+def defaultNames(request=None):
+    """The names a new document starts with ("Document", "Spreadsheet"...),
+    in English and in the site's language, for the editor page: Save & Close
+    asks for a real name while the document still has one of these."""
+    names = set()
+    for kind in ("word", "cell", "slide", "form"):
+        name = getDefaultNameByType(kind)
+        names.add(str(name))
+        if request is not None:
+            names.add(translate(name, context=request))
+    return sorted(names)
 
 
 def addNewFile(fileName, contentType, fileData, folder, title=None):

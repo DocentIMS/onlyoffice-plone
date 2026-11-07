@@ -39,7 +39,6 @@ from zope.interface import implementer
 
 import json
 
-
 # Docent editor branding (Docent colour theme + Inter interface font). Off on
 # ONLYOFFICE Docs Community Edition: a custom interface font needs a
 # white-label licence (without one the editor shows a "Paid feature" box), and
@@ -191,6 +190,7 @@ def render_editor(self, forEdit, role=None):
         fileUtils.getRelatedRtemsOptions(self.context)
     )
     self.token = get_token(self)
+    self.defaultNames = json.dumps(fileUtils.defaultNames(self.request))
     self.editorCfg = get_config(self, forEdit, role)
     if not self.editorCfg:
         index = ViewPageTemplateFile("templates/error.pt")
