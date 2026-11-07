@@ -92,6 +92,8 @@ class TestCallbackForceSave(unittest.TestCase):
         # Avoid hitting the (non-existent) Document Server during the test.
         self.saved = []
         self.callback._save = lambda url: self.saved.append(url)
+        self.revisions = []
+        self.callback._saveRevision = lambda users: self.revisions.append(users)
 
     def test_force_save_persists_but_keeps_key(self):
         before = utils.getDocumentKey(self.file)
@@ -110,3 +112,98 @@ class TestCallbackForceSave(unittest.TestCase):
         self.callback._handleStatus(4, None)
         self.assertEqual(self.saved, [])
         self.assertEqual(utils.getDocumentKey(self.file), before)
+
+
+class TestCallbackHistory(TestCallbackForceSave):
+    """Each editing session leaves one revision, made when it ends."""
+
+    def test_session_end_leaves_one_revision(self):
+        self.callback._handleStatus(2, "http://docserver/out.docx", ["jane"])
+        self.assertEqual(self.revisions, [["jane"]])
+
+    def test_save_while_editing_makes_no_revision_yet(self):
+        self.callback._handleStatus(6, "http://docserver/out.docx", ["jane"])
+        self.callback._handleStatus(6, "http://docserver/out.docx", ["jane"])
+        self.assertEqual(self.revisions, [])
+
+    def test_saves_then_session_end_leave_one_revision(self):
+        self.callback._handleStatus(6, "http://docserver/out.docx", ["jane"])
+        self.callback._handleStatus(6, "http://docserver/out.docx", ["jane"])
+        self.callback._handleStatus(2, "http://docserver/out.docx", ["jane"])
+        self.assertEqual(len(self.revisions), 1)
+
+    def test_save_then_close_unchanged_leaves_a_revision(self):
+        self.callback._handleStatus(6, "http://docserver/out.docx", ["jane"])
+        self.callback._handleStatus(4, None, ["jane"])
+        self.assertEqual(self.revisions, [["jane"]])
+        self.assertFalse(utils.sessionSaved(self.file))
+
+    def test_close_unchanged_without_save_leaves_none(self):
+        self.callback._handleStatus(4, None)
+        self.assertEqual(self.revisions, [])
+
+    def test_cancel_without_save_leaves_none(self):
+        utils.markDiscard(self.file)
+        self.callback._handleStatus(2, "http://docserver/out.docx", ["jane"])
+        self.assertEqual(self.saved, [])
+        self.assertEqual(self.revisions, [])
+
+    def test_cancel_after_save_keeps_the_saved_revision(self):
+        self.callback._handleStatus(6, "http://docserver/out.docx", ["jane"])
+        utils.markDiscard(self.file)
+        self.callback._handleStatus(2, "http://docserver/out.docx", ["jane"])
+        self.assertEqual(self.saved, ["http://docserver/out.docx"])
+        self.assertEqual(len(self.revisions), 1)
+
+    def test_next_session_starts_clean(self):
+        self.callback._handleStatus(6, "http://docserver/out.docx", ["jane"])
+        self.callback._handleStatus(2, "http://docserver/out.docx", ["jane"])
+        self.callback._handleStatus(4, None)
+        self.assertEqual(len(self.revisions), 1)
+
+
+class TestSaveRevision(unittest.TestCase):
+    layer = ONLYOFFICE_PLONE_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer["portal"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+        self.file = api.content.create(
+            container=self.portal,
+            type="File",
+            id="history.docx",
+            title="History.docx",
+        )
+        self.repository = api.portal.get_tool("portal_repository")
+
+    def _length(self):
+        history = self.repository.getHistoryMetadata(self.file)
+        return history.getLength(countPurged=False) if history else 0
+
+    def test_not_versionable_saves_nothing(self):
+        types = [t for t in self.repository.getVersionableContentTypes() if t != "File"]
+        self.repository.setVersionableContentTypes(types)
+        self.assertFalse(utils.saveRevision(self.file, [TEST_USER_ID]))
+
+    def test_versionable_file_gets_a_revision_naming_the_editor(self):
+        types = list(self.repository.getVersionableContentTypes())
+        if "File" not in types:
+            self.repository.setVersionableContentTypes(types + ["File"])
+        before = self._length()
+        self.assertTrue(utils.saveRevision(self.file, [TEST_USER_ID]))
+        self.assertEqual(self._length(), before + 1)
+        history = self.repository.getHistoryMetadata(self.file)
+        meta = history.retrieve(self._length() - 1)["metadata"]["sys_metadata"]
+        self.assertTrue(meta["comment"].startswith("Edited in ONLYOFFICE by "))
+
+    def test_original_is_kept_once_before_the_first_edit(self):
+        types = list(self.repository.getVersionableContentTypes())
+        if "File" not in types:
+            self.repository.setVersionableContentTypes(types + ["File"])
+        if self._length():
+            self.assertFalse(utils.saveOriginalRevision(self.file))
+            return
+        self.assertTrue(utils.saveOriginalRevision(self.file))
+        self.assertEqual(self._length(), 1)
+        self.assertFalse(utils.saveOriginalRevision(self.file))
+        self.assertEqual(self._length(), 1)
