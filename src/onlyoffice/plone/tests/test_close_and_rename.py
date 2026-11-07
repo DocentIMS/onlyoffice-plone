@@ -78,6 +78,15 @@ class TestTheBar(unittest.TestCase):
         self.assertIn('hidden="hidden"', bar[start : bar.index(">", start)])
         self.assertIn("cancelButton.hidden = false;", source)
 
+    def test_the_page_is_headed_with_the_document_name(self):
+        # Like every other Docent page (6 Nov 2026): the title slot carries
+        # the name, and a rename updates it in place.
+        source = _template()
+        self.assertIn('<metal:title fill-slot="content-title">', source)
+        self.assertIn('id="ooDocentTitle"', source)
+        self.assertIn('tal:content="context/Title"', source)
+        self.assertEqual(source.count("pageTitle.textContent = newName"), 2)
+
     def test_cancel_marks_the_document_and_asks_first(self):
         source = _template()
         self.assertIn("onlyoffice-discard", source)
