@@ -172,7 +172,16 @@
              stroke-width="1.4"
              viewbox="0 0 16 16"
              width="13"
-        ><circle cx="12" cy="3.5" r="1.8"></circle><circle cx="4" cy="8" r="1.8"></circle><circle cx="12" cy="12.5" r="1.8"></circle><path d="M5.6 7.1 10.4 4.4M5.6 8.9l4.8 2.7"></path></svg>
+        ><circle cx="12"
+                  cy="3.5"
+                  r="1.8"
+          ></circle><circle cx="4"
+                  cy="8"
+                  r="1.8"
+          ></circle><circle cx="12"
+                  cy="12.5"
+                  r="1.8"
+          ></circle><path d="M5.6 7.1 10.4 4.4M5.6 8.9l4.8 2.7"></path></svg>
         <span i18n:translate="">Share</span>
       </a>
       <span class="oo-docent-spacer"></span>
