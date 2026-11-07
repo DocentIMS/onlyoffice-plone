@@ -249,10 +249,13 @@ def get_config(self, forEdit, role=None):
                 "author": self.context.creators[0],
                 "created": str(self.context.creation_date),
             },
-            "permissions": {"edit": canEdit, "rename": canEdit},
+            # chat: the editor's Chat panel, for people in the document at the
+            # same time (customization.chat is deprecated in favour of this).
+            "permissions": {"edit": canEdit, "rename": canEdit, "chat": True},
         },
         "editorConfig": {
             "mode": "edit" if canEdit else "view",
+            "coEditing": {"mode": "fast", "change": True},
             "lang": state.language(),
             "user": {
                 "id": user.getId(),
@@ -263,7 +266,6 @@ def get_config(self, forEdit, role=None):
                 "feedback": False,
                 "help": False,
                 "about": False,
-                "chat": False,
                 "leftMenu": False,
                 "statusBar": False,
                 "rulers": False,
@@ -277,10 +279,12 @@ def get_config(self, forEdit, role=None):
                 # licence. No AI tab either (ai.disabled, ONLYOFFICE 10.0).
                 "plugins": False,
                 "ai": {"disabled": True},
-                # Manual saving only: autosave to the document server is off,
-                # and the Save button force-saves straight to Plone (status 6).
-                # Note: turning autosave off also disables fast co-editing.
-                "autosave": False,
+                # Live co-editing: people in the same document see each other's
+                # typing and cursors as they work ("fast" mode needs autosave,
+                # which saves to the document server, not to Plone). Plone gets
+                # the file when someone clicks Save (forcesave, status 6) and
+                # when the last person closes the document (status 2).
+                "autosave": True,
                 "forcesave": True,
                 # Appearance (see DOCENT_EDITOR_BRANDING for the Docent theme).
                 "uiTheme": "theme-light",

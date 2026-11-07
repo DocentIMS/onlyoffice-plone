@@ -44,10 +44,12 @@ class TestEditorCustomization(unittest.TestCase):
         )
         self.file.file = NamedBlobFile(b"data", filename="document.docx")
 
-    def _customization(self):
+    def _config(self):
         view = getMultiAdapter((self.file, self.request), name="onlyoffice-view")
-        config = json.loads(get_config(view, False))
-        return config["editorConfig"]["customization"]
+        return json.loads(get_config(view, False))
+
+    def _customization(self):
+        return self._config()["editorConfig"]["customization"]
 
     def test_hidden_ui_elements(self):
         customization = self._customization()
@@ -55,7 +57,6 @@ class TestEditorCustomization(unittest.TestCase):
             "feedback",
             "help",
             "about",
-            "chat",
             "leftMenu",
             "statusBar",
             "rulers",
@@ -76,11 +77,20 @@ class TestEditorCustomization(unittest.TestCase):
         self.assertFalse(customization["plugins"])
         self.assertTrue(customization["ai"]["disabled"])
 
-    def test_saving_is_manual(self):
-        customization = self._customization()
-        # Autosave off + forcesave on = explicit Save button that persists to Plone.
-        self.assertFalse(customization["autosave"])
+    def test_live_coediting(self):
+        config = self._config()
+        customization = config["editorConfig"]["customization"]
+        # Autosave on for fast (live) co-editing; forcesave keeps the Save
+        # button storing the document in Plone.
+        self.assertTrue(customization["autosave"])
         self.assertTrue(customization["forcesave"])
+        self.assertEqual(config["editorConfig"]["coEditing"]["mode"], "fast")
+        self.assertTrue(config["editorConfig"]["coEditing"]["change"])
+
+    def test_chat_shown(self):
+        config = self._config()
+        self.assertTrue(config["document"]["permissions"]["chat"])
+        self.assertNotIn("chat", config["editorConfig"]["customization"])
 
     def test_docent_theme_helper_url(self):
         from onlyoffice.plone.browser import actions
