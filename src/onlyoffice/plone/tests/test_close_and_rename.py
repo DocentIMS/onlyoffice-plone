@@ -186,11 +186,11 @@ class TestShareAndTypedName(unittest.TestCase):
     """Share on the far left of the bar; Save & Close keeps a name typed in
     the Rename box but not saved yet (7 Nov 2026)."""
 
-    def test_share_is_first_and_opens_the_sharing_screen(self):
+    def test_share_is_first_and_opens_quick_share(self):
         source = _template()
         bar = source[source.index('id="ooDocentBar"') :]
         self.assertLess(bar.index('id="ooDocentShare"'), bar.index("oo-docent-spacer"))
-        self.assertIn('href="${context/absolute_url}/@@sharing"', bar)
+        self.assertIn('href="${context/absolute_url}/@@quick-share"', bar)
         self.assertIn('tal:condition="view/canShare"', bar)
 
     def test_save_and_close_saves_a_typed_name_first(self):

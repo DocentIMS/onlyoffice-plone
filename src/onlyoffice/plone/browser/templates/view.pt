@@ -151,12 +151,13 @@
     <div class="oo-docent-bar"
          id="ooDocentBar"
     >
-      <!-- Share (7 Nov 2026), on the far left: Plone's Sharing screen
-           for this document, in a new tab so the editor stays open. Only
-           for people who may share it. -->
+      <!-- Share (7 Nov 2026), on the far left: the quick-share page
+           (DocentIMS.Sharing @@quick-share: pick a member, view by
+           default, one toggle for edit) in a new tab so the editor stays
+           open. Only for people who may share it. -->
       <a class="oo-docent-rename oo-docent-share"
          id="ooDocentShare"
-         href="${context/absolute_url}/@@sharing"
+         href="${context/absolute_url}/@@quick-share"
          rel="noopener"
          target="_blank"
          title="Share this document: choose who can see and edit it"
