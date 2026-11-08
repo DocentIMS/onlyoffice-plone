@@ -193,8 +193,8 @@
       <!-- Not shown: the current name, for the Rename box and the
            "Changes saved" note. The Rename box itself is opened only by
            Save & Close, while the document still has its default name
-           (8 Nov 2026: no Rename or Cancel button in the bar; ONLYOFFICE's
-           own header renames, and leaving the page keeps the edits). -->
+           (8 Nov 2026: no Rename button in the bar; ONLYOFFICE's own
+           header renames). -->
       <span id="ooDocentName"
             hidden="hidden"
             tal:content="context/Title"
@@ -223,6 +223,30 @@
                 i18n:translate=""
         >Cancel</button>
       </span>
+      <!-- Cancel (5 Nov 2026): leave without keeping the edits. The
+           document server would still write them back once the last
+           editor is gone, so Cancel first marks the document (the
+           onlyoffice-discard view) and the callback then throws that
+           write away. Shown only when the editor opened for editing. -->
+      <button class="oo-docent-cancel"
+              id="ooDocentCancel"
+              hidden="hidden"
+              title="Leave without saving your changes"
+              type="button"
+              i18n:attributes="title"
+      >
+        <svg aria-hidden="true"
+             fill="none"
+             height="13"
+             stroke="currentColor"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="1.8"
+             viewbox="0 0 16 16"
+             width="13"
+        ><path d="M4 4l8 8M12 4l-8 8"></path></svg>
+        <span i18n:translate="">Cancel</span>
+      </button>
       <button class="oo-docent-close"
               id="ooDocentClose"
               hidden="hidden"
@@ -613,6 +637,7 @@
       var renameInput = document.getElementById("ooDocentRenameInput");
       var closeButton = document.getElementById("ooDocentClose");
       var closeLabel = document.getElementById("ooDocentCloseLabel");
+      var cancelButton = document.getElementById("ooDocentCancel");
 
       // A new document starts as "Document", "Spreadsheet"... (6 Nov 2026):
       // Save & Close asks for a real name first, so the folder does not fill
@@ -676,7 +701,9 @@
         }
       }
 
-      if (!canSave) {
+      if (canSave) {
+        cancelButton.hidden = false;
+      } else {
         closeLabel.textContent = "Close";
         closeButton.title = "Close and go back";
       }
@@ -714,6 +741,40 @@
         closeLabel.textContent = "Saving...";
         barNote.textContent = "";
         docEditor.downloadAs();
+      });
+
+      function cancelFailed() {
+        closing = false;
+        cancelButton.disabled = false;
+        barNote.textContent = "Could not cancel. Your changes are still open here; try again.";
+      }
+
+      // Cancel: go back without keeping the edits. The document server
+      // writes a closed document back a few seconds later whatever the
+      // page did, so the document is marked first (onlyoffice-discard) and
+      // the callback drops that write. Asks first when there is something
+      // to lose.
+      cancelButton.addEventListener("click", function () {
+        if (closing) { return; }
+        if (everEdited && !window.confirm(
+              "Leave without saving? The changes you made since opening this document will be lost.")) {
+          return;
+        }
+        closing = true;
+        cancelButton.disabled = true;
+        barNote.textContent = "";
+        try {
+          var request = new XMLHttpRequest();
+          request.open("POST", "${context/absolute_url}/onlyoffice-discard", true);
+          request.setRequestHeader("x-csrf-token", "${view/token}");
+          request.onload = function () {
+            if (request.status === 200) { window.location.href = backUrl; } else { cancelFailed(); }
+          };
+          request.onerror = cancelFailed;
+          request.send("{}");
+        } catch (e) {
+          cancelFailed();
+        }
       });
 
       // Leaving any other way (breadcrumb, a link, the browser's Back): the

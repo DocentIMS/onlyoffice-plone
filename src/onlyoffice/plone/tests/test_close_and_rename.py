@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-"""The Docent bar over the editor (Share, Save & Close) and the
+"""The Docent bar over the editor (Share, Cancel, Save & Close) and the
 "Changes saved" note on the page that follows."""
 
 from onlyoffice.plone.browser.viewlets import ChangesSavedNoteViewlet
@@ -43,21 +43,18 @@ def _template():
 
 
 class TestTheBar(unittest.TestCase):
-    def test_save_and_close_and_the_rename_box_are_there(self):
+    def test_cancel_save_and_close_and_the_rename_box_are_there(self):
         source = _template()
-        for element in ("ooDocentRenameForm", "ooDocentClose"):
+        for element in ("ooDocentRenameForm", "ooDocentCancel", "ooDocentClose"):
             self.assertIn(f'id="{element}"', source)
         self.assertIn("Save &amp; Close", source)
 
-    def test_no_rename_or_cancel_button(self):
-        # 8 Nov 2026: the bar is Share, then Save & Close. ONLYOFFICE's own
-        # header renames; the Rename box opens only from Save & Close.
+    def test_no_rename_button(self):
+        # 8 Nov 2026: ONLYOFFICE's own header renames; the Rename box opens
+        # only from Save & Close while the document has its default name.
         source = _template()
         self.assertNotIn('id="ooDocentRename"', source)
-        self.assertNotIn('id="ooDocentCancel"', source)
-        self.assertNotIn("cancelButton", source)
         self.assertNotIn("renameButton", source)
-        self.assertNotIn("onlyoffice-discard", source)
 
     def test_the_bar_does_not_repeat_the_file_name(self):
         # ONLYOFFICE's header shows it; the bar keeps it only for the script.
@@ -65,6 +62,18 @@ class TestTheBar(unittest.TestCase):
         start = source.index('id="ooDocentName"')
         self.assertIn('hidden="hidden"', source[start : source.index(">", start)])
         self.assertNotIn("barName.hidden", source)
+
+    def test_cancel_sits_before_save_and_close(self):
+        source = _template()
+        bar = source[source.index('id="ooDocentBar"') :]
+        self.assertLess(bar.index("oo-docent-spacer"), bar.index('id="ooDocentCancel"'))
+        self.assertLess(
+            bar.index('id="ooDocentCancel"'), bar.index('id="ooDocentClose"')
+        )
+        # Hidden until the script knows the editor opened for editing.
+        start = bar.index('id="ooDocentCancel"')
+        self.assertIn('hidden="hidden"', bar[start : bar.index(">", start)])
+        self.assertIn("cancelButton.hidden = false;", source)
 
     def test_the_page_is_headed_with_the_document_name(self):
         # Like every other Docent page (6 Nov 2026): the title slot carries
@@ -74,6 +83,12 @@ class TestTheBar(unittest.TestCase):
         self.assertIn('id="ooDocentTitle"', source)
         self.assertIn('tal:content="context/Title"', source)
         self.assertEqual(source.count("pageTitle.textContent = newName"), 2)
+
+    def test_cancel_marks_the_document_and_asks_first(self):
+        source = _template()
+        self.assertIn("onlyoffice-discard", source)
+        self.assertIn("window.confirm(", source)
+        self.assertIn('title="Leave without saving your changes"', source)
 
     def test_save_and_close_stores_the_live_document(self):
         source = _template()
@@ -155,6 +170,12 @@ class TestDefaultNameBeforeClose(unittest.TestCase):
         source = _template()
         self.assertIn("closeAfterRename = true;", source)
         self.assertIn("closeButton.click();", source)
+
+    def test_cancel_is_not_checked(self):
+        source = _template()
+        start = source.index('cancelButton.addEventListener("click"')
+        handler = source[start : source.index("});", start)]
+        self.assertNotIn("hasDefaultName", handler)
 
 
 class TestShareAndTypedName(unittest.TestCase):
