@@ -159,8 +159,8 @@
       <a class="oo-docent-rename oo-docent-share pat-plone-modal"
          id="ooDocentShare"
          href="${context/absolute_url}/@@quick-share"
-         data-pat-plone-modal='{"width": "600px", "actionOptions": {"redirectOnResponse": true}}'
          title="Share this document: choose who can see and edit it"
+         data-pat-plone-modal='{"width": "600px", "actionOptions": {"redirectOnResponse": true}}'
          tal:condition="view/canShare"
          i18n:attributes="title"
       >
