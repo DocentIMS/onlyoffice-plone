@@ -62,7 +62,9 @@ class OnlyofficeCreateSubMenuItem(BrowserSubMenuItem):
 @implementer(IActionsMenu)
 class OnlyofficeCreateMenu(BrowserMenu):
     def getMenuItems(self, context, request):
-        documentTypes = ["word", "cell", "slide", "form"]
+        # Docent offers only documents and spreadsheets here; presentations
+        # and PDF forms are left out of the menu.
+        documentTypes = ["word", "cell"]
 
         currentUrl = context.absolute_url()
         menuItems = []

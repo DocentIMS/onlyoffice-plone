@@ -17,10 +17,13 @@
 # -*- coding: utf-8 -*-
 """The 'Create with ONLYOFFICE' menu must be scoped to the add-on layer."""
 
+from onlyoffice.plone.browser.menu import OnlyofficeCreateMenu
 from onlyoffice.plone.browser.menu import OnlyofficeCreateSubMenuItem
 from onlyoffice.plone.interfaces import IOnlyofficePloneLayer
 from onlyoffice.plone.testing import ONLYOFFICE_PLONE_INTEGRATION_TESTING
 from plone.app.contentmenu.interfaces import IContentMenuItem
+from plone.app.testing import TEST_USER_ID
+from plone.app.testing import setRoles
 from zope.component import getGlobalSiteManager
 from zope.interface import Interface
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
@@ -57,3 +60,23 @@ class TestCreateMenuLayerScoped(unittest.TestCase):
         not show up in sites where ONLYOFFICE is not installed.
         """
         self.assertIsNone(self._lookup(IDefaultBrowserLayer))
+
+
+class TestCreateMenuItems(unittest.TestCase):
+    """The menu offers a Document and a Spreadsheet, nothing else."""
+
+    layer = ONLYOFFICE_PLONE_INTEGRATION_TESTING
+
+    def setUp(self):
+        self.portal = self.layer["portal"]
+        self.request = self.layer["request"]
+        setRoles(self.portal, TEST_USER_ID, ["Manager"])
+
+    def test_only_document_and_spreadsheet(self):
+        menu = OnlyofficeCreateMenu("onlyoffice-create", "Create")
+        items = menu.getMenuItems(self.portal, self.request)
+        types = [item["action"].split("documentType=")[1].split("&")[0]
+                 for item in items]
+        self.assertEqual(types, ["word", "cell"])
+        titles = [str(item["title"]) for item in items]
+        self.assertEqual(titles, ["Document", "Spreadsheet"])
