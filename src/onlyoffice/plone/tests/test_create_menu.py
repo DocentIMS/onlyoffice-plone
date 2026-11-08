@@ -22,8 +22,8 @@ from onlyoffice.plone.browser.menu import OnlyofficeCreateSubMenuItem
 from onlyoffice.plone.interfaces import IOnlyofficePloneLayer
 from onlyoffice.plone.testing import ONLYOFFICE_PLONE_INTEGRATION_TESTING
 from plone.app.contentmenu.interfaces import IContentMenuItem
-from plone.app.testing import TEST_USER_ID
 from plone.app.testing import setRoles
+from plone.app.testing import TEST_USER_ID
 from zope.component import getGlobalSiteManager
 from zope.interface import Interface
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
@@ -75,8 +75,9 @@ class TestCreateMenuItems(unittest.TestCase):
     def test_only_document_and_spreadsheet(self):
         menu = OnlyofficeCreateMenu("onlyoffice-create", "Create")
         items = menu.getMenuItems(self.portal, self.request)
-        types = [item["action"].split("documentType=")[1].split("&")[0]
-                 for item in items]
+        types = [
+            item["action"].split("documentType=")[1].split("&")[0] for item in items
+        ]
         self.assertEqual(types, ["word", "cell"])
         titles = [str(item["title"]) for item in items]
         self.assertEqual(titles, ["Document", "Spreadsheet"])

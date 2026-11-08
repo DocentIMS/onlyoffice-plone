@@ -191,7 +191,7 @@ class TestShareAndTypedName(unittest.TestCase):
         bar = source[source.index('id="ooDocentBar"') :]
         self.assertLess(bar.index('id="ooDocentShare"'), bar.index("oo-docent-spacer"))
         self.assertIn('href="${context/absolute_url}/@@quick-share"', bar)
-        self.assertIn('pat-plone-modal', bar[: bar.index('oo-docent-spacer')])
+        self.assertIn("pat-plone-modal", bar[: bar.index("oo-docent-spacer")])
         self.assertIn('tal:condition="view/canShare"', bar)
 
     def test_save_and_close_saves_a_typed_name_first(self):
