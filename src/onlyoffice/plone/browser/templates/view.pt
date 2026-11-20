@@ -151,40 +151,6 @@
     <div class="oo-docent-bar"
          id="ooDocentBar"
     >
-      <!-- Share (7 Nov 2026), on the far left: the quick-share form
-           (DocentIMS.Sharing @@quick-share: pick a member, view by
-           default, one toggle for edit) as a small popup over the editor
-           (pat-plone-modal), so the page never leaves. Only for people
-           who may share it. -->
-      <a class="oo-docent-rename oo-docent-share pat-plone-modal"
-         id="ooDocentShare"
-         href="${context/absolute_url}/@@quick-share"
-         title="Share this document: choose who can see and edit it"
-         data-pat-plone-modal='{"width": "600px", "actionOptions": {"redirectOnResponse": true}}'
-         tal:condition="view/canShare"
-         i18n:attributes="title"
-      >
-        <svg aria-hidden="true"
-             fill="none"
-             height="13"
-             stroke="currentColor"
-             stroke-linecap="round"
-             stroke-linejoin="round"
-             stroke-width="1.4"
-             viewbox="0 0 16 16"
-             width="13"
-        ><circle cx="12"
-                  cy="3.5"
-                  r="1.8"
-          ></circle><circle cx="4"
-                  cy="8"
-                  r="1.8"
-          ></circle><circle cx="12"
-                  cy="12.5"
-                  r="1.8"
-          ></circle><path d="M5.6 7.1 10.4 4.4M5.6 8.9l4.8 2.7"></path></svg>
-        <span i18n:translate="">Share</span>
-      </a>
       <span class="oo-docent-spacer"></span>
       <span class="oo-docent-note"
             id="ooDocentNote"
@@ -223,6 +189,41 @@
                 i18n:translate=""
         >Cancel</button>
       </span>
+      <!-- Share (7 Nov 2026), on the right, beside Cancel and
+           Close (19 Nov 2026): the quick-share form
+           (DocentIMS.Sharing @@quick-share: pick a member, view by
+           default, one toggle for edit) as a small popup over the editor
+           (pat-plone-modal), so the page never leaves. Only for people
+           who may share it. -->
+      <a class="oo-docent-rename oo-docent-share pat-plone-modal"
+         id="ooDocentShare"
+         href="${context/absolute_url}/@@quick-share"
+         title="Share this document: choose who can see and edit it"
+         data-pat-plone-modal='{"width": "600px", "actionOptions": {"redirectOnResponse": true}}'
+         tal:condition="view/canShare"
+         i18n:attributes="title"
+      >
+        <svg aria-hidden="true"
+             fill="none"
+             height="13"
+             stroke="currentColor"
+             stroke-linecap="round"
+             stroke-linejoin="round"
+             stroke-width="1.4"
+             viewbox="0 0 16 16"
+             width="13"
+        ><circle cx="12"
+                  cy="3.5"
+                  r="1.8"
+          ></circle><circle cx="4"
+                  cy="8"
+                  r="1.8"
+          ></circle><circle cx="12"
+                  cy="12.5"
+                  r="1.8"
+          ></circle><path d="M5.6 7.1 10.4 4.4M5.6 8.9l4.8 2.7"></path></svg>
+        <span i18n:translate="">Share</span>
+      </a>
       <!-- Cancel (5 Nov 2026): leave without keeping the edits. The
            document server would still write them back once the last
            editor is gone, so Cancel first marks the document (the
