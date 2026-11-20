@@ -179,15 +179,20 @@ class TestDefaultNameBeforeClose(unittest.TestCase):
 
 
 class TestShareAndTypedName(unittest.TestCase):
-    """Share on the far left of the bar; Save & Close keeps a name typed in
-    the Rename box but not saved yet (7 Nov 2026)."""
+    """Share on the right of the bar, just before Cancel and Close
+    (19 Nov 2026); Save & Close keeps a name typed in the Rename box but
+    not saved yet (7 Nov 2026)."""
 
-    def test_share_is_first_and_opens_quick_share(self):
+    def test_share_is_beside_close_and_opens_quick_share(self):
         source = _template()
         bar = source[source.index('id="ooDocentBar"') :]
-        self.assertLess(bar.index('id="ooDocentShare"'), bar.index("oo-docent-spacer"))
+        share = bar.index('id="ooDocentShare"')
+        self.assertLess(bar.index("oo-docent-spacer"), share)
+        self.assertLess(bar.index('id="ooDocentRenameForm"'), share)
+        self.assertLess(share, bar.index('id="ooDocentCancel"'))
+        self.assertLess(share, bar.index('id="ooDocentClose"'))
         self.assertIn('href="${context/absolute_url}/@@quick-share"', bar)
-        self.assertIn("pat-plone-modal", bar[: bar.index("oo-docent-spacer")])
+        self.assertIn("pat-plone-modal", bar[: bar.index('id="ooDocentCancel"')])
         self.assertIn('tal:condition="view/canShare"', bar)
 
     def test_save_and_close_saves_a_typed_name_first(self):
