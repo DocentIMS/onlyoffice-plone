@@ -74,6 +74,22 @@
                           cursor: pointer; }
       .oo-docent-rename:hover { border-color: #3A9FB5; }
       a.oo-docent-share, a.oo-docent-share:hover { text-decoration: none !important; }
+      /* The Sharing page as a popup over the document (19 Nov 2026). */
+      .oo-share-overlay { position: fixed; top: 0; right: 0; bottom: 0; left: 0; z-index: 2000;
+                          background: rgba(20, 28, 32, .55); display: flex;
+                          align-items: center; justify-content: center; }
+      .oo-share-overlay[hidden] { display: none !important; }
+      .oo-share-box { position: relative; width: 920px; max-width: 94vw; height: 760px;
+                      max-height: 90vh; background: #FFFFFF; border-radius: 8px;
+                      box-shadow: 0 12px 40px rgba(0, 0, 0, .35); overflow: hidden; }
+      .oo-share-box iframe { display: block; width: 100%; height: 100%; border: 0; }
+      #content-core .oo-share-x, .oo-share-x {
+        position: absolute !important; top: 8px !important; right: 12px !important;
+        width: 30px !important; height: 30px !important; min-height: 0 !important;
+        padding: 0 !important; border: 0 !important; border-radius: 999px !important;
+        background: #FFFFFF !important; color: #6B635C !important; box-shadow: none !important;
+        font-size: 22px !important; line-height: 1 !important; cursor: pointer; }
+      #content-core .oo-share-x:hover, .oo-share-x:hover { background: #F1F7F9 !important; color: #17505D !important; }
       .oo-docent-rename-form { display: inline-flex; align-items: center; gap: 6px; }
       .oo-docent-rename-form input { height: 28px; font-size: 13px; padding: 0 8px; min-width: 260px;
                                      border: 1px solid #BAD8DE; border-radius: 6px; }
@@ -148,6 +164,31 @@
     <!-- Rename and Save & Close, on the right. Rename and
          Save are shown by the script below only when the editor opened for
          editing; a read-only view gets Close. -->
+    <div class="oo-share-overlay"
+         id="ooShareOverlay"
+         hidden="hidden"
+         tal:condition="view/canShare"
+    >
+      <div class="oo-share-box"
+           aria-label="Sharing"
+           aria-modal="true"
+           role="dialog"
+           i18n:attributes="aria-label"
+      >
+        <iframe id="ooShareFrame"
+                src="about:blank"
+                title="Sharing"
+                i18n:attributes="title"
+        ></iframe>
+        <button class="oo-share-x"
+                id="ooShareClose"
+                aria-label="Close"
+                title="Close without saving"
+                type="button"
+                i18n:attributes="aria-label; title"
+        >&times;</button>
+      </div>
+    </div>
     <div class="oo-docent-bar"
          id="ooDocentBar"
     >
@@ -190,16 +231,15 @@
         >Cancel</button>
       </span>
       <!-- Share (7 Nov 2026), on the right, beside Cancel and
-           Close (19 Nov 2026): the quick-share form
-           (DocentIMS.Sharing @@quick-share: pick a member, view by
-           default, one toggle for edit) as a small popup over the editor
-           (pat-plone-modal), so the page never leaves. Only for people
-           who may share it. -->
-      <a class="oo-docent-rename oo-docent-share pat-plone-modal"
+           Close (19 Nov 2026): the Sharing page - the one share form,
+           the same one the Share column and the sidebar open - as a
+           popup over the editor, so the page never leaves (the script
+           below puts it in a frame; without script the link just goes
+           to the page). Only for people who may share it. -->
+      <a class="oo-docent-rename oo-docent-share"
          id="ooDocentShare"
-         href="${context/absolute_url}/@@quick-share"
+         href="${context/absolute_url}/@@sharing"
          title="Share this document: choose who can see and edit it"
-         data-pat-plone-modal='{"width": "600px", "actionOptions": {"redirectOnResponse": true}}'
          tal:condition="view/canShare"
          i18n:attributes="title"
       >
@@ -632,6 +672,42 @@
       var backUrl = (config.editorConfig && config.editorConfig.customization
                      && config.editorConfig.customization.goback
                      && config.editorConfig.customization.goback.url) || "..";
+      // Share: the Sharing page in a frame over the document. The page
+      // closes the popup itself on Done or Cancel (it posts
+      // "docent-sharing-closed"); the x, Escape and a click outside the
+      // box close it too, saving nothing.
+      (function () {
+        var shareLink = document.getElementById("ooDocentShare");
+        var overlay = document.getElementById("ooShareOverlay");
+        var frame = document.getElementById("ooShareFrame");
+        if (!shareLink || !overlay || !frame) { return; }
+        function closeShare() {
+          if (overlay.hidden) { return; }
+          overlay.hidden = true;
+          frame.src = "about:blank";
+          shareLink.focus();
+        }
+        shareLink.addEventListener("click", function (event) {
+          event.preventDefault();
+          var url = shareLink.getAttribute("href");
+          frame.src = url + (url.indexOf("?") === -1 ? "?" : "&") + "docent_popup=1";
+          overlay.hidden = false;
+        });
+        document.getElementById("ooShareClose").addEventListener("click", closeShare);
+        overlay.addEventListener("click", function (event) {
+          if (event.target === overlay) { closeShare(); }
+        });
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape") { closeShare(); }
+        });
+        window.addEventListener("message", function (event) {
+          if (event.origin === window.location.origin &&
+              event.source === frame.contentWindow &&
+              event.data === "docent-sharing-closed") {
+            closeShare();
+          }
+        });
+      })();
       var barName = document.getElementById("ooDocentName");
       var barNote = document.getElementById("ooDocentNote");
       var renameForm = document.getElementById("ooDocentRenameForm");
