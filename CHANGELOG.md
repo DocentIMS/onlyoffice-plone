@@ -11,6 +11,7 @@ Changes maintained on the DocentIMS fork on top of upstream ONLYOFFICE 4.1.0.
 - getFileExt now derives the document extension from the actual stored file via the content's primary field (not a field hardcoded as "file"), so any content type holding an ONLYOFFICE-managed format (.docx, .xlsx, .pptx, ...) is recognised; still safe when the file field is missing, None, or empty
 - stabilized ONLYOFFICE document key generation and added force-save handling
 ## Changed
+- editor: Share opens the Sharing page (DocentIMS.Sharing @@sharing, the same form the Share column and the sidebar open) in a popup over the document; Done or Cancel there closes it, as do the x, Escape and a click outside. The smaller quick-share form is no longer used, so there is one share form
 - editor: Share sits on the right of the bar, just left of Cancel and Save & Close (or Close on a read-only view); it was alone on the far left
 - editor: the bar is Share on the left, then Cancel and Save & Close on the right. The Rename button is gone: ONLYOFFICE's own header renames the document, and the Rename box still opens from Save & Close while a document has its default name
 - the "Create with ONLYOFFICE" menu offers only Document and Spreadsheet; Presentation and PDF form are left out

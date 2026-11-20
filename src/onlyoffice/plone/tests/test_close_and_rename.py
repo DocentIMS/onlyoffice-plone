@@ -191,8 +191,13 @@ class TestShareAndTypedName(unittest.TestCase):
         self.assertLess(bar.index('id="ooDocentRenameForm"'), share)
         self.assertLess(share, bar.index('id="ooDocentCancel"'))
         self.assertLess(share, bar.index('id="ooDocentClose"'))
-        self.assertIn('href="${context/absolute_url}/@@quick-share"', bar)
-        self.assertIn("pat-plone-modal", bar[: bar.index('id="ooDocentCancel"')])
+        # One share form: the Sharing page, in a frame over the document.
+        self.assertIn('href="${context/absolute_url}/@@sharing"', bar)
+        self.assertNotIn("quick-share", source)
+        self.assertNotIn("pat-plone-modal", bar[: bar.index('id="ooDocentCancel"')])
+        self.assertIn('id="ooShareFrame"', source)
+        self.assertIn("docent_popup=1", source)
+        self.assertIn('"docent-sharing-closed"', source)
         self.assertIn('tal:condition="view/canShare"', bar)
 
     def test_save_and_close_saves_a_typed_name_first(self):
